@@ -1,23 +1,23 @@
 {
-    "name": "00-0-html",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.html",
-    "scripts": {
-      "start": "serve"
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/Mercury3141/CAS-FEE-Project-1"
-    },
-    "keywords": [],
-    "author": "Silvan Simon Weber",
-    "license": "OST – Ostschweizer Fachhochschule",
-    "bugs": {
-      "url": "https://github.com/Mercury3141/CAS-FEE-Project-1/issues"
-    },
-    "homepage": "https://github.com/Mercury3141/CAS-FEE-Project-1/blob/main/README.md",
-    "devDependencies": {
-      "serve": "^11.2.0"
-    }
+  "name": "00-0-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mercury3141/CAS-FEE-Project-1"
+  },
+  "keywords": [],
+  "author": "Silvan Simon Weber",
+  "license": "OST – Ostschweizer Fachhochschule",
+  "bugs": {
+    "url": "https://github.com/Mercury3141/CAS-FEE-Project-1/issues"
+  },
+  "homepage": "https://github.com/Mercury3141/CAS-FEE-Project-1/blob/main/README.md",
+  "devDependencies": {
+    "serve": "^11.2.0"
   }
+}
