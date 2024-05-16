@@ -1,47 +1,64 @@
 @media (max-width: 600px) {
-  .flex-container {
-    flex-direction: column;
-  }
+    .flex-container {
+        flex-direction: column;
+    }
 }
 
 body,
 html {
-  height: 100%;
-  margin: 0px;
-  background-color: #F0F0F6;
+    height: 100%;
+    margin: 0px;
+    background-color: #F0F0F6;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 48px 16px 32px;
-  padding: 0px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    margin: 48px 16px 32px;
+    padding: 0px 0px 0px;
 }
 
 [class='bubble'] {
-  flex: auto;
-  min-width: 240px;
-  max-width: 1200px;
-  margin: 16px 16px;
-  padding: 20px 20px 20px;
-  border-radius: 28px;
-  background-color: #ffffff;
-  text-align: left;
+    flex: auto;
+    min-width: 240px;
+    max-width: 1200px;
+    margin: 8px 8px;
+    padding: 20px 20px 20px;
+    border-radius: 28px;
+    background-color: #ffffff;
+    text-align: left;
 }
 
-[class='text_style'] {
-  font-family: Helvetica, sans-serif;
+
+[class='text-style-heading'] {
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
   color: rgb(67, 67, 67);
+  /*<uniquifier>: Use a unique and descriptive class name*/
+  /*<weight>: Use a value from 300 to 700*/
+}
+
+[class='text-style-body'] {
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: rgb(67, 67, 67);
+  /*<uniquifier>: Use a unique and descriptive class name*/
+  /*<weight>: Use a value from 300 to 700*/
 }
 
 h1 {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 h2 {
-  font-size: 16px;
+    font-size: 16px;
 }
