@@ -3,6 +3,7 @@
     --background-color-bubble: rgb(255, 255, 255);
     --text-color: rgb(67, 67, 67);
     --border-radius: 28px;;
+    --base-font-size: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +23,6 @@
 body,
 html {
     height: 100%;
-    margin: 0;
     background-color: var(--background-color);
 }
 
@@ -35,7 +35,7 @@ html {
     flex-wrap: wrap;
     justify-content: stretch;
     margin: 48px 16px 32px;
-    padding: 0 0 0;
+    padding: 0 0 32px;
 }
 
 .bubble-container {
@@ -48,8 +48,8 @@ html {
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
     background-color: var(--background-color-bubble);
-
     text-align: left;
+    vertical-align: baseline;
 }
 
 .reminder-item {
@@ -67,27 +67,29 @@ html {
 }
 
 input[type="checkbox"] {
-    margin-right: 4px;
+    margin-right: calc(0.4em + var(--base-font-size) * 0.4);
     position: relative;
-    bottom: 0.1em;
+    bottom: 0.2em;
 }
 
 .text-font {
     font-family: "Comfortaa", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
+    hyphens: auto;
     color: var(--text-color);
     line-height: 1.6;
 }
 
 .text-heading {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 1.4em;
+    font-weight: 600;
     /*<weight>: Use a value from 300 to 700*/
+
 }
 
 .text-list {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 1em;
+    font-weight: 300;
     /*<weight>: Use a value from 300 to 700*/
 }
