@@ -23,42 +23,38 @@ html {
     padding: 0 0 0;
 }
 
-[class='bubble'] {
+.bubble-container {
     flex: auto;
     min-width: 240px;
     max-width: 1200px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: 28px;
-    background-color: #ffffff;
     text-align: left;
 }
 
-
-[class='text-style-heading'] {
-  font-family: "Comfortaa", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  color: rgb(67, 67, 67);
-  /*<uniquifier>: Use a unique and descriptive class name*/
-  /*<weight>: Use a value from 300 to 700*/
+.bubble-color {
+    background-color: #ffffff;
 }
 
-[class='text-style-body'] {
-  font-family: "Comfortaa", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  color: rgb(67, 67, 67);
-  /*<uniquifier>: Use a unique and descriptive class name*/
-  /*<weight>: Use a value from 300 to 700*/
+.text-font {
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    /*<uniquifier>: Use a unique and descriptive class name*/
+    /*<weight>: Use a value from 300 to 700*/
 }
 
-h1 {
-    font-size: 20px;
+.text-color {
+    color: rgb(67, 67, 67);
 }
 
-h2 {
+.text-heading {
     font-size: 16px;
+    font-weight: 500;
+}
+
+.text-list {
+    font-size: 14px;
+    font-weight: 400;
 }
