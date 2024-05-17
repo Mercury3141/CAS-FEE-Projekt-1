@@ -53,8 +53,7 @@ input[type="checkbox"] {
     flex-direction: column;
     overflow: hidden;
     word-wrap: break-word;
-    min-width: var(--min-width);
-    max-width: var(--max-width);
+    min-width: 300px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
@@ -71,22 +70,18 @@ input[type="checkbox"] {
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
-    min-width: var(--min-width);
-    max-width: var(--max-width);
     text-align: var(--text-align);
     vertical-align: var(--vertical-align);
 }
 
 .reminder-checkbox {
     display: inline-block;
-    flex: 0 0 auto;
     overflow: hidden;
     vertical-align: var(--vertical-align);
 }
 
 .reminder-text {
     display: inline-block;
-    flex: 1 1 auto;
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
