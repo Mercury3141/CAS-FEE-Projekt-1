@@ -3,7 +3,7 @@
     --background-color-bubble: rgb(255, 255, 255);
     --text-color: rgb(67, 67, 67);
     --min-width: 240px;
-    --max-width: 1200px;
+    --max-width: 100vw;
     --text-align: left;
     --vertical-align: baseline;
     --border-radius: 28px;
@@ -35,10 +35,9 @@ html {
 }
 
 input[type="checkbox"] {
-    margin-right: calc(0.4em + var(--base-font-size) * 0.4);
+    margin-right: calc(0.4em + var(--base-font-size) * 0.1);
     position: relative;
-    bottom: 0.2em;
-}
+    bottom: -0.2em;}
 
 .flex-container {
     display: flex;
@@ -51,6 +50,7 @@ input[type="checkbox"] {
 
 .bubble-container {
     flex: auto;
+    flex-direction: column;
     overflow: hidden;
     word-wrap: break-word;
     min-width: var(--min-width);
@@ -65,14 +65,34 @@ input[type="checkbox"] {
 
 .reminder-item {
     flex: auto;
+    flex-direction: row;
+    display: flex;
+    align-items: flex-start;
     overflow: hidden;
+    text-overflow: ellipsis;
     word-wrap: break-word;
     min-width: var(--min-width);
     max-width: var(--max-width);
-    margin: 8px 8px;
-    padding: 8px 16px;
-    border-radius: var(--border-radius);
-    background-color: var(--background-color-bubble);
+    text-align: var(--text-align);
+    vertical-align: var(--vertical-align);
+}
+
+.reminder-checkbox {
+    display: inline-block;
+    flex: 0 0 auto;
+    overflow: hidden;
+    vertical-align: var(--vertical-align);
+}
+
+.reminder-text {
+    display: inline-block;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    max-width: 200px;
+    margin: 0px 0px;
+    padding: 0px 0px;
     text-align: var(--text-align);
     vertical-align: var(--vertical-align);
 }
@@ -82,12 +102,13 @@ input[type="checkbox"] {
     font-optical-sizing: auto;
     font-style: normal;
     hyphens: auto;
+    white-space: normal;
     color: var(--text-color);
     line-height: 1.6;
 }
 
 .text-heading {
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-weight: 600;
     /*<weight>: Use a value from 300 to 700*/
 }
