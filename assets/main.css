@@ -2,7 +2,11 @@
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --text-color: rgb(67, 67, 67);
-    --border-radius: 28px;;
+    --min-width: 240px;
+    --max-width: 1200px;
+    --text-align: left;
+    --vertical-align: baseline;
+    --border-radius: 28px;
     --base-font-size: 16px;
 }
 
@@ -30,46 +34,47 @@ html {
     box-sizing: border-box;
 }
 
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: stretch;
-    margin: 48px 16px 32px;
-    padding: 0 0 32px;
-}
-
-.bubble-container {
-    flex: auto;
-    display: inline-block;
-    overflow: hidden;
-    min-width: 240px;
-    max-width: 1200px;
-    margin: 8px 8px;
-    padding: 20px 20px 20px;
-    border-radius: var(--border-radius);
-    background-color: var(--background-color-bubble);
-    text-align: left;
-    vertical-align: baseline;
-}
-
-.reminder-item {
-    flex: auto;
-    display: inline-block;
-    overflow: hidden;
-    min-width: 240px;
-    max-width: 1200px;
-    margin: 8px 8px;
-    padding: 8px 16px;
-    border-radius: var(--border-radius);
-    background-color: var(--background-color-bubble);
-    text-align: left;
-    vertical-align: baseline;
-}
-
 input[type="checkbox"] {
     margin-right: calc(0.4em + var(--base-font-size) * 0.4);
     position: relative;
     bottom: 0.2em;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 48px 16px 32px;
+    padding: 0 0 32px;
+    text-align: left;
+    vertical-align: baseline;
+}
+
+.bubble-container {
+    flex: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-width: var(--min-width);
+    max-width: var(--max-width);
+    margin: 8px 8px;
+    padding: 20px 20px 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-bubble);
+    text-align: var(--text-align);
+    vertical-align: var(--vertical-align);
+}
+
+.reminder-item {
+    flex: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-width: var(--min-width);
+    max-width: var(--max-width);
+    margin: 8px 8px;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-bubble);
+    text-align: var(--text-align);
+    vertical-align: var(--vertical-align);
 }
 
 .text-font {
@@ -85,7 +90,6 @@ input[type="checkbox"] {
     font-size: 1.4em;
     font-weight: 600;
     /*<weight>: Use a value from 300 to 700*/
-
 }
 
 .text-list {
