@@ -1,4 +1,5 @@
 <!-- Figma: https://www.figma.com/design/47AWH3k2Vry0HuU0KY3yey/Reminders?node-id=0%3A1&t=WidwlkcXYqLfE07j-1 -->
+<!--Structure of classes: https://dapper-wanderer-701.notion.site/Classes-c3928f07268343228cb31dd57b992534?pvs=4-->
 
 <!DOCTYPE html>
 <html lang="de">
@@ -24,57 +25,45 @@
     <section>
         <div class="flex-container">
 
-            <div class="bubble-container">
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
+            <div class="list-group">
+                <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
+
+                <h2 class="text-font text-color text-list">75g Butter<br/>
+                    100g Rohzucker<br/>
+                    ¼TL Salz<br/>
+                    1 Ei<br/>
+                    30g Kakaopulver<br/>
+                    1TL Zimt<br/>
+                    175g Mehl<br/>
+                    ¼TL Backpulver
+                </h2>
             </div>
 
-            <div class="bubble-container">
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
+
+            <div class="list-group">
+                <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
+
+                <h2 class="text-font text-color text-list">75g Butter<br/>
+                    100g Rohzucker<br/>
+                    ¼TL Salz<br/>
+                    1 Ei<br/>
+                    30g Kakaopulver<br/>
+                    1TL Zimt<br/>
+                    175g Mehl<br/>
+                    ¼TL Backpulver<br/>
+
+                    <input type="checkbox" id="button-checkbox">
+                    <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
+
+                </h2>
+                <button onclick="createReminder()">Create Reminder</button>
             </div>
 
-            <div class="bubble-container">
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented to prevent wrapping underneath the
-                        checkbox. indented to prevent wrapping underneath the checkbox</h2>
-                </div>
-            </div>
 
-            <div class="bubble-container">
-                <div class="reminder-item">
-                    <input type="checkbox" id="reminder-checkbox">
-                    <label for="reminder-checkbox"></label>
-                    <h2 class="reminder-text text-font text-list">indented</h2>
-                </div>
+            <div class="list-group">
+                    <input type="checkbox" id="button-checkbox">
+                    <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
+                </h2>
             </div>
 
         </div>
