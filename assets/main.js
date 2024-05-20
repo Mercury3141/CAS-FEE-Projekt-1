@@ -1,4 +1,3 @@
-// Toolbar class
 class Toolbar {
     constructor() {
         this.elements = [];
