@@ -1,13 +1,9 @@
 :root {
-    --min-width: 240px;
-    --max-width: 100vw;
-    --border-radius: 28px;
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --text-color: rgb(67, 67, 67);
     --base-font-size: 16px;
-    --text-align: left;
-    --vertical-align: baseline;
+    --border-radius: 28px;
     --z-index-base: 1;
     --z-index-toolbar: 100;
     --z-index-menu: 1000;
@@ -23,10 +19,8 @@
     }
 }
 
-@media (max-width: 600px) {
-    .flex-container {
-        flex-direction: column;
-    }
+* {
+    box-sizing: border-box;
 }
 
 body,
@@ -35,10 +29,6 @@ html {
     display: flex;
     justify-content: center;
     background-color: var(--background-color);
-}
-
-* {
-    box-sizing: border-box;
 }
 
 button {
@@ -60,19 +50,30 @@ input[type="checkbox"] {
     padding: 0 0 32px;
     text-align: left;
     vertical-align: baseline;
+    background-color: red;
+}
+
+.flex-container-toolbar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: red;
+    /*position: fixed;*/
+
+    z-index: var(--z-index-toolbar);
+
 }
 
 .toolbar {
     flex: auto;
     flex-direction: row;
-    width: 100%;
+    align-items: flex-start;
     overflow: hidden;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
     background-color: var(--background-color-bubble);
-    position: fixed;
-    z-index: var(--z-index-toolbar);
+
 }
 
 .list-group {
@@ -92,8 +93,6 @@ input[type="checkbox"] {
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
-    text-align: var(--text-align);
-    vertical-align: var(--vertical-align);
 }
 
 .button-checkbox {
@@ -108,10 +107,6 @@ input[type="checkbox"] {
     text-overflow: ellipsis;
     word-wrap: break-word;
     max-width: 200px;
-    margin: 0px 0px;
-    padding: 0px 0px;
-    text-align: var(--text-align);
-    vertical-align: var(--vertical-align);
 }
 
 .text-font {
