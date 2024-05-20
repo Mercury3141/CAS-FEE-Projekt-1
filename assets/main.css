@@ -13,21 +13,17 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --text-color: rgb(255, 255, 255); /* Text color in dark mode */
-        --background-color: rgb(28, 28, 28); /* Background color in dark mode */
+        --text-color: rgb(255, 255, 255);
+        --background-color: rgb(28, 28, 28);
         --background-color-bubble: rgb(44, 44, 46);
     }
 }
 
-* {
-    box-sizing: border-box;
-}
-
 body,
 html {
-    height: 100%;
     display: flex;
     justify-content: center;
+    height: 88vh;
     background-color: var(--background-color);
 }
 
@@ -46,22 +42,23 @@ input[type="checkbox"] {
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 1200px;
-    margin: 48px 16px 32px;
-    padding: 0 0 32px;
-    text-align: left;
-    vertical-align: baseline;
-    background-color: red;
+    margin: 8px 16px;
 }
 
-.flex-container-toolbar {
+.flex-container-fixed {
     display: flex;
     flex-direction: row;
     width: 100%;
-    background-color: red;
-    /*position: fixed;*/
-
+    margin-bottom: 16px;
     z-index: var(--z-index-toolbar);
+}
 
+.flex-container-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    height: 72vh;
+    overflow: auto;
+    border-radius: var(--border-radius);
 }
 
 .toolbar {
