@@ -23,7 +23,7 @@ body,
 html {
     display: flex;
     justify-content: center;
-    height: 88vh;
+    /*height: 99vh;*/
     background-color: var(--background-color);
 }
 
@@ -56,7 +56,17 @@ input[type="checkbox"] {
 .flex-container-scroll {
     display: flex;
     flex-wrap: wrap;
-    height: 72vh;
+    align-items: flex-start;
+
+    height: 86vh;
+    overflow: auto;
+    border-radius: var(--border-radius);
+}
+
+.flex-container-elements {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     overflow: auto;
     border-radius: var(--border-radius);
 }
@@ -76,7 +86,7 @@ input[type="checkbox"] {
 .list-group {
     flex: auto;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 240px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
