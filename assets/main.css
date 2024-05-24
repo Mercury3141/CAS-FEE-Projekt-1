@@ -1,4 +1,5 @@
 :root {
+    font-family: Arial, Helvetica, sans-serif;
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --text-color: rgb(67, 67, 67);
@@ -113,7 +114,7 @@ input[type="checkbox"] {
 }
 
 .color-caution {
-    color: rgb(255, 59,48);
+    color: rgb(255, 59, 48);
 }
 
 .element-text {
@@ -149,6 +150,11 @@ input[type="checkbox"] {
     /*<weight>: Use a value from 300 to 700*/
 }
 
+.text-label {
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
 
 /* Popup container - can be anything you want */
 .popup {
@@ -159,6 +165,8 @@ input[type="checkbox"] {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    opacity: 0.968;
+
 }
 
 /* The actual popup */
@@ -169,7 +177,7 @@ input[type="checkbox"] {
     color: #fff;
     text-align: center;
     border-radius: 16px;
-    padding: 8px 0;
+    padding: 16px 0;
     position: absolute;
     z-index: 1;
     bottom: auto;
@@ -194,12 +202,20 @@ input[type="checkbox"] {
 }
 
 @-webkit-keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
