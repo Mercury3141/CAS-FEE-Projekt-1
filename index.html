@@ -27,14 +27,13 @@
             <div class="flex-container-fixed">
 
                 <div class="toolbar">
-                    <button onclick="createReminder()">Create Reminder</button>
+                    <button class="color-main" onclick="createReminder()">Create Reminder</button>
                     <div class="spacer-gap"></div>
                     <button onclick="createReminder()">Show Important</button>
                     <div class="spacer-elements"></div>
                     <button class="button-margin-left" onclick="createReminder()">Sort by Date</button>
                     <div class="spacer-fill"></div>
-
-                    <button class="button-margin-left" onclick="createReminder()">Clear Completed</button>
+                    <button class="button-margin-left color-caution" onclick="createReminder()">Clear Completed</button>
                 </div>
             </div>
 
@@ -94,9 +93,12 @@
                                  <button class="button-margin-bottom"
                                          onclick="createReminder()">Add Notes</button><br/>
                                  <button class="button-margin-bottom"
-                                         onclick="createReminder()">Priority</button><br/>
-                                <button
-                                        onclick="createReminder()">Clear</button><br/>
+                                         onclick="createReminder()">High Priority</button><br/>
+
+                                <input class="button-margin-bottom" type="date" value="2024-01-14" /><br/>
+
+                                <button class="color-caution"
+                                        onclick="createReminder()">Clear Reminder</button><br/>
                             </span>
                         </div>
 

@@ -112,6 +112,10 @@ input[type="checkbox"] {
     margin-bottom: 0.8em;
 }
 
+.color-caution {
+    color: rgb(255, 59,48);
+}
+
 .element-text {
     display: inline-block;
     overflow: hidden;
@@ -160,7 +164,7 @@ input[type="checkbox"] {
 /* The actual popup */
 .popup .popuptext {
     visibility: hidden;
-    width: 100px;
+    width: 120px;
     background-color: var(--background-color);
     color: #fff;
     text-align: center;
