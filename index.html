@@ -2,7 +2,7 @@
 <!--Structure of classes: https://dapper-wanderer-701.notion.site/Classes-c3928f07268343228cb31dd57b992534?pvs=4-->
 
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8"/>
@@ -27,13 +27,106 @@
             <div class="flex-container-fixed">
 
                 <div class="toolbar">
-                </div>
+                    <button onclick="createReminder()">Create Reminder</button>
+                    <div class="spacer-gap"></div>
+                    <button onclick="createReminder()">Show Important</button>
+                    <div class="spacer-elements"></div>
+                    <button class="button-margin-left" onclick="createReminder()">Sort by Date</button>
+                    <div class="spacer-fill"></div>
 
+                    <button class="button-margin-left" onclick="createReminder()">Clear Completed</button>
+                </div>
             </div>
 
             <div class="flex-container-scroll">
-
                 <div class="flex-container-elements">
+                    <div class="list-group">
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
+
+                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
+                        <br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker 100g Rohzucker 100g Rohzucker 100g Rohzucker</label>
+                        <button onclick="createReminder()">i</button>
+                        <br/>
+
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
+
+                    </div>
+
+
+                    <div class="list-group">
+                        <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
+
+                        <button onclick="createReminder()">Create Reminder</button>
+                        <br/>
+
+
+
+
+                        <h2>Popup</h2>
+
+                        <div class="popup" onclick="myFunction()">Click me to toggle the popup!
+                            <span class="popuptext" id="myPopup">A Simple Popup!</span>
+                        </div>
+
+                        <script>
+                            // When the user clicks on div, open the popup
+                            function myFunction() {
+                                var popup = document.getElementById("myPopup");
+                                popup.classList.toggle("show");
+                            }
+                        </script>
+
+
+
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
+
+                    </div>
+
 
                     <div class="list-group">
                         <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
@@ -60,11 +153,26 @@
                         <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
 
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
+                    </div>
+
+                    <div class="list-group">
+                        <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
+
+                        <button onclick="createReminder()">Create Reminder</button>
+                        <br/>
 
                         <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
+                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label><br/>
+
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
 
                     </div>
 
@@ -131,10 +239,8 @@
                         <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
 
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
                     </div>
+
 
                     <div class="list-group">
                         <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
@@ -161,11 +267,26 @@
                         <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
 
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
+                    </div>
+
+                    <div class="list-group">
+                        <h1 class="text-font text-color text-title">Schoko-Cookies</h1>
+
+                        <button onclick="createReminder()">Create Reminder</button>
+                        <br/>
 
                         <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
+                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label><br/>
+
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
+
+                        <input type="checkbox" id="button-checkbox">
+                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
 
                     </div>
 

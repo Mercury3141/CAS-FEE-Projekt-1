@@ -279,3 +279,20 @@ function updateButtonMargin() {
             break;
     }
 }*/
+
+
+document.getElementById('openPopup').addEventListener('click', function() {
+    document.getElementById('popup').classList.add('show');
+});
+
+document.querySelectorAll('.popup-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+        alert('Button clicked: ' + this.textContent);
+    });
+});
+
+document.body.addEventListener('click', function(event) {
+    if (!event.target.closest('.popup-content')) {
+        document.getElementById('popup').classList.remove('show');
+    }
+});
