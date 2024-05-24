@@ -96,12 +96,6 @@ input[type="checkbox"] {
     word-wrap: break-word;
 }
 
-.button-checkbox {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: var(--vertical-align);
-}
-
 .spacer-fill {
     flex-grow: 1;
 }
