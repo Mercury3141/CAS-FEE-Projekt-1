@@ -156,7 +156,6 @@ input[type="checkbox"] {
 }
 
 
-/* Popup container - can be anything you want */
 .popup {
     position: relative;
     display: inline-block;
@@ -166,10 +165,13 @@ input[type="checkbox"] {
     -ms-user-select: none;
     user-select: none;
     opacity: 0.968;
-
 }
 
-/* The actual popup */
+#infoButton {
+    position: relative;
+    z-index: -1000;
+}
+
 .popup .popuptext {
     visibility: hidden;
     width: 120px;
@@ -179,7 +181,7 @@ input[type="checkbox"] {
     border-radius: 16px;
     padding: 16px 0;
     position: absolute;
-    z-index: 1;
+    z-index: var(--z-index-menu: 1000);
     bottom: auto;
     left: auto;
     right: 120%;
@@ -188,7 +190,6 @@ input[type="checkbox"] {
     margin-left: 0;
 }
 
-/* Toggle this class - hide and show the popup */
 .popup .show {
     visibility: visible;
     -webkit-animation: fadeIn 1s;

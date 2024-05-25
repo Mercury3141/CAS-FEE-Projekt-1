@@ -1,243 +1,11 @@
-class Toolbar {
-    constructor() {
-        this.elements = [];
-    }
-
-    addElement(element) {
-        this.elements.push(element);
-    }
-
-    render() {
-        // Rendering logic here
-        console.log('Rendering toolbar with elements:', this.elements);
-    }
-}
-
-// Button class (generic button)
-class Button {
-    constructor(label) {
-        this.label = label;
-    }
-
-    click() {
-        console.log(`${this.label} button clicked`);
-    }
-
-    render() {
-        // Rendering logic here
-        console.log(`Rendering button: ${this.label}`);
-    }
-}
-
-// Specific button classes
-class ButtonNewGroup extends Button {
-    constructor() {
-        super('New Group');
-    }
-}
-
-class ButtonSort extends Button {
-    constructor() {
-        super('Sort');
-    }
-}
-
-class ButtonDisplayPriority extends Button {
-    constructor() {
-        super('Display Priority');
-    }
-}
-
-class ButtonDisplayDueDate extends Button {
-    constructor() {
-        super('Display Due Date');
-    }
-}
-
-class ButtonClearAll extends Button {
-    constructor() {
-        super('Clear All');
-    }
-}
-
-// ScrollArea class
-class ScrollArea {
-    constructor() {
-        this.content = [];
-    }
-
-    addContent(item) {
-        this.content.push(item);
-    }
-
-    scroll() {
-        console.log('Scrolling through content:', this.content);
-    }
-
-    render() {
-        // Rendering logic here
-        console.log('Rendering scroll area with content:', this.content);
-    }
-}
-
-// ListGroup class
-class ListGroup {
-    constructor() {
-        this.groups = [];
-    }
-
-    addGroup(group) {
-        this.groups.push(group);
-    }
-
-    render() {
-        // Rendering logic here
-        console.log('Rendering list group with groups:', this.groups);
-    }
-}
-
-// TitleElement class
-class TitleElement {
-    constructor(text) {
-        this.text = text;
-    }
-
-    render() {
-        // Rendering logic here
-        console.log(`Rendering title element: ${this.text}`);
-    }
-}
-
-// TitleText class
-class TitleText {
-    constructor(text) {
-        this.text = text;
-    }
-
-    render() {
-        // Rendering logic here
-        console.log(`Rendering title text: ${this.text}`);
-    }
-}
-
-// ListElement class
-class ListElement {
-    constructor(text) {
-        this.text = text;
-        this.isChecked = false;
-    }
-
-    toggleCheckbox() {
-        this.isChecked = !this.isChecked;
-        console.log(`Checkbox ${this.isChecked ? 'checked' : 'unchecked'}`);
-    }
-
-    render() {
-        // Rendering logic here
-        console.log(`Rendering list element: ${this.text}`);
-    }
-}
-
-// ButtonCheckbox class
-class ButtonCheckbox extends Button {
-    constructor() {
-        super('Checkbox');
-    }
-
-    toggle() {
-        console.log('Checkbox button toggled');
-    }
-}
-
-// ElementText class
-class ElementText {
-    constructor(text) {
-        this.text = text;
-    }
-
-    render() {
-        // Rendering logic here
-        console.log(`Rendering element text: ${this.text}`);
-    }
-}
-
-// Info button class
-class ButtonInfo extends Button {
-    constructor() {
-        super('Info');
-    }
-
-    showInfo() {
-        console.log('Showing info');
-    }
-}
-
-// Comment button class
-class ButtonComment extends Button {
-    constructor() {
-        super('Comment');
-    }
-
-    addComment() {
-        console.log('Adding comment');
-    }
-}
-
-// Priority button class
-class ButtonPriority extends Button {
-    constructor() {
-        super('Priority');
-    }
-
-    setPriority(level) {
-        console.log(`Setting priority to ${level}`);
-    }
-}
-
-// DueDate button class
-class ButtonDueDate extends Button {
-    constructor() {
-        super('Due Date');
-    }
-
-    setDueDate(date) {
-        console.log(`Setting due date to ${date}`);
-    }
-}
-
-// Clear button class
-class ButtonClear extends Button {
-    constructor() {
-        super('Clear');
-    }
-
-    clear() {
-        console.log('Clearing item');
-    }
-}
-
-// ButtonNewElement class
-class ButtonNewElement extends Button {
-    constructor() {
-        super('New Element');
-    }
-
-    addElement() {
-        console.log('Adding new element');
-    }
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const label = document.getElementById('myLabel');
 
-    // Enable editing on click
     label.addEventListener('click', () => {
         label.setAttribute('contenteditable', 'true');
         label.focus();
     });
 
-    // Save the edited text on Enter key press
     label.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -245,70 +13,123 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Remove focus when clicking outside the label
     document.addEventListener('click', (event) => {
         if (event.target !== label) {
             label.setAttribute('contenteditable', 'false');
         }
     });
 
-    // Optional: Remove focus on label blur
     label.addEventListener('blur', () => {
         label.setAttribute('contenteditable', 'false');
     });
 });
 
 
+let reminderCounter = 0;
 
+function createReminder() {
+    reminderCounter++;
+    const listGroup = document.getElementById('list-group');
 
-/*function createReminder() {
-    var listElement = document.createElement("div");
-    listElement.classList.add("list-element");
+    const newCheckboxContainer = document.createElement('div');
+    newCheckboxContainer.className = 'checkbox-container';
 
-    var checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.classList.add("button-checkbox"); // Add a class to identify checkboxes
+    const newCheckbox = document.createElement('input');
+    newCheckbox.type = 'checkbox';
+    newCheckbox.id = `checkbox-${reminderCounter}`;
 
-    var label = document.createElement("label");
-    label.setAttribute("for", "button-checkbox");
+    const newLabel = document.createElement('span');
+    newLabel.className = 'editable-label text-font text-list';
+    newLabel.contentEditable = 'false';
+    newLabel.id = `label-${reminderCounter}`;
+    newLabel.innerText = 'New Reminder';
 
-    var text = document.createElement("h2");
-    text.classList.add("element-text", "text-font", "text-list");
-    text.textContent = "Text";
+    const popup = document.createElement('div');
+    popup.className = 'popup';
 
-    listElement.appendChild(checkbox);
-    listElement.appendChild(label);
-    listElement.appendChild(text);
+    const popupButton = document.createElement('button');
+    popupButton.innerText = 'i';
+    popupButton.onclick = () => myFunction(popup);
 
-    var listGroup = document.querySelector(".list-group");
+    const popupContent = document.createElement('span');
+    popupContent.className = 'popuptext';
+    popupContent.id = `popup-${reminderCounter}`;
 
-    listGroup.appendChild(listElement);
+    const addNotesButton = document.createElement('button');
+    addNotesButton.className = 'button-margin-bottom';
+    addNotesButton.onclick = createReminder;
+    addNotesButton.innerText = 'Add Notes';
 
-    checkbox.addEventListener("change", function() {
-        if (this.checked) {
-            // Remove the parent element (reminder item) when checkbox is checked
-            this.parentElement.remove();
-            updateButtonMargin(); // Call function to update button margin
+    const importantCheckbox = document.createElement('input');
+    importantCheckbox.type = 'checkbox';
+    importantCheckbox.id = `important-checkbox-${reminderCounter}`;
+
+    const importantLabel = document.createElement('label');
+    importantLabel.className = 'text-label';
+    importantLabel.htmlFor = `important-checkbox-${reminderCounter}`;
+    importantLabel.innerText = 'Important';
+
+    const dueDateLabel = document.createElement('label');
+    dueDateLabel.className = 'text-label';
+    dueDateLabel.innerText = 'Due Date:';
+
+    const dueDateInput = document.createElement('input');
+    dueDateInput.className = 'button-margin-bottom';
+    dueDateInput.type = 'date';
+
+    const clearReminderButton = document.createElement('button');
+    clearReminderButton.className = 'color-caution';
+    clearReminderButton.onclick = createReminder;
+    clearReminderButton.innerText = 'Clear Reminder';
+
+    popupContent.appendChild(addNotesButton);
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(importantCheckbox);
+    popupContent.appendChild(importantLabel);
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(dueDateLabel);
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(dueDateInput);
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(clearReminderButton);
+
+    popup.appendChild(popupButton);
+    popup.appendChild(popupContent);
+
+    newCheckboxContainer.appendChild(newCheckbox);
+    newCheckboxContainer.appendChild(newLabel);
+    newCheckboxContainer.appendChild(popup);
+    newCheckboxContainer.appendChild(document.createElement('br'));
+
+    listGroup.appendChild(newCheckboxContainer);
+
+    // Add event listeners for the new label
+    newLabel.addEventListener('click', () => {
+        newLabel.setAttribute('contenteditable', 'true');
+        newLabel.focus();
+    });
+
+    newLabel.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            newLabel.setAttribute('contenteditable', 'false');
         }
     });
 
-    updateButtonMargin(); // Call function to update button margin when a reminder is added
-}*/
+    document.addEventListener('click', (event) => {
+        if (event.target !== newLabel) {
+            newLabel.setAttribute('contenteditable', 'false');
+        }
+    });
 
-/*
-function updateButtonMargin() {
-    var button = document.querySelector("button");
-    var listElement = document.querySelectorAll(".list-element");
-    var hasListElement = listElement.length > 0;
+    newLabel.addEventListener('blur', () => {
+        newLabel.setAttribute('contenteditable', 'false');
+    });
+}
 
-    switch (hasListElement) {
-        case true:
-            button.style.marginBottom = "1em";
-            break;
-        case false:
-            button.style.marginBottom = "0";
-            break;
-    }
-}*/
-
-
+function myFunction(popup) {
+    popup.querySelector('.popuptext').classList.toggle('show');
+}

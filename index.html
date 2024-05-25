@@ -23,11 +23,10 @@
 <main>
     <section>
         <div class="flex-container">
-
             <div class="flex-container-fixed">
 
                 <div class="toolbar">
-                    <button class="color-main" onclick="createReminder()">Create Reminder</button>
+                    <button class="color-main" onclick="createReminder()">New Reminder</button>
                     <div class="spacer-gap"></div>
                     <button onclick="createReminder()">Show Important</button>
                     <div class="spacer-elements"></div>
@@ -39,474 +38,63 @@
 
             <div class="flex-container-scroll">
                 <div class="flex-container-elements">
-                    <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
-                    </div>
-
 
                     <div class="list-group">
-
                         <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
                         <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
                         <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker100g Rohzucker100g
-                            Rohzucker100g Rohzucker100g Rohzucker100g Rohzucker100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
-                    </div>
-
-                    <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
 
                         <div class="checkbox-container">
                             <input type="checkbox" id="myCheckbox">
-                            <span class="editable-label text-font text-list" contenteditable="false" id="myLabel">Click to edit</span>
-
+                            <span class="editable-label text-font text-list" contenteditable="false" id="myLabel">100g Rohzucker 100g Rohzucker</span>
                             <div class="popup" onclick="myFunction()">
                                 <button onclick="createReminder()">i</button>
                                 <span class="popuptext" id="myPopup">
                                  <button class="button-margin-bottom"
                                          onclick="createReminder()">Add Notes</button><br/><br/>
-
-
                                 <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
                                 <label class="text-label">Due Date:</label><br/>
-
                                 <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
                                 <button class="color-caution"
                                         onclick="createReminder()">Clear Reminder</button><br/>
                             </span>
                             </div>
-
                             <script>
-                                // When the user clicks on div, open the popup
                                 function myFunction() {
                                     var popup = document.getElementById("myPopup");
                                     popup.classList.toggle("show");
                                 }
                             </script>
                             <br/>
-
-
                         </div>
                         <script src="script.js"></script>
+                    </div>
 
-
+                    <div class="list-group" id="list-group">
                         <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
+                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
+                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
+                        <br/>
                     </div>
 
 
                     <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
                     </div>
-
-
                     <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
                     </div>
-
-
                     <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
                     </div>
-
-
                     <div class="list-group">
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Schoko-Cookies</label><br/>
-
-                        <button class="button-margin-bottom" onclick="createReminder()">Create Reminder</button>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
-
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
-                                 <button class="button-margin-bottom"
-                                         onclick="createReminder()">Add Notes</button><br/><br/>
-
-
-                                <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-label">Important</label><br/><br/>
-
-
-
-                                <label class="text-label">Due Date:</label><br/>
-
-                                <input class="button-margin-bottom" type="date" value="2024-01-14"/><br/><br/>
-                                <button class="color-caution"
-                                        onclick="createReminder()">Clear Reminder</button><br/>
-                            </span>
-                        </div>
-
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
-
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Salz</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1 Ei</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">30g Kakaopulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">1TL Zimt</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">175g Mehl</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">¼TL Backpulver</label><br/>
-
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">75g Butter</label><br/>
-
                     </div>
+                    <div class="list-group">
+                    </div>
+                    <div class="list-group">
+                    </div>
+
 
                 </div>
-
             </div>
     </section>
 </main>
