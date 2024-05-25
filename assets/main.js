@@ -44,6 +44,15 @@ function createReminder() {
     newLabel.id = `label-${reminderCounter}`;
     newLabel.innerText = 'New Reminder';
 
+    // Event listener for checkbox
+    newCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            newLabel.style.textDecoration = 'line-through';
+        } else {
+            newLabel.style.textDecoration = 'none';
+        }
+    });
+
     const popup = document.createElement('div');
     popup.className = 'popup';
 
