@@ -220,14 +220,11 @@ input[type="checkbox"] {
 }
 
 
-
 .checkbox-container {
-    display: flex;
     align-items: center;
 }
 
 .editable-label {
-    margin-left: 10px;
     cursor: text;
     padding: 2px 4px;
     border: 1px dashed transparent;

@@ -228,10 +228,6 @@ class ButtonNewElement extends Button {
 }
 
 
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const label = document.getElementById('myLabel');
 
