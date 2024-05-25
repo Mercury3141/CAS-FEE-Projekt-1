@@ -179,12 +179,16 @@
                         <br/>
 
 
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-list">100g Rohzucker</label>
 
-                        <div class="popup" onclick="myFunction()">
-                            <button onclick="createReminder()">i</button>
-                            <span class="popuptext" id="myPopup">
+
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="myCheckbox">
+                            <span class="editable-label" contenteditable="false" id="myLabel">Click to edit</span>
+
+                            <div class="popup" onclick="myFunction()">
+                                <button onclick="createReminder()">i</button>
+                                <span class="popuptext" id="myPopup">
                                  <button class="button-margin-bottom"
                                          onclick="createReminder()">Add Notes</button><br/><br/>
 
@@ -200,16 +204,31 @@
                                 <button class="color-caution"
                                         onclick="createReminder()">Clear Reminder</button><br/>
                             </span>
-                        </div>
+                            </div>
 
-                        <script>
-                            // When the user clicks on div, open the popup
-                            function myFunction() {
-                                var popup = document.getElementById("myPopup");
-                                popup.classList.toggle("show");
-                            }
-                        </script>
-                        <br/>
+                            <script>
+                                // When the user clicks on div, open the popup
+                                function myFunction() {
+                                    var popup = document.getElementById("myPopup");
+                                    popup.classList.toggle("show");
+                                }
+                            </script>
+                            <br/>
+
+
+                        </div>
+                        <script src="script.js"></script>
+
+
+
+
+
+
+
+
+
+
+
 
 
                         <input type="checkbox" id="button-checkbox">

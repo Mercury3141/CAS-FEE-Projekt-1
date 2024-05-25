@@ -152,6 +152,7 @@ input[type="checkbox"] {
 .text-label {
     font-size: 0.8em;
     font-weight: 300;
+    color: var(--text-color);
 }
 
 
@@ -218,3 +219,20 @@ input[type="checkbox"] {
     }
 }
 
+
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.editable-label {
+    margin-left: 10px;
+    cursor: text;
+    padding: 2px 4px;
+    border: 1px dashed transparent;
+}
+
+.editable-label[contenteditable="true"] {
+    border: 1px dashed #000;
+}

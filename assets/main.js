@@ -230,6 +230,41 @@ class ButtonNewElement extends Button {
 
 
 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const label = document.getElementById('myLabel');
+
+    // Enable editing on click
+    label.addEventListener('click', () => {
+        label.setAttribute('contenteditable', 'true');
+        label.focus();
+    });
+
+    // Save the edited text on Enter key press
+    label.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            label.setAttribute('contenteditable', 'false');
+        }
+    });
+
+    // Remove focus when clicking outside the label
+    document.addEventListener('click', (event) => {
+        if (event.target !== label) {
+            label.setAttribute('contenteditable', 'false');
+        }
+    });
+
+    // Optional: Remove focus on label blur
+    label.addEventListener('blur', () => {
+        label.setAttribute('contenteditable', 'false');
+    });
+});
+
+
+
+
 /*function createReminder() {
     var listElement = document.createElement("div");
     listElement.classList.add("list-element");
