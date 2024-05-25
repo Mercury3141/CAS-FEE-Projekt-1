@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 let reminderCounter = 0;
+let currentPopup = null;
 
 function createReminder() {
     reminderCounter++;
@@ -106,7 +106,6 @@ function createReminder() {
 
     listGroup.appendChild(newCheckboxContainer);
 
-    // Add event listeners for the new label
     newLabel.addEventListener('click', () => {
         newLabel.setAttribute('contenteditable', 'true');
         newLabel.focus();
@@ -131,5 +130,17 @@ function createReminder() {
 }
 
 function myFunction(popup) {
-    popup.querySelector('.popuptext').classList.toggle('show');
+    if (currentPopup && currentPopup !== popup) {
+        currentPopup.querySelector('.popuptext').classList.remove('show');
+    }
+    const popupText = popup.querySelector('.popuptext');
+    popupText.classList.toggle('show');
+    currentPopup = popupText.classList.contains('show') ? popup : null;
 }
+
+document.addEventListener('click', (event) => {
+    if (currentPopup && !currentPopup.contains(event.target) && event.target.tagName !== 'BUTTON') {
+        currentPopup.querySelector('.popuptext').classList.remove('show');
+        currentPopup = null;
+    }
+}, true);
