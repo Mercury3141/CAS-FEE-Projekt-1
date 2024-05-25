@@ -27,9 +27,9 @@
                 <div class="toolbar">
                     <button id="toolbar-new-reminder" class="color-main" onclick="createReminder(event)">New Reminder</button>
                     <div class="spacer-gap"></div>
-                    <button onclick="createReminder()">Show Important</button>
+                    <button onclick="showImportant()">Show Important</button>
                     <div class="spacer-elements"></div>
-                    <button class="button-margin-left" onclick="createReminder()">Sort by Date</button>
+                    <button class="button-margin-left" onclick="sortByDate()">Sort by Date</button>
                     <div class="spacer-fill"></div>
                     <button class="button-margin-left color-caution" onclick="clearCompletedReminders()">Clear Completed</button>
                 </div>
@@ -41,23 +41,9 @@
                     <div class="list-group" id="list-group">
                         <input type="checkbox" id="button-checkbox">
                         <label for="button-checkbox" class="text-font text-title">Group Title</label><br/>
-                        <button class="button-margin-bottom" onclick="createReminder()">New Reminder</button>
+                        <button class="button-margin-bottom" onclick="createReminder(event)">New Reminder</button>
                         <br/>
                     </div>
-
-                    <div class="list-group">
-                    </div>
-                    <div class="list-group">
-                    </div>
-                    <div class="list-group">
-                    </div>
-                    <div class="list-group">
-                    </div>
-                    <div class="list-group">
-                    </div>
-                    <div class="list-group">
-                    </div>
-
                 </div>
             </div>
     </section>
