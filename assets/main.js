@@ -133,7 +133,7 @@ function createReminder() {
         }
     });
 
-    newLabel.addEventListener('blur', () => {
+    newLabel.adEventListener('blur', () => {
         newLabel.setAttribute('contenteditable', 'false');
     });
 }
