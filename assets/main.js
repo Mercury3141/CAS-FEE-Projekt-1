@@ -23,7 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
 let reminderCounter = 0;
 let currentPopup = null;
 
-function createReminder() {
+function createReminder(event) {
+    // Check if the "New Reminder" button in the toolbar triggered the function
+    if (event && event.target && event.target.id === 'toolbar-new-reminder') {
+        const flexContainerElements = document.getElementById('flex-container-elements');
+        const newListGroup = document.createElement('div');
+        newListGroup.className = 'list-group';
+        newListGroup.innerHTML = `
+            <input type="checkbox" id="button-checkbox-${reminderCounter}">
+            <label for="button-checkbox-${reminderCounter}" class="text-font text-title">Group Title</label><br/>
+            <button class="button-margin-bottom" onclick="createReminder()">New Reminder</button>
+            <br/>
+        `;
+        flexContainerElements.appendChild(newListGroup);
+        return;
+    }
+
     reminderCounter++;
     const listGroup = document.getElementById('list-group');
     const newCheckboxContainer = document.createElement('div');
