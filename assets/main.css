@@ -53,6 +53,7 @@ input[type="checkbox"] {
 .flex-container-scroll {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     height: 86vh;
     width: 96vw;
     max-width: 1200px;
@@ -73,7 +74,6 @@ input[type="checkbox"] {
     align-items: flex-start;
     overflow: hidden;
     width: 100%;
-    min-width: 240px;
     max-height: 18px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
@@ -82,6 +82,7 @@ input[type="checkbox"] {
 }
 
 .list-group {
+    flex: 1;
     flex-direction: column;
     min-width: 240px;
     margin: 8px 8px;
