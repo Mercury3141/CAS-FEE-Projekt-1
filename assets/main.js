@@ -38,15 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 label.setAttribute('contenteditable', 'false');
+                saveReminders(); // Trigger save on label edit
             }
         });
         document.addEventListener('click', (event) => {
             if (event.target !== label) {
                 label.setAttribute('contenteditable', 'false');
+                saveReminders(); // Trigger save on blur
             }
         });
         label.addEventListener('blur', () => {
             label.setAttribute('contenteditable', 'false');
+            saveReminders(); // Trigger save on blur
         });
     }
 
@@ -59,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 label.style.textDecoration = 'none';
             }
+            saveReminders(); // Trigger save on checkbox change
         });
     }
 
@@ -89,19 +93,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+        saveReminders(); // Trigger save after clearing
     }
 
     function showImportant() {
         // Implement show important functionality
+        saveReminders(); // Trigger save on important change
     }
 
     function sortByDate() {
         // Implement sort by date functionality
+        saveReminders(); // Trigger save on sort
     }
 
     window.clearReminder = function(event) {
         const reminder = event.target.closest('.checkbox-container');
         reminder.remove();
+        saveReminders(); // Trigger save after removing reminder
     };
 
     function saveReminders() {
@@ -159,4 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial load
     loadReminders();
+
+    // Autosave interval (e.g., every 30 seconds)
+    const autosaveInterval = 30000; // 30,000 milliseconds = 30 seconds
+    setInterval(saveReminders, autosaveInterval);
 });
