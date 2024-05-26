@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newReminderHtml = reminderTemplate({ id: reminderCounter });
             listGroup.insertAdjacentHTML('beforeend', newReminderHtml);
             setupEditableLabel(reminderCounter);
+            setupCheckboxListener(reminderCounter);
             reminderCounter++;
         }
     };
@@ -46,6 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         label.addEventListener('blur', () => {
             label.setAttribute('contenteditable', 'false');
+        });
+    }
+
+    function setupCheckboxListener(id) {
+        const checkbox = document.getElementById(`checkbox-${id}`);
+        checkbox.addEventListener('change', () => {
+            const label = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                label.style.textDecoration = 'line-through';
+            } else {
+                label.style.textDecoration = 'none';
+            }
         });
     }
 
@@ -90,4 +103,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const reminder = event.target.closest('.checkbox-container');
         reminder.remove();
     };
+
+    function saveReminders() {
+        const reminders = [];
+        document.querySelectorAll('.list-group').forEach(listGroup => {
+            const group = {
+                id: listGroup.querySelector('input[type="checkbox"]').id,
+                title: listGroup.querySelector('label').innerText,
+                reminders: []
+            };
+            listGroup.querySelectorAll('.checkbox-container').forEach(reminder => {
+                const reminderData = {
+                    id: reminder.querySelector('input[type="checkbox"]').id,
+                    text: reminder.querySelector('.editable-label').innerText,
+                    important: reminder.querySelector(`#important-checkbox-${reminderCounter}`)?.checked || false,
+                    dueDate: reminder.querySelector('input[type="date"]')?.value || null,
+                    completed: reminder.querySelector('input[type="checkbox"]').checked
+                };
+                group.reminders.push(reminderData);
+            });
+            reminders.push(group);
+        });
+
+        fetch('/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reminders)
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error saving reminders:', error));
+    }
+
+    function loadReminders() {
+        fetch('/load')
+            .then(response => response.json())
+            .then(data => {
+                const flexContainerElements = document.getElementById('flex-container-elements');
+                flexContainerElements.innerHTML = '';
+                data.forEach(group => {
+                    const newListGroupHtml = listGroupTemplate(group);
+                    flexContainerElements.insertAdjacentHTML('beforeend', newListGroupHtml);
+                    group.reminders.forEach(reminder => {
+                        const newReminderHtml = reminderTemplate(reminder);
+                        document.querySelector(`#${group.id}`).closest('.list-group').insertAdjacentHTML('beforeend', newReminderHtml);
+                        setupEditableLabel(reminder.id);
+                        setupCheckboxListener(reminder.id);
+                    });
+                });
+            })
+            .catch(error => console.error('Error loading reminders:', error));
+    }
+
+    // Initial load
+    loadReminders();
 });

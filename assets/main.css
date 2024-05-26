@@ -220,6 +220,11 @@ input[type="checkbox"] {
     }
 }
 
+/* Add this to your existing CSS file (./assets/main.css) */
+.checkbox-container input[type="checkbox"]:checked + .editable-label {
+    text-decoration: line-through;
+}
+
 
 .checkbox-container {
     align-items: center;
