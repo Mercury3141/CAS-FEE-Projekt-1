@@ -72,6 +72,22 @@ class ReminderManager {
 
         const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id, popupId, buttonId });
         listGroup.insertAdjacentHTML('beforeend', newReminderHtml);
+
+        // Setup event listener for the "important" checkbox of this reminder
+        this.setupImportantCheckboxListener(id);
+    }
+
+    setupImportantCheckboxListener(id) {
+        const importantCheckbox = document.getElementById(`important-checkbox-${id}`);
+        const label = document.getElementById(`label-${id}`);
+        importantCheckbox.addEventListener('change', () => {
+            if (importantCheckbox.checked) {
+                label.style.color = 'red'; // Change text color to red if checkbox is checked
+            } else {
+                label.style.color = ''; // Revert to default text color if checkbox is unchecked
+            }
+            this.saveReminders();
+        });
     }
 
     makeLabelEditable(label) {
@@ -124,5 +140,3 @@ class ReminderManager {
         // Placeholder for loading reminders logic, possibly from local storage or a server
     }
 }
-
-
