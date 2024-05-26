@@ -1,6 +1,3 @@
-<!-- Figma: https://www.figma.com/design/47AWH3k2Vry0HuU0KY3yey/Reminders?node-id=0%3A1&t=WidwlkcXYqLfE07j-1 -->
-<!--Structure of classes: https://dapper-wanderer-701.notion.site/Classes-c3928f07268343228cb31dd57b992534?pvs=4-->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,44 +9,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-    <!--  https://fonts.google.com/specimen/Comfortaa -->
-    <style>
-    </style>
+    <!-- Handlebars.js -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
 </head>
 
 <body>
-<header>
-</header>
+<header></header>
 <main>
     <section>
         <div class="flex-container">
             <div class="flex-container-fixed">
                 <div class="toolbar">
-                    <button id="toolbar-new-reminder" class="color-main" onclick="createReminder(event)">New Reminder</button>
+                    <button id="toolbar-new-reminder" class="color-main">New Reminder</button>
                     <div class="spacer-gap"></div>
-                    <button onclick="showImportant()">Show Important</button>
+                    <button id="show-important">Show Important</button>
                     <div class="spacer-elements"></div>
-                    <button class="button-margin-left" onclick="sortByDate()">Sort by Date</button>
+                    <button class="button-margin-left" id="sort-by-date">Sort by Date</button>
                     <div class="spacer-fill"></div>
-                    <button class="button-margin-left color-caution" onclick="clearCompletedReminders()">Clear Completed</button>
+                    <button class="button-margin-left color-caution" id="clear-completed-reminders">Clear Completed
+                    </button>
                 </div>
             </div>
-
             <div class="flex-container-scroll">
-                <div class="flex-container-elements" id="flex-container-elements">
-
-                    <div class="list-group" id="list-group">
-                        <input type="checkbox" id="button-checkbox">
-                        <label for="button-checkbox" class="text-font text-title">Group Title</label><br/>
-                        <button class="button-margin-bottom" onclick="createReminder(event)">New Reminder</button>
-                        <br/>
-                    </div>
-                </div>
+                <div class="flex-container-elements" id="flex-container-elements"></div>
             </div>
     </section>
 </main>
-<footer>
-</footer>
+<footer></footer>
 <script src="./assets/main.js" defer></script>
+
+<!-- Handlebars Templates -->
+<script id="list-group-template" type="text/x-handlebars-template">
+    <div class="list-group">
+        <input type="checkbox" id="button-checkbox-{{id}}">
+        <label for="button-checkbox-{{id}}" class="text-font text-title">Group Title</label><br/>
+        <button class="button-margin-bottom" data-id="{{id}}" onclick="createReminder(event)">New Reminder</button>
+        <br/>
+    </div>
+</script>
+
+<script id="reminder-template" type="text/x-handlebars-template">
+    <div class="checkbox-container">
+        <input type="checkbox" id="checkbox-{{id}}">
+        <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
+        <div class="popup">
+            <button onclick="myFunction(this.parentElement)">i</button>
+            <span class="popuptext" id="popup-{{id}}">
+                <button class="button-margin-bottom" onclick="createReminder(event)">Add Notes</button><br/><br/>
+                <input type="checkbox" id="important-checkbox-{{id}}">
+                <label for="important-checkbox-{{id}}" class="text-label">Important</label><br/><br/>
+                <label class="text-label">Due Date:</label><br/>
+                <input type="date" class="button-margin-bottom"><br/><br/>
+                <button class="color-caution" onclick="clearReminder(event)">Clear Reminder</button>
+            </span>
+        </div>
+        <br/>
+    </div>
+</script>
 </body>
 </html>
