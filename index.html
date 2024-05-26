@@ -33,6 +33,7 @@
             <div class="flex-container-scroll" id="flex-container-elements">
                 <!-- Dynamic content will be added here -->
             </div>
+        </div>
     </section>
 </main>
 <footer></footer>
@@ -53,7 +54,7 @@
         <input type="checkbox" id="checkbox-{{id}}">
         <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
         <div class="popup">
-            <button onclick="myFunction(this.parentElement)">i</button>
+            <button id="button-{{id}}" onclick="togglePopup(this)">i</button>
             <span class="popuptext" id="popup-{{id}}">
                 <button class="button-margin-bottom" onclick="createReminder(event)">Add Notes</button><br/><br/>
                 <input type="checkbox" id="important-checkbox-{{id}}">
@@ -66,3 +67,17 @@
         <br/>
     </div>
 </script>
+
+
+<script>
+    function clearReminder(event) {
+        // Finds the closest parent .checkbox-container and removes it
+        const reminderElement = event.target.closest('.checkbox-container');
+        if (reminderElement) {
+            reminderElement.remove(); // Removes the element from the DOM
+        }
+    }
+</script>
+
+</body>
+</html>

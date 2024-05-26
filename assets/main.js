@@ -6,6 +6,7 @@ class ReminderManager {
     constructor(containerElement) {
         this.containerElement = containerElement;
         this.reminderCounter = 0;
+        this.popupCounter = 0;
         this.currentPopup = null;
         this.registerEventListeners();
         this.loadReminders();
@@ -62,7 +63,14 @@ class ReminderManager {
     }
 
     createReminder(listGroup, id) {
-        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id });
+        // Increment the popup counter
+        this.popupCounter++;
+
+        // Generate unique IDs for the popup and its associated button
+        const popupId = `popup-${this.popupCounter}`;
+        const buttonId = `button-${this.popupCounter}`;
+
+        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id, popupId, buttonId });
         listGroup.insertAdjacentHTML('beforeend', newReminderHtml);
     }
 
@@ -116,3 +124,5 @@ class ReminderManager {
         // Placeholder for loading reminders logic, possibly from local storage or a server
     }
 }
+
+
