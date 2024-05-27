@@ -63,6 +63,11 @@ class ReminderManager {
             const label = checkbox.nextElementSibling;
             label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
         });
+
+        // Toggle strikethrough for the group title
+        const groupTitle = listGroup.querySelector('.group-title');
+        groupTitle.style.textDecoration = groupCheckbox.checked ? 'line-through' : 'none';
+
         this.saveReminders();
     }
 
