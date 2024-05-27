@@ -1,24 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
+    window.reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
 });
 
 class ReminderManager {
     constructor(containerElement) {
         this.containerElement = containerElement;
         this.reminderCounter = 0;
-        this.popupCounter = 0;
-        this.currentPopup = null;
         this.registerEventListeners();
         this.loadReminders();
     }
 
     registerEventListeners() {
         document.addEventListener('click', (event) => {
-            // Close the popup when clicking outside of any popup container
-            if (!event.target.closest('.popup') && this.currentPopup) {
-                this.currentPopup.classList.remove('show');
-                this.currentPopup = null;
-            }
             // Handle clicks to make labels editable and confirm changes
             if (event.target.classList.contains('editable-label')) {
                 this.makeLabelEditable(event.target);
@@ -33,27 +26,22 @@ class ReminderManager {
         document.getElementById('show-important').addEventListener('click', () => this.showImportant());
         document.getElementById('sort-by-date').addEventListener('click', () => this.sortByDate());
 
-        // Dynamic content event delegation for "New Reminder" and popup information buttons
+        // Dynamic content event delegation for "New Reminder"
         this.containerElement.addEventListener('click', event => {
             const listGroup = event.target.closest('.list-group');
             if (event.target.dataset.action === 'create-reminder' && listGroup) {
                 this.createReminder(listGroup, this.reminderCounter);
-            } else if (event.target.matches('button') && event.target.closest('.popup')) {
-                const popup = event.target.closest('.list-group').querySelector('.popuptext');
-                this.togglePopup(popup);
             }
         });
     }
 
-    togglePopup(popup) {
-        // Close the current popup if it's not the one being toggled
-        if (this.currentPopup && this.currentPopup !== popup) {
-            this.currentPopup.classList.remove('show');
+    toggleTextColor(button) {
+        // Toggle the text color of the button
+        if (button.style.color === 'orange') {
+            button.style.color = ''; // Revert to default color
+        } else {
+            button.style.color = 'orange'; // Change text color to orange
         }
-        // Toggle the visibility of the clicked popup
-        popup.classList.toggle('show');
-        // Update the currentPopup reference
-        this.currentPopup = popup.classList.contains('show') ? popup : null;
     }
 
     createListGroup() {
@@ -63,17 +51,9 @@ class ReminderManager {
     }
 
     createReminder(listGroup, id) {
-        // Increment the popup counter
-        this.popupCounter++;
-
-        // Generate unique IDs for the popup and its associated button
-        const popupId = `popup-${this.popupCounter}`;
-        const buttonId = `button-${this.popupCounter}`;
-
-        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id, popupId, buttonId });
+        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id });
         listGroup.insertAdjacentHTML('beforeend', newReminderHtml);
 
-        // Setup event listener for the "important" checkbox of this reminder
         this.setupImportantCheckboxListener(id);
     }
 

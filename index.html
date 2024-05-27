@@ -53,17 +53,8 @@
     <div class="checkbox-container">
         <input type="checkbox" id="checkbox-{{id}}">
         <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
-        <div class="popup">
-            <button id="button-{{id}}" onclick="togglePopup(this)">i</button>
-            <span class="popuptext" id="popup-{{id}}">
-                <button class="button-margin-bottom" onclick="createReminder(event)">Add Notes</button><br/><br/>
-                <input type="checkbox" id="important-checkbox-{{id}}">
-                <label for="important-checkbox-{{id}}" class="text-label">Important</label><br/><br/>
-                <label class="text-label">Due Date:</label><br/>
-                <input type="date" class="button-margin-bottom"><br/><br/>
-                <button class="color-caution" onclick="clearReminder(event)">Clear Reminder</button>
-            </span>
-        </div>
+        <input type="date" id="date-{{id}}" class="date-input">
+        <button id="button-{{id}}" onclick="reminderManager.toggleTextColor(this)">i</button>
         <br/>
     </div>
 </script>

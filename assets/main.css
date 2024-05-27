@@ -142,13 +142,13 @@ input[type="checkbox"] {
 }
 
 .text-title {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 600;
     /*<weight>: Use a value from 300 to 700*/
 }
 
 .text-list {
-    font-size: 1em;
+    font-size: 0.8em;
     font-weight: 300;
     /*<weight>: Use a value from 300 to 700*/
 }
