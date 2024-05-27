@@ -6,6 +6,7 @@ class ReminderManager {
     constructor(containerElement) {
         this.containerElement = containerElement;
         this.reminderCounter = 0;
+        this.groupCounter = 0;
         this.registerEventListeners();
         this.loadReminders();
     }
@@ -31,6 +32,7 @@ class ReminderManager {
             const listGroup = event.target.closest('.list-group');
             if (event.target.dataset.action === 'create-reminder' && listGroup) {
                 this.createReminder(listGroup, this.reminderCounter);
+                this.reminderCounter++;
             }
         });
     }
@@ -47,29 +49,32 @@ class ReminderManager {
     }
 
     createListGroup() {
-        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.reminderCounter });
+        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
         this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
-        this.reminderCounter++;
+        this.groupCounter++;
     }
 
     createReminder(listGroup, id) {
         const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id });
-        listGroup.insertAdjacentHTML('beforeend', newReminderHtml);
+        listGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
 
         this.setupImportantCheckboxListener(id);
+        this.setupCheckboxListener(id);
     }
 
     setupImportantCheckboxListener(id) {
         const importantCheckbox = document.getElementById(`important-checkbox-${id}`);
         const label = document.getElementById(`label-${id}`);
-        importantCheckbox.addEventListener('change', () => {
-            if (importantCheckbox.checked) {
-                label.style.color = 'red'; // Change text color to red if checkbox is checked
-            } else {
-                label.style.color = ''; // Revert to default text color if checkbox is unchecked
-            }
-            this.saveReminders();
-        });
+        if (importantCheckbox) {
+            importantCheckbox.addEventListener('change', () => {
+                if (importantCheckbox.checked) {
+                    label.style.color = 'red'; // Change text color to red if checkbox is checked
+                } else {
+                    label.style.color = ''; // Revert to default text color if checkbox is unchecked
+                }
+                this.saveReminders();
+            });
+        }
     }
 
     makeLabelEditable(label) {
@@ -87,17 +92,19 @@ class ReminderManager {
 
     setupCheckboxListener(id) {
         const checkbox = document.getElementById(`checkbox-${id}`);
-        checkbox.addEventListener('change', () => {
-            const label = checkbox.nextElementSibling;
-            label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-            this.saveReminders();
-        });
+        if (checkbox) {
+            checkbox.addEventListener('change', () => {
+                const label = checkbox.nextElementSibling;
+                label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+                this.saveReminders();
+            });
+        }
     }
 
     clearCompletedReminders() {
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
-            if (checkbox.checked) {
+            if (checkbox && checkbox.checked) {
                 reminder.remove();
             }
         });

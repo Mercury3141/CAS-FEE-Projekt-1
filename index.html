@@ -39,13 +39,16 @@
 <footer></footer>
 <script src="./assets/main.js" defer></script>
 
-<!-- Handlebars Templates -->
+
 <script id="list-group-template" type="text/x-handlebars-template">
-    <div class="list-group">
-        <input type="checkbox" id="button-checkbox-{{id}}">
-        <label for="button-checkbox-{{id}}" class="text-font text-title">Group Title</label><br/>
-        <button class="button-margin-bottom" data-action="create-reminder" data-id="{{id}}">New Reminder</button>
-        <br/>
+    <div class="list-group" id="list-group-{{id}}">
+        <div class="list-group-header">
+            <input type="checkbox" id="group-checkbox-{{id}}">
+            <span class="editable-label group-title text-font text-title" id="group-title-{{id}}" contenteditable="false">Group Title</span>
+        </div>
+        <button data-action="create-reminder">New Reminder</button>
+        <!-- Container for reminders -->
+        <div class="reminders-container" id="reminders-container-{{id}}"></div>
     </div>
 </script>
 
@@ -58,6 +61,8 @@
         <br/>
     </div>
 </script>
+
+
 
 
 

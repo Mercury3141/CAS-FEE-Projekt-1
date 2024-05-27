@@ -16,7 +16,7 @@
     :root {
         --text-color: rgb(255, 255, 255);
         --background-color: rgb(28, 28, 28);
-        --background-color-bubble: rgb(44, 44, 46);
+        --background-color-bubble: rgb(48, 48, 48);
     }
 }
 
@@ -137,7 +137,6 @@ input[type="checkbox"] {
     font-style: normal;
     writing-mode: horizontal-tb;
     margin-block-start: auto;
-    margin-block-end: 0.8em;
     hyphens: auto;
     white-space: normal;
     color: var(--text-color);
@@ -245,5 +244,19 @@ input[type="checkbox"] {
 
 .editable-label[contenteditable="true"] {
     border: 1px dashed #000;
+}
+
+.list-group-header {
+    display: flex;
+    align-items: center;
+}
+
+.list-group-header input[type="checkbox"] {
+    margin-right: 10px; /* Adjust this value to control the spacing between the checkbox and the title */
+}
+
+button[data-action="create-reminder"] {
+    margin: 10px 0; /* Add margin to the top and bottom for spacing */
+    padding: 5px 10px; /* Add padding inside the button */
 }
 
