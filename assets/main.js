@@ -35,6 +35,13 @@ class ReminderManager {
                 this.reminderCounter++;
             }
         });
+
+        // Event delegation for group checkboxes
+        this.containerElement.addEventListener('change', event => {
+            if (event.target.matches('.list-group-header input[type="checkbox"]')) {
+                this.toggleGroupCheckboxes(event.target);
+            }
+        });
     }
 
     toggleTextColorAndLabel(button) {
@@ -46,6 +53,17 @@ class ReminderManager {
             button.style.color = 'orange'; // Change text color to orange
             button.textContent = '!!'; // Change label to "!!"
         }
+    }
+
+    toggleGroupCheckboxes(groupCheckbox) {
+        const listGroup = groupCheckbox.closest('.list-group');
+        const checkboxes = listGroup.querySelectorAll('.reminders-container .checkbox-container input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = groupCheckbox.checked;
+            const label = checkbox.nextElementSibling;
+            label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+        });
+        this.saveReminders();
     }
 
     createListGroup() {
