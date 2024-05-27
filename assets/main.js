@@ -35,12 +35,14 @@ class ReminderManager {
         });
     }
 
-    toggleTextColor(button) {
-        // Toggle the text color of the button
+    toggleTextColorAndLabel(button) {
+        // Toggle the text color of the button and change the label between "!" and "!!"
         if (button.style.color === 'orange') {
             button.style.color = ''; // Revert to default color
+            button.textContent = '!'; // Change label back to "!"
         } else {
             button.style.color = 'orange'; // Change text color to orange
+            button.textContent = '!!'; // Change label to "!!"
         }
     }
 

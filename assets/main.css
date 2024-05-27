@@ -28,10 +28,13 @@ html {
 }
 
 input[type="checkbox"] {
-    margin-right: calc(0.4em + var(--base-font-size) * 0.1);
     position: relative;
-    bottom: 0.2em;
+    bottom: 0.1em;
 }
+
+
+
+
 
 .flex-container {
     display: flex;
