@@ -7,6 +7,8 @@ class ReminderManager {
         this.containerElement = containerElement;
         this.reminderCounter = 0;
         this.groupCounter = 0;
+        this.showingImportant = false;
+        this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
         this.registerEventListeners();
         this.loadReminders();
     }
@@ -24,7 +26,10 @@ class ReminderManager {
         // Toolbar buttons
         document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
         document.getElementById('clear-completed-reminders').addEventListener('click', () => this.clearCompletedReminders());
-        document.getElementById('show-important').addEventListener('click', (event) => this.toggleButtonTextColor(event.target));
+        document.getElementById('show-important').addEventListener('click', (event) => {
+            this.toggleButtonTextColor(event.target);
+            this.filterImportantReminders();
+        });
         document.getElementById('sort-by-date').addEventListener('click', () => this.sortByDate());
 
         // Dynamic content event delegation for "New Reminder"
@@ -45,21 +50,54 @@ class ReminderManager {
     }
 
     toggleButtonTextColor(button) {
-        // Toggle the text color of the button to orange and back to default
-        if (button.style.color === 'orange') {
+        // Toggle the text color of the button to the important color and back to default
+        if (button.style.color === this.importantColor) {
             button.style.color = ''; // Revert to default color
         } else {
-            button.style.color = 'orange'; // Change text color to orange
+            button.style.color = this.importantColor; // Change text color to important color
         }
+    }
+
+    filterImportantReminders() {
+        this.showingImportant = !this.showingImportant;
+        const listGroups = this.containerElement.querySelectorAll('.list-group');
+        listGroups.forEach(listGroup => {
+            const reminders = listGroup.querySelectorAll('.checkbox-container');
+            let hasImportant = false;
+            reminders.forEach(reminder => {
+                const importantButton = reminder.querySelector('button');
+                if (this.showingImportant) {
+                    if (importantButton.textContent === '!!') {
+                        reminder.style.display = '';
+                        hasImportant = true;
+                    } else {
+                        reminder.style.display = 'none';
+                    }
+                } else {
+                    reminder.style.display = '';
+                }
+            });
+            if (this.showingImportant && hasImportant) {
+                listGroup.style.backgroundColor = this.importantColor;
+                listGroup.style.display = '';
+            } else {
+                listGroup.style.backgroundColor = '';
+                if (this.showingImportant) {
+                    listGroup.style.display = 'none';
+                } else {
+                    listGroup.style.display = '';
+                }
+            }
+        });
     }
 
     toggleTextColorAndLabel(button) {
         // Toggle the text color of the button and change the label between "!" and "!!"
-        if (button.style.color === 'orange') {
+        if (button.style.color === this.importantColor) {
             button.style.color = ''; // Revert to default color
             button.textContent = '!'; // Change label back to "!"
         } else {
-            button.style.color = 'orange'; // Change text color to orange
+            button.style.color = this.importantColor; // Change text color to important color
             button.textContent = '!!'; // Change label to "!!"
         }
     }
