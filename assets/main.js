@@ -24,7 +24,7 @@ class ReminderManager {
         // Toolbar buttons
         document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
         document.getElementById('clear-completed-reminders').addEventListener('click', () => this.clearCompletedReminders());
-        document.getElementById('show-important').addEventListener('click', () => this.showImportant());
+        document.getElementById('show-important').addEventListener('click', (event) => this.toggleButtonTextColor(event.target));
         document.getElementById('sort-by-date').addEventListener('click', () => this.sortByDate());
 
         // Dynamic content event delegation for "New Reminder"
@@ -42,6 +42,15 @@ class ReminderManager {
                 this.toggleGroupCheckboxes(event.target);
             }
         });
+    }
+
+    toggleButtonTextColor(button) {
+        // Toggle the text color of the button to orange and back to default
+        if (button.style.color === 'orange') {
+            button.style.color = ''; // Revert to default color
+        } else {
+            button.style.color = 'orange'; // Change text color to orange
+        }
     }
 
     toggleTextColorAndLabel(button) {
