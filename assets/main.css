@@ -77,7 +77,7 @@ input[type="checkbox"] {
     align-items: flex-start;
     overflow: hidden;
     width: 100%;
-    max-height: 18px;
+    max-height: 48px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
@@ -246,6 +246,7 @@ input[type="checkbox"] {
     border: 1px dashed #000;
 }
 
+/* Style for the list-group header */
 .list-group-header {
     display: flex;
     align-items: center;
@@ -255,7 +256,8 @@ input[type="checkbox"] {
     margin-right: 10px; /* Adjust this value to control the spacing between the checkbox and the title */
 }
 
-button[data-action="create-reminder"] {
+/* Style for the "New Reminder" button */
+button[data-action="create-reminder"], .toolbar button {
     margin: 10px 0; /* Add margin to the top and bottom for spacing */
     padding: 5px 10px; /* Add padding inside the button */
 }
