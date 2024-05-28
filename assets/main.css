@@ -29,10 +29,6 @@ html {
     background-color: var(--background-color);
 }
 
-input[type="checkbox"] {
-    position: relative;
-    bottom: 0.1em;
-}
 
 .flex-container {
     display: flex;
@@ -75,7 +71,7 @@ input[type="checkbox"] {
     align-items: flex-start;
     overflow: hidden;
     width: 100%;
-    max-height: 48px;
+    max-height: 46px;
     margin: 8px 8px;
     padding: 20px 20px 20px;
     border-radius: var(--border-radius);
@@ -138,8 +134,8 @@ input[type="checkbox"] {
 }
 
 .text-font {
-    font-family: "Comfortaa", sans-serif;
-    font-optical-sizing: auto;
+    /*font-family: "Comfortaa", sans-serif;*/
+    /*font-optical-sizing: auto;*/
     font-style: normal;
     writing-mode: horizontal-tb;
     margin-block-start: auto;
@@ -276,4 +272,15 @@ button[data-action="create-reminder"], .toolbar button {
 
 .blue-text {
     color: rgb(0, 122, 240);
+}
+
+button {
+    background-color: var(--background-color-bubble);
+    border: 1px solid var(--background-color-bubble); /* Optional: Add a border */
+    /*padding: 5px 10px; !* Optional: Add some padding *!*/
+    border-radius: 4px; /* Optional: Add border radius */
+    cursor: pointer; /* Optional: Change cursor to pointer */
+    color: var(--text-color);
+    font-size: 0.8em;
+    font-weight: 300;
 }
