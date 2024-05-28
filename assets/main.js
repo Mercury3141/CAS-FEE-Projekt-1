@@ -64,7 +64,8 @@ class ReminderManager {
     }
 
     updateClearCompletedButtonState() {
-        const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked');
+        const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked') ||
+            this.containerElement.querySelector('.list-group-header input[type="checkbox"]:checked');
         if (anyChecked) {
             this.clearCompletedButton.classList.remove('inactive');
             this.clearCompletedButton.classList.add('active');
@@ -193,12 +194,22 @@ class ReminderManager {
     clearCompletedReminders() {
         if (this.clearCompletedButton.classList.contains('inactive')) return; // Prevent action if button is inactive
 
+        // Remove reminders that are checked
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             if (checkbox && checkbox.checked) {
                 reminder.remove();
             }
         });
+
+        // Remove list-groups where the group title checkbox is checked
+        this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
+            const groupCheckbox = listGroup.querySelector('.list-group-header input[type="checkbox"]');
+            if (groupCheckbox && groupCheckbox.checked) {
+                listGroup.remove();
+            }
+        });
+
         this.updateClearCompletedButtonState();
         this.saveReminders();
     }
