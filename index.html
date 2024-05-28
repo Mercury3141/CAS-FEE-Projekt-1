@@ -26,7 +26,7 @@
                     <div class="spacer-elements"></div>
                     <button class="button-margin-left" id="sort-by-date">Sort by Date</button>
                     <div class="spacer-fill"></div>
-                    <button class="button-margin-left color-caution" id="clear-completed-reminders">Clear Completed</button>
+                    <button class="button-margin-left color-caution" id="clear-reminders">Clear Reminders</button>
                 </div>
             </div>
             <div class="flex-container-scroll" id="flex-container-elements">
@@ -37,8 +37,6 @@
 </main>
 <footer></footer>
 <script src="./assets/main.js" defer></script>
-
-
 
 <script id="list-group-template" type="text/x-handlebars-template">
     <div class="list-group" id="list-group-{{id}}">
@@ -60,21 +58,6 @@
         <button id="button-{{id}}" onclick="reminderManager.toggleTextColorAndLabel(this)">!</button>
         <br/>
     </div>
-</script>
-
-
-
-
-
-
-<script>
-    function clearReminder(event) {
-        // Finds the closest parent .checkbox-container and removes it
-        const reminderElement = event.target.closest('.checkbox-container');
-        if (reminderElement) {
-            reminderElement.remove(); // Removes the element from the DOM
-        }
-    }
 </script>
 
 </body>

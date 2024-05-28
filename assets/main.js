@@ -1,3 +1,11 @@
+function clearReminder(event) {
+    // Finds the closest parent .checkbox-container and removes it
+    const reminderElement = event.target.closest('.checkbox-container');
+    if (reminderElement) {
+        reminderElement.remove(); // Removes the element from the DOM
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
 });
@@ -9,10 +17,10 @@ class ReminderManager {
         this.groupCounter = 0;
         this.showingImportant = false;
         this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
-        this.clearCompletedButton = document.getElementById('clear-completed-reminders');
+        this.clearRemindersButton = document.getElementById('clear-reminders');
         this.registerEventListeners();
         this.loadReminders();
-        this.updateClearCompletedButtonState();
+        this.updateClearRemindersButtonState();
     }
 
     registerEventListeners() {
@@ -27,7 +35,7 @@ class ReminderManager {
 
         // Toolbar buttons
         document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
-        this.clearCompletedButton.addEventListener('click', () => this.clearCompletedReminders());
+        this.clearRemindersButton.addEventListener('click', () => this.clearReminders());
         document.getElementById('show-important').addEventListener('click', (event) => {
             this.toggleButtonTextColor(event.target);
             this.filterImportantReminders();
@@ -49,7 +57,7 @@ class ReminderManager {
                 this.toggleGroupCheckboxes(event.target);
             }
             if (event.target.matches('.checkbox-container input[type="checkbox"]')) {
-                this.updateClearCompletedButtonState();
+                this.updateClearRemindersButtonState();
             }
         });
 
@@ -70,15 +78,15 @@ class ReminderManager {
         }
     }
 
-    updateClearCompletedButtonState() {
+    updateClearRemindersButtonState() {
         const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked') ||
             this.containerElement.querySelector('.list-group-header input[type="checkbox"]:checked');
         if (anyChecked) {
-            this.clearCompletedButton.classList.remove('inactive');
-            this.clearCompletedButton.classList.add('active');
+            this.clearRemindersButton.classList.remove('inactive');
+            this.clearRemindersButton.classList.add('active');
         } else {
-            this.clearCompletedButton.classList.remove('active');
-            this.clearCompletedButton.classList.add('inactive');
+            this.clearRemindersButton.classList.remove('active');
+            this.clearRemindersButton.classList.add('inactive');
         }
     }
 
@@ -139,7 +147,7 @@ class ReminderManager {
         const groupTitle = listGroup.querySelector('.group-title');
         groupTitle.style.textDecoration = groupCheckbox.checked ? 'line-through' : 'none';
 
-        this.updateClearCompletedButtonState();
+        this.updateClearRemindersButtonState();
         this.saveReminders();
     }
 
@@ -158,11 +166,15 @@ class ReminderManager {
 
         this.setupImportantCheckboxListener(id);
         this.setupCheckboxListener(id);
-        this.updateClearCompletedButtonState();
+        this.updateClearRemindersButtonState();
 
         // Apply greyed-out class to new reminder
         const newReminder = listGroup.querySelector(`#label-${id}`);
         newReminder.classList.add('greyed-out');
+
+        // Automatically activate the text field for the new reminder and select its text
+        this.makeLabelEditable(newReminder);
+        // this.selectAllText(newReminder); // Commented out to prevent automatic selection
     }
 
     setupImportantCheckboxListener(id) {
@@ -183,11 +195,15 @@ class ReminderManager {
     makeLabelEditable(label) {
         label.setAttribute('contenteditable', 'true');
         label.focus();
-        // If the label contains default text, select all text
-        if (label.textContent === 'Group Title' || label.textContent === 'New Reminder') {
-            document.execCommand('selectAll', false, null);
-        }
     }
+
+    // selectAllText(label) {
+    //     const range = document.createRange();
+    //     range.selectNodeContents(label);
+    //     const sel = window.getSelection();
+    //     sel.removeAllRanges();
+    //     sel.addRange(range);
+    // }
 
     confirmLabelChanges() {
         const editableLabels = document.querySelectorAll('.editable-label[contenteditable="true"]');
@@ -212,282 +228,21 @@ class ReminderManager {
             checkbox.addEventListener('change', () => {
                 const label = checkbox.nextElementSibling;
                 label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-                this.updateClearCompletedButtonState();
+                this.updateClearRemindersButtonState();
                 this.saveReminders();
             });
         }
     }
 
-    clearCompletedReminders() {
-        if (this.clearCompletedButton.classList.contains('inactive')) return; // Prevent action if button is inactive
+    clearReminders() {
+        if (this.clearRemindersButton.classList.contains('inactive')) return; // Prevent action if button is inactive
 
         // Remove reminders that are checked
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             if (checkbox && checkbox.checked) {
                 reminder.remove();
-            }document.addEventListener('DOMContentLoaded', () => {
-                window.reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
-            });
-
-            class ReminderManager {
-                constructor(containerElement) {
-                    this.containerElement = containerElement;
-                    this.reminderCounter = 0;
-                    this.groupCounter = 0;
-                    this.showingImportant = false;
-                    this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
-                    this.clearCompletedButton = document.getElementById('clear-completed-reminders');
-                    this.registerEventListeners();
-                    this.loadReminders();
-                    this.updateClearCompletedButtonState();
-                }
-
-                registerEventListeners() {
-                    document.addEventListener('click', (event) => {
-                        // Handle clicks to make labels editable and confirm changes
-                        if (event.target.classList.contains('editable-label')) {
-                            this.makeLabelEditable(event.target);
-                        } else {
-                            this.confirmLabelChanges();
-                        }
-                    });
-
-                    // Toolbar buttons
-                    document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
-                    this.clearCompletedButton.addEventListener('click', () => this.clearCompletedReminders());
-                    document.getElementById('show-important').addEventListener('click', (event) => {
-                        this.toggleButtonTextColor(event.target);
-                        this.filterImportantReminders();
-                    });
-                    document.getElementById('sort-by-date').addEventListener('click', () => this.sortByDate());
-
-                    // Dynamic content event delegation for "New Reminder"
-                    this.containerElement.addEventListener('click', event => {
-                        const listGroup = event.target.closest('.list-group');
-                        if (event.target.dataset.action === 'create-reminder' && listGroup) {
-                            this.createReminder(listGroup, this.reminderCounter);
-                            this.reminderCounter++;
-                        }
-                    });
-
-                    // Event delegation for group checkboxes
-                    this.containerElement.addEventListener('change', event => {
-                        if (event.target.matches('.list-group-header input[type="checkbox"]')) {
-                            this.toggleGroupCheckboxes(event.target);
-                        }
-                        if (event.target.matches('.checkbox-container input[type="checkbox"]')) {
-                            this.updateClearCompletedButtonState();
-                        }
-                    });
-
-                    // Event delegation for content changes to update the greyed-out state
-                    this.containerElement.addEventListener('input', event => {
-                        if (event.target.classList.contains('editable-label')) {
-                            this.updateGreyedOutState(event.target);
-                        }
-                    });
-                }
-
-                toggleButtonTextColor(button) {
-                    // Toggle the text color of the button to the important color and back to default
-                    if (button.style.color === this.importantColor) {
-                        button.style.color = ''; // Revert to default color
-                    } else {
-                        button.style.color = this.importantColor; // Change text color to important color
-                    }
-                }
-
-                updateClearCompletedButtonState() {
-                    const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked') ||
-                        this.containerElement.querySelector('.list-group-header input[type="checkbox"]:checked');
-                    if (anyChecked) {
-                        this.clearCompletedButton.classList.remove('inactive');
-                        this.clearCompletedButton.classList.add('active');
-                    } else {
-                        this.clearCompletedButton.classList.remove('active');
-                        this.clearCompletedButton.classList.add('inactive');
-                    }
-                }
-
-                filterImportantReminders() {
-                    this.showingImportant = !this.showingImportant;
-                    const listGroups = this.containerElement.querySelectorAll('.list-group');
-                    listGroups.forEach(listGroup => {
-                        const reminders = listGroup.querySelectorAll('.checkbox-container');
-                        let hasImportant = false;
-                        reminders.forEach(reminder => {
-                            const importantButton = reminder.querySelector('button');
-                            if (this.showingImportant) {
-                                if (importantButton.textContent === '!!') {
-                                    reminder.style.display = '';
-                                    hasImportant = true;
-                                } else {
-                                    reminder.style.display = 'none';
-                                }
-                            } else {
-                                reminder.style.display = '';
-                            }
-                        });
-                        if (this.showingImportant && hasImportant) {
-                            listGroup.style.backgroundColor = this.importantColor;
-                            listGroup.style.display = '';
-                        } else {
-                            listGroup.style.backgroundColor = '';
-                            if (this.showingImportant) {
-                                listGroup.style.display = 'none';
-                            } else {
-                                listGroup.style.display = '';
-                            }
-                        }
-                    });
-                }
-
-                toggleTextColorAndLabel(button) {
-                    // Toggle the text color of the button and change the label between "!" and "!!"
-                    if (button.style.color === this.importantColor) {
-                        button.style.color = ''; // Revert to default color
-                        button.textContent = '!'; // Change label back to "!"
-                    } else {
-                        button.style.color = this.importantColor; // Change text color to important color
-                        button.textContent = '!!'; // Change label to "!!"
-                    }
-                }
-
-                toggleGroupCheckboxes(groupCheckbox) {
-                    const listGroup = groupCheckbox.closest('.list-group');
-                    const checkboxes = listGroup.querySelectorAll('.reminders-container .checkbox-container input[type="checkbox"]');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.checked = groupCheckbox.checked;
-                        const label = checkbox.nextElementSibling;
-                        label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-                    });
-
-                    // Toggle strikethrough for the group title
-                    const groupTitle = listGroup.querySelector('.group-title');
-                    groupTitle.style.textDecoration = groupCheckbox.checked ? 'line-through' : 'none';
-
-                    this.updateClearCompletedButtonState();
-                    this.saveReminders();
-                }
-
-                createListGroup() {
-                    const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
-                    this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
-                    this.groupCounter++;
-                    // Apply greyed-out class to new group title
-                    const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
-                    newListGroup.classList.add('greyed-out');
-                }
-
-                createReminder(listGroup, id) {
-                    const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id });
-                    listGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
-
-                    this.setupImportantCheckboxListener(id);
-                    this.setupCheckboxListener(id);
-                    this.updateClearCompletedButtonState();
-
-                    // Apply greyed-out class to new reminder
-                    const newReminder = listGroup.querySelector(`#label-${id}`);
-                    newReminder.classList.add('greyed-out');
-                }
-
-                setupImportantCheckboxListener(id) {
-                    const importantCheckbox = document.getElementById(`important-checkbox-${id}`);
-                    const label = document.getElementById(`label-${id}`);
-                    if (importantCheckbox) {
-                        importantCheckbox.addEventListener('change', () => {
-                            if (importantCheckbox.checked) {
-                                label.style.color = 'red'; // Change text color to red if checkbox is checked
-                            } else {
-                                label.style.color = ''; // Revert to default text color if checkbox is unchecked
-                            }
-                            this.saveReminders();
-                        });
-                    }
-                }
-
-                makeLabelEditable(label) {
-                    label.setAttribute('contenteditable', 'true');
-                    label.focus();
-                    // If the label contains default text, select all text
-                    if (label.textContent === 'Group Title' || label.textContent === 'New Reminder') {
-                        document.execCommand('selectAll', false, null);
-                    }
-                }
-
-                confirmLabelChanges() {
-                    const editableLabels = document.querySelectorAll('.editable-label[contenteditable="true"]');
-                    editableLabels.forEach(label => {
-                        label.setAttribute('contenteditable', 'false');
-                        this.updateGreyedOutState(label);
-                    });
-                    this.saveReminders();
-                }
-
-                updateGreyedOutState(label) {
-                    if (label.textContent.trim() === '' || label.textContent === 'Group Title' || label.textContent === 'New Reminder') {
-                        label.classList.add('greyed-out');
-                    } else {
-                        label.classList.remove('greyed-out');
-                    }
-                }
-
-                setupCheckboxListener(id) {
-                    const checkbox = document.getElementById(`checkbox-${id}`);
-                    if (checkbox) {
-                        checkbox.addEventListener('change', () => {
-                            const label = checkbox.nextElementSibling;
-                            label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-                            this.updateClearCompletedButtonState();
-                            this.saveReminders();
-                        });
-                    }
-                }
-
-                clearCompletedReminders() {
-                    if (this.clearCompletedButton.classList.contains('inactive')) return; // Prevent action if button is inactive
-
-                    // Remove reminders that are checked
-                    this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
-                        const checkbox = reminder.querySelector('input[type="checkbox"]');
-                        if (checkbox && checkbox.checked) {
-                            reminder.remove();
-                        }
-                    });
-
-                    // Remove list-groups where the group title checkbox is checked
-                    this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
-                        const groupCheckbox = listGroup.querySelector('.list-group-header input[type="checkbox"]');
-                        if (groupCheckbox && groupCheckbox.checked) {
-                            listGroup.remove();
-                        }
-                    });
-
-                    this.updateClearCompletedButtonState();
-                    this.saveReminders();
-                }
-
-                showImportant() {
-                    // Logic to filter and show important reminders
-                    this.saveReminders();
-                }
-
-                sortByDate() {
-                    // Logic to sort reminders by due date
-                    this.saveReminders();
-                }
-
-                saveReminders() {
-                    // Placeholder for saving reminders logic, possibly to local storage or a server
-                }
-
-                loadReminders() {
-                    // Placeholder for loading reminders logic, possibly from local storage or a server
-                }
             }
-
         });
 
         // Remove list-groups where the group title checkbox is checked
@@ -498,7 +253,7 @@ class ReminderManager {
             }
         });
 
-        this.updateClearCompletedButtonState();
+        this.updateClearRemindersButtonState();
         this.saveReminders();
     }
 
