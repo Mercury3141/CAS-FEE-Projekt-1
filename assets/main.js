@@ -9,8 +9,10 @@ class ReminderManager {
         this.groupCounter = 0;
         this.showingImportant = false;
         this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
+        this.clearCompletedButton = document.getElementById('clear-completed-reminders');
         this.registerEventListeners();
         this.loadReminders();
+        this.updateClearCompletedButtonState();
     }
 
     registerEventListeners() {
@@ -25,7 +27,7 @@ class ReminderManager {
 
         // Toolbar buttons
         document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
-        document.getElementById('clear-completed-reminders').addEventListener('click', () => this.clearCompletedReminders());
+        this.clearCompletedButton.addEventListener('click', () => this.clearCompletedReminders());
         document.getElementById('show-important').addEventListener('click', (event) => {
             this.toggleButtonTextColor(event.target);
             this.filterImportantReminders();
@@ -46,6 +48,9 @@ class ReminderManager {
             if (event.target.matches('.list-group-header input[type="checkbox"]')) {
                 this.toggleGroupCheckboxes(event.target);
             }
+            if (event.target.matches('.checkbox-container input[type="checkbox"]')) {
+                this.updateClearCompletedButtonState();
+            }
         });
     }
 
@@ -55,6 +60,17 @@ class ReminderManager {
             button.style.color = ''; // Revert to default color
         } else {
             button.style.color = this.importantColor; // Change text color to important color
+        }
+    }
+
+    updateClearCompletedButtonState() {
+        const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked');
+        if (anyChecked) {
+            this.clearCompletedButton.classList.remove('inactive');
+            this.clearCompletedButton.classList.add('active');
+        } else {
+            this.clearCompletedButton.classList.remove('active');
+            this.clearCompletedButton.classList.add('inactive');
         }
     }
 
@@ -115,6 +131,7 @@ class ReminderManager {
         const groupTitle = listGroup.querySelector('.group-title');
         groupTitle.style.textDecoration = groupCheckbox.checked ? 'line-through' : 'none';
 
+        this.updateClearCompletedButtonState();
         this.saveReminders();
     }
 
@@ -130,6 +147,7 @@ class ReminderManager {
 
         this.setupImportantCheckboxListener(id);
         this.setupCheckboxListener(id);
+        this.updateClearCompletedButtonState();
     }
 
     setupImportantCheckboxListener(id) {
@@ -166,18 +184,22 @@ class ReminderManager {
             checkbox.addEventListener('change', () => {
                 const label = checkbox.nextElementSibling;
                 label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+                this.updateClearCompletedButtonState();
                 this.saveReminders();
             });
         }
     }
 
     clearCompletedReminders() {
+        if (this.clearCompletedButton.classList.contains('inactive')) return; // Prevent action if button is inactive
+
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             if (checkbox && checkbox.checked) {
                 reminder.remove();
             }
         });
+        this.updateClearCompletedButtonState();
         this.saveReminders();
     }
 

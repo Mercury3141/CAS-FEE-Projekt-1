@@ -2,7 +2,7 @@
     font-family: Arial, Helvetica, sans-serif;
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
-    --important-color: rgb(255, 179, 64);
+    --important-color: rgb(255, 184, 110);
     --text-color: rgb(67, 67, 67);
     --base-font-size: 16px;
     --border-radius: 28px;
@@ -262,5 +262,15 @@ input[type="checkbox"] {
 button[data-action="create-reminder"], .toolbar button {
     margin: 10px 0; /* Add margin to the top and bottom for spacing */
     padding: 5px 10px; /* Add padding inside the button */
+}
+
+
+.inactive {
+    color: grey;
+    cursor: not-allowed;
+}
+.active {
+    color: rgb(255, 59, 48);
+    cursor: pointer;
 }
 
