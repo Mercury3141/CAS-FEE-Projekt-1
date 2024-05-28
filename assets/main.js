@@ -1,11 +1,3 @@
-function clearReminder(event) {
-    // Finds the closest parent .checkbox-container and removes it
-    const reminderElement = event.target.closest('.checkbox-container');
-    if (reminderElement) {
-        reminderElement.remove(); // Removes the element from the DOM
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     window.reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
 });
@@ -16,6 +8,8 @@ class ReminderManager {
         this.reminderCounter = 0;
         this.groupCounter = 0;
         this.showingImportant = false;
+        this.sortedByDate = false;  // New property to track sorting state
+        this.originalOrders = new Map();  // To store the original order of reminders
         this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
         this.clearRemindersButton = document.getElementById('clear-reminders');
         this.registerEventListeners();
@@ -25,7 +19,6 @@ class ReminderManager {
 
     registerEventListeners() {
         document.addEventListener('click', (event) => {
-            // Handle clicks to make labels editable and confirm changes
             if (event.target.classList.contains('editable-label')) {
                 this.makeLabelEditable(event.target);
             } else {
@@ -33,16 +26,14 @@ class ReminderManager {
             }
         });
 
-        // Toolbar buttons
         document.getElementById('toolbar-new-reminder').addEventListener('click', () => this.createListGroup());
         this.clearRemindersButton.addEventListener('click', () => this.clearReminders());
         document.getElementById('show-important').addEventListener('click', (event) => {
             this.toggleButtonTextColor(event.target);
             this.filterImportantReminders();
         });
-        document.getElementById('sort-by-date').addEventListener('click', () => this.sortByDate());
+        document.getElementById('sort-by-date').addEventListener('click', () => this.toggleSortByDate());
 
-        // Dynamic content event delegation for "New Reminder"
         this.containerElement.addEventListener('click', event => {
             const listGroup = event.target.closest('.list-group');
             if (event.target.dataset.action === 'create-reminder' && listGroup) {
@@ -51,7 +42,6 @@ class ReminderManager {
             }
         });
 
-        // Event delegation for group checkboxes
         this.containerElement.addEventListener('change', event => {
             if (event.target.matches('.list-group-header input[type="checkbox"]')) {
                 this.toggleGroupCheckboxes(event.target);
@@ -61,7 +51,6 @@ class ReminderManager {
             }
         });
 
-        // Event delegation for content changes to update the greyed-out state
         this.containerElement.addEventListener('input', event => {
             if (event.target.classList.contains('editable-label')) {
                 this.updateGreyedOutState(event.target);
@@ -70,11 +59,10 @@ class ReminderManager {
     }
 
     toggleButtonTextColor(button) {
-        // Toggle the text color of the button to the important color and back to default
         if (button.style.color === this.importantColor) {
-            button.style.color = ''; // Revert to default color
+            button.style.color = '';
         } else {
-            button.style.color = this.importantColor; // Change text color to important color
+            button.style.color = this.importantColor;
         }
     }
 
@@ -124,13 +112,12 @@ class ReminderManager {
     }
 
     toggleTextColorAndLabel(button) {
-        // Toggle the text color of the button and change the label between "!" and "!!"
         if (button.style.color === this.importantColor) {
-            button.style.color = ''; // Revert to default color
-            button.textContent = '!'; // Change label back to "!"
+            button.style.color = '';
+            button.textContent = '!';
         } else {
-            button.style.color = this.importantColor; // Change text color to important color
-            button.textContent = '!!'; // Change label to "!!"
+            button.style.color = this.importantColor;
+            button.textContent = '!!';
         }
     }
 
@@ -143,7 +130,6 @@ class ReminderManager {
             label.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
         });
 
-        // Toggle strikethrough for the group title
         const groupTitle = listGroup.querySelector('.group-title');
         groupTitle.style.textDecoration = groupCheckbox.checked ? 'line-through' : 'none';
 
@@ -155,7 +141,6 @@ class ReminderManager {
         const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
         this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
         this.groupCounter++;
-        // Apply greyed-out class to new group title
         const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
         newListGroup.classList.add('greyed-out');
     }
@@ -168,13 +153,10 @@ class ReminderManager {
         this.setupCheckboxListener(id);
         this.updateClearRemindersButtonState();
 
-        // Apply greyed-out class to new reminder
         const newReminder = listGroup.querySelector(`#label-${id}`);
         newReminder.classList.add('greyed-out');
 
-        // Automatically activate the text field for the new reminder and select its text
         this.makeLabelEditable(newReminder);
-        // this.selectAllText(newReminder); // Commented out to prevent automatic selection
     }
 
     setupImportantCheckboxListener(id) {
@@ -183,9 +165,9 @@ class ReminderManager {
         if (importantCheckbox) {
             importantCheckbox.addEventListener('change', () => {
                 if (importantCheckbox.checked) {
-                    label.style.color = 'red'; // Change text color to red if checkbox is checked
+                    label.style.color = 'red';
                 } else {
-                    label.style.color = ''; // Revert to default text color if checkbox is unchecked
+                    label.style.color = '';
                 }
                 this.saveReminders();
             });
@@ -196,14 +178,6 @@ class ReminderManager {
         label.setAttribute('contenteditable', 'true');
         label.focus();
     }
-
-    // selectAllText(label) {
-    //     const range = document.createRange();
-    //     range.selectNodeContents(label);
-    //     const sel = window.getSelection();
-    //     sel.removeAllRanges();
-    //     sel.addRange(range);
-    // }
 
     confirmLabelChanges() {
         const editableLabels = document.querySelectorAll('.editable-label[contenteditable="true"]');
@@ -235,9 +209,8 @@ class ReminderManager {
     }
 
     clearReminders() {
-        if (this.clearRemindersButton.classList.contains('inactive')) return; // Prevent action if button is inactive
+        if (this.clearRemindersButton.classList.contains('inactive')) return;
 
-        // Remove reminders that are checked
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             if (checkbox && checkbox.checked) {
@@ -245,7 +218,6 @@ class ReminderManager {
             }
         });
 
-        // Remove list-groups where the group title checkbox is checked
         this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
             const groupCheckbox = listGroup.querySelector('.list-group-header input[type="checkbox"]');
             if (groupCheckbox && groupCheckbox.checked) {
@@ -257,21 +229,45 @@ class ReminderManager {
         this.saveReminders();
     }
 
-    showImportant() {
-        // Logic to filter and show important reminders
-        this.saveReminders();
-    }
+    toggleSortByDate() {
+        this.sortedByDate = !this.sortedByDate;
 
-    sortByDate() {
-        // Logic to sort reminders by due date
+        const listGroups = this.containerElement.querySelectorAll('.list-group');
+
+        listGroups.forEach(listGroup => {
+            const remindersContainer = listGroup.querySelector('.reminders-container');
+            const reminders = Array.from(remindersContainer.querySelectorAll('.checkbox-container'));
+
+            if (this.sortedByDate) {
+                // Save the original order
+                if (!this.originalOrders.has(remindersContainer)) {
+                    this.originalOrders.set(remindersContainer, reminders.slice());
+                }
+
+                // Sort reminders by date
+                const remindersWithDate = reminders.filter(reminder => reminder.querySelector('.date-input').value);
+                remindersWithDate.sort((a, b) => new Date(b.querySelector('.date-input').value) - new Date(a.querySelector('.date-input').value));
+
+                remindersContainer.innerHTML = '';
+                remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
+            } else {
+                // Restore the original order
+                const originalReminders = this.originalOrders.get(remindersContainer);
+                if (originalReminders) {
+                    remindersContainer.innerHTML = '';
+                    originalReminders.forEach(reminder => remindersContainer.appendChild(reminder));
+                }
+            }
+        });
+
         this.saveReminders();
     }
 
     saveReminders() {
-        // Placeholder for saving reminders logic, possibly to local storage or a server
+        // Placeholder for saving reminders logic
     }
 
     loadReminders() {
-        // Placeholder for loading reminders logic, possibly from local storage or a server
+        // Placeholder for loading reminders logic
     }
 }

@@ -34,10 +34,6 @@ input[type="checkbox"] {
     bottom: 0.1em;
 }
 
-
-
-
-
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -148,13 +144,11 @@ input[type="checkbox"] {
 .text-title {
     font-size: 1em;
     font-weight: 600;
-    /*<weight>: Use a value from 300 to 700*/
 }
 
 .text-list {
     font-size: 0.8em;
     font-weight: 300;
-    /*<weight>: Use a value from 300 to 700*/
 }
 
 .text-label {
@@ -162,7 +156,6 @@ input[type="checkbox"] {
     font-weight: 300;
     color: var(--text-color);
 }
-
 
 .popup {
     position: relative;
@@ -228,11 +221,9 @@ input[type="checkbox"] {
     }
 }
 
-/* Add this to your existing CSS file (./assets/main.css) */
 .checkbox-container input[type="checkbox"]:checked + .editable-label {
     text-decoration: line-through;
 }
-
 
 .checkbox-container {
     align-items: center;
@@ -248,22 +239,19 @@ input[type="checkbox"] {
     border: 1px dashed #000;
 }
 
-/* Style for the list-group header */
 .list-group-header {
     display: flex;
     align-items: center;
 }
 
 .list-group-header input[type="checkbox"] {
-    margin-right: 10px; /* Adjust this value to control the spacing between the checkbox and the title */
+    margin-right: 10px;
 }
 
-/* Style for the "New Reminder" button */
 button[data-action="create-reminder"], .toolbar button {
-    margin: 10px 0; /* Add margin to the top and bottom for spacing */
-    padding: 5px 10px; /* Add padding inside the button */
+    margin: 10px 0;
+    padding: 5px 10px;
 }
-
 
 .inactive {
     color: grey;
@@ -277,4 +265,3 @@ button[data-action="create-reminder"], .toolbar button {
 .greyed-out {
     color: grey;
 }
-

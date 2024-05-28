@@ -51,7 +51,7 @@
 </script>
 
 <script id="reminder-template" type="text/x-handlebars-template">
-    <div class="checkbox-container">
+    <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
         <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
         <input type="date" id="date-{{id}}" class="date-input">
