@@ -232,11 +232,28 @@ class ReminderManager {
     toggleSortByDate() {
         this.sortedByDate = !this.sortedByDate;
 
+        const sortByDateButton = document.getElementById('sort-by-date');
+        if (this.sortedByDate) {
+            sortByDateButton.classList.add('blue-text');
+        } else {
+            sortByDateButton.classList.remove('blue-text');
+        }
+
         const listGroups = this.containerElement.querySelectorAll('.list-group');
 
         listGroups.forEach(listGroup => {
             const remindersContainer = listGroup.querySelector('.reminders-container');
             const reminders = Array.from(remindersContainer.querySelectorAll('.checkbox-container'));
+
+            // Toggle blue text for date inputs
+            reminders.forEach(reminder => {
+                const dateLabel = reminder.querySelector('.date-input');
+                if (this.sortedByDate) {
+                    dateLabel.classList.add('blue-text');
+                } else {
+                    dateLabel.classList.remove('blue-text');
+                }
+            });
 
             if (this.sortedByDate) {
                 // Save the original order
@@ -250,6 +267,10 @@ class ReminderManager {
 
                 remindersContainer.innerHTML = '';
                 remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
+
+                // Add back reminders without dates
+                const remindersWithoutDate = reminders.filter(reminder => !reminder.querySelector('.date-input').value);
+                remindersWithoutDate.forEach(reminder => remindersContainer.appendChild(reminder));
             } else {
                 // Restore the original order
                 const originalReminders = this.originalOrders.get(remindersContainer);
@@ -262,6 +283,9 @@ class ReminderManager {
 
         this.saveReminders();
     }
+
+
+
 
     saveReminders() {
         // Placeholder for saving reminders logic

@@ -17,7 +17,7 @@
     :root {
         --background-color: rgb(28, 28, 28);
         --background-color-bubble: rgb(48, 48, 48);
-        --important-color: rgb(201, 52, 0);
+        --important-color: rgb(156, 40, 0);
         --text-color: rgb(255, 255, 255);
     }
 }
@@ -55,7 +55,7 @@ input[type="checkbox"] {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    height: 86vh;
+    height: 80vh;
     width: 96vw;
     max-width: 1200px;
     overflow: auto;
@@ -264,4 +264,8 @@ button[data-action="create-reminder"], .toolbar button {
 
 .greyed-out {
     color: grey;
+}
+
+.blue-text {
+    color: rgb(0, 122, 240);
 }
