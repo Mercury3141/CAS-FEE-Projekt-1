@@ -56,6 +56,13 @@ class ReminderManager {
                 this.updateGreyedOutState(event.target);
             }
         });
+
+        this.containerElement.addEventListener('keydown', event => {
+            if (event.target.classList.contains('editable-label') && event.key === 'Enter') {
+                event.preventDefault();
+                this.confirmLabelChanges();
+            }
+        });
     }
 
     toggleButtonTextColor(button) {
@@ -177,6 +184,14 @@ class ReminderManager {
     makeLabelEditable(label) {
         label.setAttribute('contenteditable', 'true');
         label.focus();
+        label.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                label.setAttribute('contenteditable', 'false');
+                this.updateGreyedOutState(label);
+                this.saveReminders();
+            }
+        });
     }
 
     confirmLabelChanges() {
