@@ -274,3 +274,7 @@ button[data-action="create-reminder"], .toolbar button {
     cursor: pointer;
 }
 
+.greyed-out {
+    color: grey;
+}
+
