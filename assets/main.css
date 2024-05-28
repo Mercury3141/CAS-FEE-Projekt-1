@@ -92,6 +92,14 @@ input[type="checkbox"] {
     background-color: var(--background-color-bubble);
 }
 
+.date-input {
+    background-color: var(--background-color-bubble);
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+
 .list-element {
     flex: 1;
     flex-direction: row;

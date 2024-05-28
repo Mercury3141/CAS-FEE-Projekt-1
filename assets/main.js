@@ -163,6 +163,9 @@ class ReminderManager {
         const newReminder = listGroup.querySelector(`#label-${id}`);
         newReminder.classList.add('greyed-out');
 
+        const dateInput = listGroup.querySelector(`#date-${id}`);
+        dateInput.classList.add('date-input');
+
         this.makeLabelEditable(newReminder);
     }
 
@@ -193,6 +196,7 @@ class ReminderManager {
             }
         });
     }
+
 
     confirmLabelChanges() {
         const editableLabels = document.querySelectorAll('.editable-label[contenteditable="true"]');
