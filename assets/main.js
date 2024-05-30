@@ -145,7 +145,7 @@ class ReminderManager {
     }
 
     createListGroup() {
-        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
+        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: this.groupCounter});
         this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
         this.groupCounter++;
         const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
@@ -153,7 +153,7 @@ class ReminderManager {
     }
 
     createReminder(listGroup, id) {
-        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({ id });
+        const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id});
         listGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
 
         this.setupImportantCheckboxListener(id);
@@ -264,6 +264,8 @@ class ReminderManager {
             const remindersContainer = listGroup.querySelector('.reminders-container');
             const reminders = Array.from(remindersContainer.querySelectorAll('.checkbox-container'));
 
+            console.log(`Before sorting: ${reminders.length} reminders`);
+
             // Toggle blue text for date inputs
             reminders.forEach(reminder => {
                 const dateLabel = reminder.querySelector('.date-input');
@@ -284,26 +286,32 @@ class ReminderManager {
                 const remindersWithDate = reminders.filter(reminder => reminder.querySelector('.date-input').value);
                 remindersWithDate.sort((a, b) => new Date(b.querySelector('.date-input').value) - new Date(a.querySelector('.date-input').value));
 
-                remindersContainer.innerHTML = '';
-                remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
-
-                // Add back reminders without dates
                 const remindersWithoutDate = reminders.filter(reminder => !reminder.querySelector('.date-input').value);
+
+                // Detach reminders from the DOM
+                remindersWithDate.forEach(reminder => remindersContainer.removeChild(reminder));
+                remindersWithoutDate.forEach(reminder => remindersContainer.removeChild(reminder));
+
+                // Reattach reminders in sorted order
+                remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
                 remindersWithoutDate.forEach(reminder => remindersContainer.appendChild(reminder));
             } else {
                 // Restore the original order
                 const originalReminders = this.originalOrders.get(remindersContainer);
                 if (originalReminders) {
-                    remindersContainer.innerHTML = '';
+                    // Detach reminders from the DOM
+                    reminders.forEach(reminder => remindersContainer.removeChild(reminder));
+
+                    // Reattach reminders in original order
                     originalReminders.forEach(reminder => remindersContainer.appendChild(reminder));
                 }
             }
+
+            console.log(`After sorting: ${remindersContainer.querySelectorAll('.checkbox-container').length} reminders`);
         });
 
         this.saveReminders();
     }
-
-
 
 
     saveReminders() {
