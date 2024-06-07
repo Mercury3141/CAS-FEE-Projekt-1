@@ -295,6 +295,7 @@ class ReminderManager {
     clearReminders() {
         if (this.clearRemindersButton.classList.contains('inactive')) return;
 
+        // Remove individual reminders
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             const label = reminder.querySelector('.editable-label');
@@ -303,10 +304,17 @@ class ReminderManager {
             }
         });
 
+        // Remove entire list groups if their title is greyed-out and they have no non-greyed-out reminders
         this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
             const groupCheckbox = listGroup.querySelector('.list-group-header input[type="checkbox"]');
             const groupTitle = listGroup.querySelector('.group-title');
-            if ((groupCheckbox && groupCheckbox.checked) || groupTitle.classList.contains('greyed-out')) {
+
+            // Check if there are any non-greyed-out reminders in the list group
+            const hasNonGreyedOutReminders = Array.from(listGroup.querySelectorAll('.checkbox-container .editable-label'))
+                .some(label => !label.classList.contains('greyed-out'));
+
+            if ((groupCheckbox && groupCheckbox.checked) ||
+                (groupTitle.classList.contains('greyed-out') && !hasNonGreyedOutReminders)) {
                 listGroup.remove();
             }
         });
@@ -315,6 +323,21 @@ class ReminderManager {
         this.updateFilterAndSortButtonState();
         this.saveReminders();
     }
+
+    updateClearRemindersButtonState() {
+        const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked') ||
+            this.containerElement.querySelector('.list-group-header input[type="checkbox"]:checked');
+        const anyGreyedOut = this.containerElement.querySelector('.editable-label.greyed-out');
+
+        if (anyChecked || anyGreyedOut) {
+            this.clearRemindersButton.classList.remove('inactive');
+            this.clearRemindersButton.classList.add('active');
+        } else {
+            this.clearRemindersButton.classList.remove('active');
+            this.clearRemindersButton.classList.add('inactive');
+        }
+    }
+
 
 
     toggleSortByDate() {
