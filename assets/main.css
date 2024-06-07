@@ -261,6 +261,7 @@ button[data-action="create-reminder"], .toolbar button {
 .inactive {
     color: grey;
     cursor: not-allowed;
+    pointer-events: none;
 }
 .active {
     color: rgb(255, 59, 48);
@@ -289,3 +290,4 @@ button {
 #clear-reminders {
     margin-right: 20px; /* Indent the button to the right */
 }
+
