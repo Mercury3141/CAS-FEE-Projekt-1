@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener('DOMContentLoaded', () => {
     window.reminderManager = new ReminderManager(document.getElementById('flex-container-elements'));
 });
@@ -277,7 +279,7 @@ class ReminderManager {
             });
 
             if (this.sortedByDate) {
-                // Save the original order if not already saved
+                // Save the original order
                 if (!this.originalOrders.has(remindersContainer)) {
                     this.originalOrders.set(remindersContainer, reminders.slice());
                 }
@@ -289,7 +291,8 @@ class ReminderManager {
                 const remindersWithoutDate = reminders.filter(reminder => !reminder.querySelector('.date-input').value);
 
                 // Detach reminders from the DOM
-                reminders.forEach(reminder => remindersContainer.removeChild(reminder));
+                remindersWithDate.forEach(reminder => remindersContainer.removeChild(reminder));
+                remindersWithoutDate.forEach(reminder => remindersContainer.removeChild(reminder));
 
                 // Reattach reminders in sorted order
                 remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
@@ -321,3 +324,4 @@ class ReminderManager {
         // Placeholder for loading reminders logic
     }
 }
+

@@ -255,6 +255,7 @@ html {
 button[data-action="create-reminder"], .toolbar button {
     margin: 10px 0;
     padding: 5px 10px;
+    margin-left: 20px;
 }
 
 .inactive {
@@ -285,3 +286,6 @@ button {
     font-weight: 300;
 }
 
+#clear-reminders {
+    margin-right: 20px; /* Indent the button to the right */
+}
