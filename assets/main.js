@@ -12,7 +12,9 @@ class ReminderManager {
         this.showingImportant = false;
         this.sortedByDate = false;
         this.originalOrders = new Map();
+        this.selectedGroup = null;
         this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
+        this.selectionColor = 'rgb(0, 122, 255)';
         this.clearRemindersButton = document.getElementById('clear-reminders');
         this.showImportantButton = document.getElementById('show-important');
         this.sortByDateButton = document.getElementById('sort-by-date');
@@ -57,6 +59,9 @@ class ReminderManager {
 
         this.containerElement.addEventListener('click', event => {
             const listGroup = event.target.closest('.list-group');
+            if (listGroup) {
+                this.selectListGroup(listGroup);
+            }
             if (event.target.dataset.action === 'create-reminder' && listGroup) {
                 this.createReminder(listGroup, this.reminderCounter);
                 this.reminderCounter++;
@@ -83,8 +88,57 @@ class ReminderManager {
             if (event.target.classList.contains('editable-label') && event.key === 'Enter') {
                 event.preventDefault();
                 this.confirmLabelChanges();
+            } else if (this.selectedGroup && (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Delete')) {
+                this.handleKeyActions(event);
             }
         });
+    }
+
+    selectListGroup(listGroup) {
+        if (this.selectedGroup) {
+            this.selectedGroup.style.outline = '';
+        }
+        this.selectedGroup = listGroup;
+        this.selectedGroup.style.outline = `2px solid ${this.selectionColor}`;
+    }
+
+    handleKeyActions(event) {
+        if (!this.selectedGroup) return;
+        switch (event.key) {
+            case 'ArrowUp':
+                this.moveGroupUp();
+                break;
+            case 'ArrowDown':
+                this.moveGroupDown();
+                break;
+            case 'Delete':
+                this.deleteSelectedGroup();
+                break;
+        }
+    }
+
+    moveGroupUp() {
+        const prevSibling = this.selectedGroup.previousElementSibling;
+        if (prevSibling) {
+            this.containerElement.insertBefore(this.selectedGroup, prevSibling);
+        }
+    }
+
+    moveGroupDown() {
+        const nextSibling = this.selectedGroup.nextElementSibling;
+        if (nextSibling) {
+            this.containerElement.insertBefore(nextSibling, this.selectedGroup);
+        }
+    }
+
+    deleteSelectedGroup() {
+        if (this.selectedGroup) {
+            this.selectedGroup.remove();
+            this.selectedGroup = null;
+            this.updateClearRemindersButtonState();
+            this.updateFilterAndSortButtonState();
+            this.saveReminders();
+        }
     }
 
     cancelFilters() {
@@ -206,7 +260,7 @@ class ReminderManager {
     }
 
     createListGroup() {
-        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
+        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: this.groupCounter});
         this.containerElement.insertAdjacentHTML('afterbegin', newListGroupHtml);
         this.groupCounter++;
         const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
@@ -338,7 +392,6 @@ class ReminderManager {
             this.clearRemindersButton.classList.add('inactive');
         }
     }
-
 
 
     toggleSortByDate() {
