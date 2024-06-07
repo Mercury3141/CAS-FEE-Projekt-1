@@ -206,12 +206,13 @@ class ReminderManager {
     }
 
     createListGroup() {
-        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: this.groupCounter});
-        this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
+        const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({ id: this.groupCounter });
+        this.containerElement.insertAdjacentHTML('afterbegin', newListGroupHtml);
         this.groupCounter++;
         const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
         newListGroup.classList.add('greyed-out');
     }
+
 
     createReminder(listGroup, id) {
         const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id});
