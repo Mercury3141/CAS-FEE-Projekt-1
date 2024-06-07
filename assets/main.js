@@ -277,7 +277,7 @@ class ReminderManager {
             });
 
             if (this.sortedByDate) {
-                // Save the original order
+                // Save the original order if not already saved
                 if (!this.originalOrders.has(remindersContainer)) {
                     this.originalOrders.set(remindersContainer, reminders.slice());
                 }
@@ -289,8 +289,7 @@ class ReminderManager {
                 const remindersWithoutDate = reminders.filter(reminder => !reminder.querySelector('.date-input').value);
 
                 // Detach reminders from the DOM
-                remindersWithDate.forEach(reminder => remindersContainer.removeChild(reminder));
-                remindersWithoutDate.forEach(reminder => remindersContainer.removeChild(reminder));
+                reminders.forEach(reminder => remindersContainer.removeChild(reminder));
 
                 // Reattach reminders in sorted order
                 remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
