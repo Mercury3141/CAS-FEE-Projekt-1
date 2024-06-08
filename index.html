@@ -55,7 +55,7 @@
         <input type="checkbox" id="checkbox-{{id}}">
         <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
         <input type="date" id="date-{{id}}" class="date-input">
-        <button id="button-{{id}}" onclick="reminderManager.toggleTextColorAndLabel(this)">!</button>
+        <button id="button-{{id}}" data-action="toggle-important">!</button>
         <br/>
     </div>
 </script>

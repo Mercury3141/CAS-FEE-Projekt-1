@@ -23,14 +23,12 @@ class ReminderManager {
     }
 
     registerEventListeners() {
-        // Remove any existing event listeners to prevent duplicates
         document.removeEventListener('click', this.documentClickHandler);
         document.getElementById('toolbar-new-reminder').removeEventListener('click', this.newReminderHandler);
         this.clearRemindersButton.removeEventListener('click', this.clearRemindersHandler);
         this.showImportantButton.removeEventListener('click', this.showImportantHandler);
         this.sortByDateButton.removeEventListener('click', this.sortByDateHandler);
 
-        // Define handlers as properties to be able to remove them later
         this.documentClickHandler = (event) => {
             if (event.target.classList.contains('editable-label')) {
                 this.makeLabelEditable(event.target);
@@ -256,14 +254,21 @@ class ReminderManager {
         }
     }
 
+    reattachImportantListeners() {
+        const importantButtons = this.containerElement.querySelectorAll('.checkbox-container button');
+        importantButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                this.toggleTextColorAndLabel(button);
+            });
+        });
+    }
+
     makeLabelEditable(label) {
         label.setAttribute('contenteditable', 'true');
         label.focus();
 
-        // Remove existing paste event listener if any
         label.removeEventListener('paste', this.pasteEventListener);
 
-        // Define the paste event listener
         this.pasteEventListener = (event) => {
             event.preventDefault();
             const text = (event.clipboardData || window.clipboardData).getData('text');
@@ -272,7 +277,6 @@ class ReminderManager {
             this.saveReminders();
         };
 
-        // Add the paste event listener
         label.addEventListener('paste', this.pasteEventListener);
 
         label.addEventListener('keydown', (event) => {
@@ -320,7 +324,6 @@ class ReminderManager {
     clearReminders() {
         if (this.clearRemindersButton.classList.contains('inactive')) return;
 
-        // Remove individual reminders
         this.containerElement.querySelectorAll('.checkbox-container').forEach(reminder => {
             const checkbox = reminder.querySelector('input[type="checkbox"]');
             const label = reminder.querySelector('.editable-label');
@@ -329,12 +332,10 @@ class ReminderManager {
             }
         });
 
-        // Remove entire list groups if their title is greyed-out and they have no non-greyed-out reminders
         this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
             const groupCheckbox = listGroup.querySelector('.list-group-header input[type="checkbox"]');
             const groupTitle = listGroup.querySelector('.group-title');
 
-            // Check if there are any non-greyed-out reminders in the list group
             const hasNonGreyedOutReminders = Array.from(listGroup.querySelectorAll('.checkbox-container .editable-label'))
                 .some(label => !label.classList.contains('greyed-out'));
 
@@ -459,7 +460,6 @@ class ReminderManager {
                     }
                     newListGroup.querySelector(`#date-${reminderIndex}`).value = reminder.date;
 
-                    // Reapply event listener for the important button
                     this.setupImportantCheckboxListener(reminderIndex);
                 });
             });
@@ -474,6 +474,7 @@ class ReminderManager {
 
             this.updateClearRemindersButtonState();
             this.updateFilterAndSortButtonState();
+            this.reattachImportantListeners();
         }
     }
 }
