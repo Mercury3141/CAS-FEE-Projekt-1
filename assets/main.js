@@ -12,9 +12,7 @@ class ReminderManager {
         this.showingImportant = false;
         this.sortedByDate = false;
         this.originalOrders = new Map();
-        this.selectedGroup = null;
         this.importantColor = getComputedStyle(document.documentElement).getPropertyValue('--important-color').trim();
-        this.selectionColor = 'rgb(0, 122, 255)';
         this.clearRemindersButton = document.getElementById('clear-reminders');
         this.showImportantButton = document.getElementById('show-important');
         this.sortByDateButton = document.getElementById('sort-by-date');
@@ -25,43 +23,50 @@ class ReminderManager {
     }
 
     registerEventListeners() {
-        document.addEventListener('click', (event) => {
+        // Remove any existing event listeners to prevent duplicates
+        document.removeEventListener('click', this.documentClickHandler);
+        document.getElementById('toolbar-new-reminder').removeEventListener('click', this.newReminderHandler);
+        this.clearRemindersButton.removeEventListener('click', this.clearRemindersHandler);
+        this.showImportantButton.removeEventListener('click', this.showImportantHandler);
+        this.sortByDateButton.removeEventListener('click', this.sortByDateHandler);
+
+        // Define handlers as properties to be able to remove them later
+        this.documentClickHandler = (event) => {
             if (event.target.classList.contains('editable-label')) {
                 this.makeLabelEditable(event.target);
             } else {
                 this.confirmLabelChanges();
             }
-        });
-
-        document.getElementById('toolbar-new-reminder').addEventListener('click', () => {
+        };
+        this.newReminderHandler = () => {
             this.cancelFilters();
             this.createListGroup();
             this.updateFilterAndSortButtonState();
-        });
-
-        this.clearRemindersButton.addEventListener('click', () => {
+        };
+        this.clearRemindersHandler = () => {
             this.clearReminders();
             this.updateFilterAndSortButtonState();
-        });
-
-        this.showImportantButton.addEventListener('click', (event) => {
+        };
+        this.showImportantHandler = (event) => {
             if (!event.target.classList.contains('inactive')) {
                 this.toggleButtonTextColor(event.target);
                 this.filterImportantReminders();
             }
-        });
-
-        this.sortByDateButton.addEventListener('click', () => {
+        };
+        this.sortByDateHandler = () => {
             if (!this.sortByDateButton.classList.contains('inactive')) {
                 this.toggleSortByDate();
             }
-        });
+        };
+
+        document.addEventListener('click', this.documentClickHandler);
+        document.getElementById('toolbar-new-reminder').addEventListener('click', this.newReminderHandler);
+        this.clearRemindersButton.addEventListener('click', this.clearRemindersHandler);
+        this.showImportantButton.addEventListener('click', this.showImportantHandler);
+        this.sortByDateButton.addEventListener('click', this.sortByDateHandler);
 
         this.containerElement.addEventListener('click', event => {
             const listGroup = event.target.closest('.list-group');
-            if (listGroup) {
-                this.selectListGroup(listGroup);
-            }
             if (event.target.dataset.action === 'create-reminder' && listGroup) {
                 this.createReminder(listGroup, this.reminderCounter);
                 this.reminderCounter++;
@@ -88,57 +93,8 @@ class ReminderManager {
             if (event.target.classList.contains('editable-label') && event.key === 'Enter') {
                 event.preventDefault();
                 this.confirmLabelChanges();
-            } else if (this.selectedGroup && (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Delete')) {
-                this.handleKeyActions(event);
             }
         });
-    }
-
-    selectListGroup(listGroup) {
-        if (this.selectedGroup) {
-            this.selectedGroup.style.outline = '';
-        }
-        this.selectedGroup = listGroup;
-        this.selectedGroup.style.outline = `2px solid ${this.selectionColor}`;
-    }
-
-    handleKeyActions(event) {
-        if (!this.selectedGroup) return;
-        switch (event.key) {
-            case 'ArrowUp':
-                this.moveGroupUp();
-                break;
-            case 'ArrowDown':
-                this.moveGroupDown();
-                break;
-            case 'Delete':
-                this.deleteSelectedGroup();
-                break;
-        }
-    }
-
-    moveGroupUp() {
-        const prevSibling = this.selectedGroup.previousElementSibling;
-        if (prevSibling) {
-            this.containerElement.insertBefore(this.selectedGroup, prevSibling);
-        }
-    }
-
-    moveGroupDown() {
-        const nextSibling = this.selectedGroup.nextElementSibling;
-        if (nextSibling) {
-            this.containerElement.insertBefore(nextSibling, this.selectedGroup);
-        }
-    }
-
-    deleteSelectedGroup() {
-        if (this.selectedGroup) {
-            this.selectedGroup.remove();
-            this.selectedGroup = null;
-            this.updateClearRemindersButtonState();
-            this.updateFilterAndSortButtonState();
-            this.saveReminders();
-        }
     }
 
     cancelFilters() {
@@ -172,7 +128,6 @@ class ReminderManager {
             this.clearRemindersButton.classList.add('inactive');
         }
     }
-
 
     updateFilterAndSortButtonState() {
         const anyImportantReminders = this.checkForImportantReminders();
@@ -265,8 +220,8 @@ class ReminderManager {
         this.groupCounter++;
         const newListGroup = this.containerElement.querySelector(`#list-group-${this.groupCounter - 1} .group-title`);
         newListGroup.classList.add('greyed-out');
+        this.saveReminders();
     }
-
 
     createReminder(listGroup, id) {
         const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id});
@@ -284,6 +239,7 @@ class ReminderManager {
         dateInput.classList.add('date-input');
 
         this.makeLabelEditable(newReminder);
+        this.saveReminders();
     }
 
     setupImportantCheckboxListener(id) {
@@ -379,21 +335,6 @@ class ReminderManager {
         this.saveReminders();
     }
 
-    updateClearRemindersButtonState() {
-        const anyChecked = this.containerElement.querySelector('.checkbox-container input[type="checkbox"]:checked') ||
-            this.containerElement.querySelector('.list-group-header input[type="checkbox"]:checked');
-        const anyGreyedOut = this.containerElement.querySelector('.editable-label.greyed-out');
-
-        if (anyChecked || anyGreyedOut) {
-            this.clearRemindersButton.classList.remove('inactive');
-            this.clearRemindersButton.classList.add('active');
-        } else {
-            this.clearRemindersButton.classList.remove('active');
-            this.clearRemindersButton.classList.add('inactive');
-        }
-    }
-
-
     toggleSortByDate() {
         this.sortedByDate = !this.sortedByDate;
 
@@ -446,10 +387,36 @@ class ReminderManager {
     }
 
     saveReminders() {
-        // Placeholder for saving reminders logic
+        const remindersState = {
+            reminderCounter: this.reminderCounter,
+            groupCounter: this.groupCounter,
+            showingImportant: this.showingImportant,
+            sortedByDate: this.sortedByDate,
+            reminders: this.containerElement.innerHTML
+        };
+        localStorage.setItem('remindersState', JSON.stringify(remindersState));
     }
 
     loadReminders() {
-        // Placeholder for loading reminders logic
+        const savedState = localStorage.getItem('remindersState');
+        if (savedState) {
+            const remindersState = JSON.parse(savedState);
+            this.reminderCounter = remindersState.reminderCounter;
+            this.groupCounter = remindersState.groupCounter;
+            this.showingImportant = remindersState.showingImportant;
+            this.sortedByDate = remindersState.sortedByDate;
+            this.containerElement.innerHTML = remindersState.reminders;
+
+            if (this.showingImportant) {
+                this.filterImportantReminders();
+            }
+
+            if (this.sortedByDate) {
+                this.toggleSortByDate();
+            }
+
+            this.updateClearRemindersButtonState();
+            this.updateFilterAndSortButtonState();
+        }
     }
 }
