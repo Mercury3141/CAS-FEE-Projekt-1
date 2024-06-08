@@ -198,6 +198,8 @@ class ReminderManager {
             button.style.color = this.importantColor;
             button.textContent = '!!';
         }
+        this.updateFilterAndSortButtonState();
+        this.saveReminders();
     }
 
     toggleGroupCheckboxes(groupCheckbox) {
@@ -246,17 +248,10 @@ class ReminderManager {
     }
 
     setupImportantCheckboxListener(id) {
-        const importantCheckbox = document.getElementById(`important-checkbox-${id}`);
-        const label = document.getElementById(`label-${id}`);
-        if (importantCheckbox) {
-            importantCheckbox.addEventListener('change', () => {
-                if (importantCheckbox.checked) {
-                    label.style.color = 'red';
-                } else {
-                    label.style.color = '';
-                }
-                this.saveReminders();
-                this.updateFilterAndSortButtonState();
+        const importantButton = document.getElementById(`button-${id}`);
+        if (importantButton) {
+            importantButton.addEventListener('click', () => {
+                this.toggleTextColorAndLabel(importantButton);
             });
         }
     }
@@ -265,14 +260,20 @@ class ReminderManager {
         label.setAttribute('contenteditable', 'true');
         label.focus();
 
-        // Add paste event listener to sanitize pasted content
-        label.addEventListener('paste', (event) => {
+        // Remove existing paste event listener if any
+        label.removeEventListener('paste', this.pasteEventListener);
+
+        // Define the paste event listener
+        this.pasteEventListener = (event) => {
             event.preventDefault();
             const text = (event.clipboardData || window.clipboardData).getData('text');
             document.execCommand('insertText', false, text);
             this.updateGreyedOutState(label);
             this.saveReminders();
-        });
+        };
+
+        // Add the paste event listener
+        label.addEventListener('paste', this.pasteEventListener);
 
         label.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -451,12 +452,15 @@ class ReminderManager {
                     newReminder.textContent = reminder.text;
                     newReminder.classList.toggle('greyed-out', !reminder.text || reminder.text === 'New Reminder');
                     newListGroup.querySelector(`#checkbox-${reminderIndex}`).checked = reminder.checked;
-                    const importantButton = newListGroup.querySelector(`#important-checkbox-${reminderIndex}`).nextElementSibling;
+                    const importantButton = newListGroup.querySelector(`#button-${reminderIndex}`);
                     if (reminder.important) {
                         importantButton.style.color = this.importantColor;
                         importantButton.textContent = '!!';
                     }
                     newListGroup.querySelector(`#date-${reminderIndex}`).value = reminder.date;
+
+                    // Reapply event listener for the important button
+                    this.setupImportantCheckboxListener(reminderIndex);
                 });
             });
 
