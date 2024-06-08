@@ -81,6 +81,9 @@ class ReminderManager {
             if (event.target.matches('.checkbox-container input[type="checkbox"]')) {
                 this.updateClearRemindersButtonState();
             }
+            if (event.target.matches('.date-input')) {
+                this.saveReminders();
+            }
         });
 
         this.containerElement.addEventListener('input', event => {
@@ -261,6 +264,16 @@ class ReminderManager {
     makeLabelEditable(label) {
         label.setAttribute('contenteditable', 'true');
         label.focus();
+
+        // Add paste event listener to sanitize pasted content
+        label.addEventListener('paste', (event) => {
+            event.preventDefault();
+            const text = (event.clipboardData || window.clipboardData).getData('text');
+            document.execCommand('insertText', false, text);
+            this.updateGreyedOutState(label);
+            this.saveReminders();
+        });
+
         label.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -387,12 +400,29 @@ class ReminderManager {
     }
 
     saveReminders() {
+        const reminders = [];
+        this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
+            const group = {
+                title: listGroup.querySelector('.group-title').textContent,
+                checked: listGroup.querySelector('.list-group-header input[type="checkbox"]').checked,
+                reminders: []
+            };
+            listGroup.querySelectorAll('.checkbox-container').forEach(reminder => {
+                group.reminders.push({
+                    text: reminder.querySelector('.editable-label').textContent,
+                    checked: reminder.querySelector('input[type="checkbox"]').checked,
+                    important: reminder.querySelector('button').textContent === '!!',
+                    date: reminder.querySelector('.date-input').value
+                });
+            });
+            reminders.push(group);
+        });
         const remindersState = {
             reminderCounter: this.reminderCounter,
             groupCounter: this.groupCounter,
             showingImportant: this.showingImportant,
             sortedByDate: this.sortedByDate,
-            reminders: this.containerElement.innerHTML
+            reminders: reminders
         };
         localStorage.setItem('remindersState', JSON.stringify(remindersState));
     }
@@ -405,7 +435,30 @@ class ReminderManager {
             this.groupCounter = remindersState.groupCounter;
             this.showingImportant = remindersState.showingImportant;
             this.sortedByDate = remindersState.sortedByDate;
-            this.containerElement.innerHTML = remindersState.reminders;
+
+            this.containerElement.innerHTML = '';
+            remindersState.reminders.forEach((group, groupIndex) => {
+                const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: groupIndex});
+                this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
+                const newListGroup = this.containerElement.querySelector(`#list-group-${groupIndex}`);
+                newListGroup.querySelector('.group-title').textContent = group.title;
+                newListGroup.querySelector('.list-group-header input[type="checkbox"]').checked = group.checked;
+
+                group.reminders.forEach((reminder, reminderIndex) => {
+                    const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id: reminderIndex});
+                    newListGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
+                    const newReminder = newListGroup.querySelector(`#label-${reminderIndex}`);
+                    newReminder.textContent = reminder.text;
+                    newReminder.classList.toggle('greyed-out', !reminder.text || reminder.text === 'New Reminder');
+                    newListGroup.querySelector(`#checkbox-${reminderIndex}`).checked = reminder.checked;
+                    const importantButton = newListGroup.querySelector(`#important-checkbox-${reminderIndex}`).nextElementSibling;
+                    if (reminder.important) {
+                        importantButton.style.color = this.importantColor;
+                        importantButton.textContent = '!!';
+                    }
+                    newListGroup.querySelector(`#date-${reminderIndex}`).value = reminder.date;
+                });
+            });
 
             if (this.showingImportant) {
                 this.filterImportantReminders();
