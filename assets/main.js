@@ -16,6 +16,9 @@ class ReminderManager {
         this.clearRemindersButton = document.getElementById('clear-reminders');
         this.showImportantButton = document.getElementById('show-important');
         this.sortByDateButton = document.getElementById('sort-by-date');
+        this.originalState = null;
+        this.currentState = null;
+        this.tempDateGroup = null;
         this.registerEventListeners();
         this.loadReminders();
         this.updateClearRemindersButtonState();
@@ -80,7 +83,10 @@ class ReminderManager {
                 this.updateClearRemindersButtonState();
             }
             if (event.target.matches('.date-input')) {
+                const reminderElement = event.target.closest('.checkbox-container');
+                reminderElement.dataset.hasDate = event.target.value ? 'true' : 'false';
                 this.saveReminders();
+                this.updateFilterAndSortButtonState();
             }
         });
 
@@ -101,11 +107,13 @@ class ReminderManager {
     cancelFilters() {
         if (this.showingImportant) {
             this.toggleButtonTextColor(this.showImportantButton);
-            this.filterImportantReminders();
+            this.showingImportant = false;
         }
         if (this.sortedByDate) {
             this.toggleSortByDate();
+            this.sortedByDate = false;
         }
+        this.restoreOriginalState();
     }
 
     toggleButtonTextColor(button) {
@@ -152,7 +160,7 @@ class ReminderManager {
     }
 
     checkForRemindersWithDates() {
-        return !!this.containerElement.querySelector('.checkbox-container .date-input[value]');
+        return !!this.containerElement.querySelector('.checkbox-container[data-has-date="true"]');
     }
 
     filterImportantReminders() {
@@ -160,13 +168,11 @@ class ReminderManager {
         const listGroups = this.containerElement.querySelectorAll('.list-group');
         listGroups.forEach(listGroup => {
             const reminders = listGroup.querySelectorAll('.checkbox-container');
-            let hasImportant = false;
             reminders.forEach(reminder => {
                 const importantButton = reminder.querySelector('button');
                 if (this.showingImportant) {
                     if (importantButton.textContent === '!!') {
                         reminder.style.display = '';
-                        hasImportant = true;
                     } else {
                         reminder.style.display = 'none';
                     }
@@ -174,18 +180,99 @@ class ReminderManager {
                     reminder.style.display = '';
                 }
             });
-            if (this.showingImportant && hasImportant) {
-                listGroup.style.outline = `2px solid ${this.importantColor}`;
-                listGroup.style.display = '';
-            } else {
-                listGroup.style.outline = '';
-                if (this.showingImportant) {
-                    listGroup.style.display = 'none';
-                } else {
-                    listGroup.style.display = '';
-                }
-            }
         });
+    }
+
+    toggleSortByDate() {
+        if (!this.sortedByDate) {
+            this.sortedByDate = true;
+            this.collectRemindersWithDates();
+        } else {
+            this.sortedByDate = false;
+            this.restoreRemindersToOriginalPositions();
+        }
+        this.saveReminders();
+    }
+
+    collectRemindersWithDates() {
+        const dateGroup = {
+            title: "Reminders with Dates",
+            checked: false,
+            reminders: []
+        };
+
+        this.currentState.reminders.forEach(group => {
+            group.reminders = group.reminders.filter(reminder => {
+                if (reminder.date) {
+                    dateGroup.reminders.push(reminder);
+                    return false;
+                }
+                return true;
+            });
+        });
+
+        this.tempDateGroup = dateGroup;
+        this.currentState.reminders.unshift(dateGroup);
+        this.renderReminders();
+    }
+
+    restoreRemindersToOriginalPositions() {
+        if (this.tempDateGroup) {
+            this.tempDateGroup.reminders.forEach(reminder => {
+                this.currentState.reminders.some(group => {
+                    if (group.title !== "Reminders with Dates") {
+                        group.reminders.push(reminder);
+                        return true;
+                    }
+                    return false;
+                });
+            });
+            this.currentState.reminders = this.currentState.reminders.filter(group => group.title !== "Reminders with Dates");
+            this.tempDateGroup = null;
+            this.renderReminders();
+        }
+    }
+
+    renderReminders() {
+        this.containerElement.innerHTML = '';
+        this.currentState.reminders.forEach((group, groupIndex) => {
+            const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: groupIndex});
+            this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
+            const newListGroup = this.containerElement.querySelector(`#list-group-${groupIndex}`);
+            newListGroup.querySelector('.group-title').textContent = group.title;
+            newListGroup.querySelector('.list-group-header input[type="checkbox"]').checked = group.checked;
+
+            group.reminders.forEach((reminder, reminderIndex) => {
+                const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id: reminderIndex});
+                newListGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
+                const newReminder = newListGroup.querySelector(`#label-${reminderIndex}`);
+                newReminder.textContent = reminder.text;
+                newReminder.classList.toggle('greyed-out', !reminder.text || reminder.text === 'New Reminder');
+                newListGroup.querySelector(`#checkbox-${reminderIndex}`).checked = reminder.checked;
+                const importantButton = newListGroup.querySelector(`#button-${reminderIndex}`);
+                if (reminder.important) {
+                    importantButton.style.color = this.importantColor;
+                    importantButton.textContent = '!!';
+                }
+                newListGroup.querySelector(`#date-${reminderIndex}`).value = reminder.date;
+
+                this.setupImportantCheckboxListener(reminderIndex);
+                const reminderElement = newListGroup.querySelector(`.checkbox-container[data-id="${reminderIndex}"]`);
+                reminderElement.dataset.hasDate = reminder.date ? 'true' : 'false';
+            });
+        });
+
+        if (this.showingImportant) {
+            this.filterImportantReminders();
+        }
+
+        if (this.sortedByDate) {
+            this.toggleSortByDate();
+        }
+
+        this.updateClearRemindersButtonState();
+        this.updateFilterAndSortButtonState();
+        this.reattachImportantListeners();
     }
 
     toggleTextColorAndLabel(button) {
@@ -240,6 +327,9 @@ class ReminderManager {
 
         const dateInput = listGroup.querySelector(`#date-${id}`);
         dateInput.classList.add('date-input');
+
+        const reminderElement = listGroup.querySelector(`.checkbox-container[data-id="${id}"]`);
+        reminderElement.dataset.hasDate = 'false';
 
         this.makeLabelEditable(newReminder);
         this.saveReminders();
@@ -350,59 +440,8 @@ class ReminderManager {
         this.saveReminders();
     }
 
-    toggleSortByDate() {
-        this.sortedByDate = !this.sortedByDate;
-
-        if (this.sortedByDate) {
-            this.sortByDateButton.classList.add('blue-text');
-        } else {
-            this.sortByDateButton.classList.remove('blue-text');
-        }
-
-        const listGroups = this.containerElement.querySelectorAll('.list-group');
-
-        listGroups.forEach(listGroup => {
-            const remindersContainer = listGroup.querySelector('.reminders-container');
-            const reminders = Array.from(remindersContainer.querySelectorAll('.checkbox-container'));
-
-            reminders.forEach(reminder => {
-                const dateLabel = reminder.querySelector('.date-input');
-                if (this.sortedByDate) {
-                    dateLabel.classList.add('blue-text');
-                } else {
-                    dateLabel.classList.remove('blue-text');
-                }
-            });
-
-            if (this.sortedByDate) {
-                if (!this.originalOrders.has(remindersContainer)) {
-                    this.originalOrders.set(remindersContainer, reminders.slice());
-                }
-
-                const remindersWithDate = reminders.filter(reminder => reminder.querySelector('.date-input').value);
-                remindersWithDate.sort((a, b) => new Date(b.querySelector('.date-input').value) - new Date(a.querySelector('.date-input').value));
-
-                const remindersWithoutDate = reminders.filter(reminder => !reminder.querySelector('.date-input').value);
-
-                remindersWithDate.forEach(reminder => remindersContainer.removeChild(reminder));
-                remindersWithoutDate.forEach(reminder => remindersContainer.removeChild(reminder));
-
-                remindersWithDate.forEach(reminder => remindersContainer.appendChild(reminder));
-                remindersWithoutDate.forEach(reminder => remindersContainer.appendChild(reminder));
-            } else {
-                const originalReminders = this.originalOrders.get(remindersContainer);
-                if (originalReminders) {
-                    reminders.forEach(reminder => remindersContainer.removeChild(reminder));
-                    originalReminders.forEach(reminder => remindersContainer.appendChild(reminder));
-                }
-            }
-        });
-
-        this.saveReminders();
-    }
-
-    saveReminders() {
-        const reminders = [];
+    remindersToArray() {
+        const remindersArray = [];
         this.containerElement.querySelectorAll('.list-group').forEach(listGroup => {
             const group = {
                 title: listGroup.querySelector('.group-title').textContent,
@@ -417,16 +456,35 @@ class ReminderManager {
                     date: reminder.querySelector('.date-input').value
                 });
             });
-            reminders.push(group);
+            remindersArray.push(group);
         });
+        return remindersArray;
+    }
+
+    deepCopyState(state) {
+        return JSON.parse(JSON.stringify(state));
+    }
+
+    saveReminders() {
         const remindersState = {
             reminderCounter: this.reminderCounter,
             groupCounter: this.groupCounter,
             showingImportant: this.showingImportant,
             sortedByDate: this.sortedByDate,
-            reminders: reminders
+            reminders: this.remindersToArray()
         };
+        if (!this.originalState) {
+            this.originalState = this.deepCopyState(remindersState);
+        }
+        this.currentState = this.deepCopyState(remindersState);
         localStorage.setItem('remindersState', JSON.stringify(remindersState));
+    }
+
+    restoreOriginalState() {
+        if (this.originalState) {
+            this.currentState = this.deepCopyState(this.originalState);
+            this.renderReminders();
+        }
     }
 
     loadReminders() {
@@ -437,44 +495,9 @@ class ReminderManager {
             this.groupCounter = remindersState.groupCounter;
             this.showingImportant = remindersState.showingImportant;
             this.sortedByDate = remindersState.sortedByDate;
-
-            this.containerElement.innerHTML = '';
-            remindersState.reminders.forEach((group, groupIndex) => {
-                const newListGroupHtml = Handlebars.compile(document.getElementById('list-group-template').innerHTML)({id: groupIndex});
-                this.containerElement.insertAdjacentHTML('beforeend', newListGroupHtml);
-                const newListGroup = this.containerElement.querySelector(`#list-group-${groupIndex}`);
-                newListGroup.querySelector('.group-title').textContent = group.title;
-                newListGroup.querySelector('.list-group-header input[type="checkbox"]').checked = group.checked;
-
-                group.reminders.forEach((reminder, reminderIndex) => {
-                    const newReminderHtml = Handlebars.compile(document.getElementById('reminder-template').innerHTML)({id: reminderIndex});
-                    newListGroup.querySelector('.reminders-container').insertAdjacentHTML('beforeend', newReminderHtml);
-                    const newReminder = newListGroup.querySelector(`#label-${reminderIndex}`);
-                    newReminder.textContent = reminder.text;
-                    newReminder.classList.toggle('greyed-out', !reminder.text || reminder.text === 'New Reminder');
-                    newListGroup.querySelector(`#checkbox-${reminderIndex}`).checked = reminder.checked;
-                    const importantButton = newListGroup.querySelector(`#button-${reminderIndex}`);
-                    if (reminder.important) {
-                        importantButton.style.color = this.importantColor;
-                        importantButton.textContent = '!!';
-                    }
-                    newListGroup.querySelector(`#date-${reminderIndex}`).value = reminder.date;
-
-                    this.setupImportantCheckboxListener(reminderIndex);
-                });
-            });
-
-            if (this.showingImportant) {
-                this.filterImportantReminders();
-            }
-
-            if (this.sortedByDate) {
-                this.toggleSortByDate();
-            }
-
-            this.updateClearRemindersButtonState();
-            this.updateFilterAndSortButtonState();
-            this.reattachImportantListeners();
+            this.originalState = this.deepCopyState(remindersState);
+            this.currentState = this.deepCopyState(remindersState);
+            this.renderReminders();
         }
     }
 }
