@@ -119,3 +119,20 @@ export function toggleDateButtonState() {
         dateButton.classList.add('inactive');
     }
 }
+
+export function filterRemindersByDate() {
+    const dateButton = document.querySelector('#sort-by-date');
+    const isActive = dateButton.classList.contains('active');
+    this.listGroups.forEach(group => {
+        const remindersContainer = document.querySelector(`#reminders-container-${group.id}`);
+        group.reminders.forEach(reminder => {
+            const reminderElement = remindersContainer.querySelector(`[data-id="${reminder.id}"]`);
+            if (isActive) {
+                reminderElement.style.display = 'block';
+            } else {
+                reminderElement.style.display = reminder.date ? 'block' : 'none';
+            }
+        });
+    });
+    dateButton.classList.toggle('active');
+}

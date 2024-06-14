@@ -1,4 +1,4 @@
-import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState } from './functions.js';
+import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState, filterRemindersByDate } from './functions.js';
 import { updateListGroup } from './noteService.js';
 
 class ReminderApp {
@@ -21,6 +21,7 @@ class ReminderApp {
 
         this.toolbarNewGroupButton.addEventListener('click', () => this.createNewListGroup());
         this.clearRemindersButton.addEventListener('click', () => this.clearAllListGroups());
+        this.dateButton.addEventListener('click', () => this.filterRemindersByDate());
 
         await this.loadListGroups();
         this.toggleDateButtonState();
@@ -56,6 +57,10 @@ class ReminderApp {
 
     toggleDateButtonState() {
         toggleDateButtonState.call(this);
+    }
+
+    filterRemindersByDate() {
+        filterRemindersByDate.call(this);
     }
 
     addListGroupEventListeners(listGroupElement, groupId) {

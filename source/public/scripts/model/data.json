@@ -1,12 +1,66 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "title": "Group Title",
     "reminders": [
       {
         "id": 0,
         "text": "New Reminder",
-        "date": "2024-06-25",
+        "date": "2024-06-06",
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Group Title",
+    "reminders": [
+      {
+        "id": 1,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 2,
+        "text": "New Reminder",
+        "date": "2024-06-05",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 3,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 4,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 5,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Group Title",
+    "reminders": [
+      {
+        "id": 0,
+        "text": "New Reminder",
+        "date": "2024-06-11",
         "important": false,
         "checked": false
       },
@@ -30,13 +84,7 @@
         "date": "",
         "important": false,
         "checked": false
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "title": "Group Title",
-    "reminders": [
+      },
       {
         "id": 4,
         "text": "New Reminder",
@@ -47,10 +95,16 @@
       {
         "id": 5,
         "text": "New Reminder",
-        "date": "2024-06-20",
+        "date": "",
         "important": false,
         "checked": false
-      },
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Group Title",
+    "reminders": [
       {
         "id": 6,
         "text": "New Reminder",
@@ -64,13 +118,29 @@
         "date": "",
         "important": false,
         "checked": false
+      },
+      {
+        "id": 8,
+        "text": "New Reminder",
+        "date": "2024-06-12",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 9,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 10,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
       }
     ]
-  },
-  {
-    "id": 3,
-    "title": "Group Title",
-    "reminders": []
   },
   {
     "id": 4,
