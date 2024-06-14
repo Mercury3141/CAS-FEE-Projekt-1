@@ -8,8 +8,8 @@ export async function createNewListGroup() {
             reminders: []
         };
         this.listGroups.push(newListGroup);
+        await this.saveState();
         this.renderListGroups();
-        await saveListGroups(this.listGroups);
     } catch (error) {
         console.error('Error creating new list group:', error);
     }
@@ -22,13 +22,22 @@ export async function createNewReminder(groupId) {
             id: this.reminderIdCounter++,
             text: 'New Reminder',
             date: '',
-            important: false
+            important: false,
+            checked: false
         };
         listGroup.reminders.push(newReminder);
+        await this.saveState();
         this.renderListGroups();
-        await updateListGroup(groupId, listGroup);
     } catch (error) {
         console.error('Error creating new reminder:', error);
+    }
+}
+
+export async function saveState() {
+    try {
+        await saveListGroups(this.listGroups);
+    } catch (error) {
+        console.error('Error saving list groups:', error);
     }
 }
 
@@ -55,6 +64,11 @@ export function renderReminders(group, remindersContainer) {
         const reminderElement = tempDiv.firstElementChild;
         remindersContainer.appendChild(reminderElement);
         this.addReminderEventListeners(reminderElement, group.id, reminder.id);
+
+        // Restore the state
+        reminderElement.querySelector(`#checkbox-${reminder.id}`).checked = reminder.checked;
+        reminderElement.querySelector(`#date-${reminder.id}`).value = reminder.date;
+        reminderElement.querySelector(`#button-${reminder.id}`).innerText = reminder.important ? '!!' : '!';
     });
 }
 
@@ -72,8 +86,8 @@ export async function loadListGroups() {
 export async function clearAllListGroups() {
     try {
         this.listGroups = [];
+        await this.saveState();
         this.renderListGroups();
-        await saveListGroups(this.listGroups);
     } catch (error) {
         console.error('Error clearing list groups:', error);
     }
