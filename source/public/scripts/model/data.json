@@ -5,8 +5,29 @@
     "reminders": [
       {
         "id": 0,
-        "text": "New Reminder",
+        "text": "New sdfasdf",
         "date": "2024-06-06",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 0,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 1,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 2,
+        "text": "New Reminder",
+        "date": "",
         "important": false,
         "checked": false
       }
@@ -18,7 +39,7 @@
     "reminders": [
       {
         "id": 1,
-        "text": "New Reminder",
+        "text": "sdfasdfasd",
         "date": "",
         "important": false,
         "checked": false
@@ -32,7 +53,7 @@
       },
       {
         "id": 3,
-        "text": "New Reminder",
+        "text": "HEellosadfasdf",
         "date": "",
         "important": false,
         "checked": false
@@ -144,6 +165,31 @@
   },
   {
     "id": 4,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 0,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 1,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 0,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 0,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 0,
     "title": "Group Title",
     "reminders": []
   }

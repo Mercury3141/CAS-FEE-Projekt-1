@@ -1,4 +1,4 @@
-import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState, filterRemindersByDate } from './functions.js';
+import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState, filterRemindersByDate, makeEditable, updateGroupTitle, updateReminderText } from './functions.js';
 import { updateListGroup } from './noteService.js';
 
 class ReminderApp {
@@ -78,6 +78,13 @@ class ReminderApp {
                 await updateListGroup(groupId, listGroup);
             });
         });
+
+        const groupTitle = listGroupElement.querySelector('.group-title');
+        groupTitle.addEventListener('click', () => {
+            makeEditable(groupTitle, async (newTitle) => {
+                await updateGroupTitle.call(this, groupId, newTitle);
+            });
+        });
     }
 
     addReminderEventListeners(reminderElement, groupId, reminderId) {
@@ -114,6 +121,13 @@ class ReminderApp {
         });
 
         dateInput.addEventListener('input', () => this.toggleDateButtonState());
+
+        const reminderText = reminderElement.querySelector('.editable-label.text-list');
+        reminderText.addEventListener('click', () => {
+            makeEditable(reminderText, async (newText) => {
+                await updateReminderText.call(this, groupId, reminderId, newText);
+            });
+        });
     }
 }
 
