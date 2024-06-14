@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminders</title>
+    <script src="./libraries/handlebars.min.js" defer></script>
+    <script src="./scripts/utils/noteService.js" defer></script>
+    <script src="./scripts/controllers/userControllers.js" defer></script>
+    <script src="./scripts/model/route.js" defer></script>
+    <script src="./scripts/model/store.js" defer></script>
+    <script src="./scripts/utils/classes.js" defer></script>
+    <script src="./scripts/utils/functions.js" defer></script>
+    <link rel="stylesheet" href="./styles/main.css"/>
+</head>
+<body>
+<header></header>
+<main>
+    <section>
+        <div class="flex-container">
+            <div class="flex-container-fixed">
+                <div class="toolbar">
+                    <button class="color-main" id="toolbar-new-reminder">New</button>
+                    <div class="spacer-gap"></div>
+                    <button class="color-main" id="show-important">Important</button>
+                    <div class="spacer-elements"></div>
+                    <button class="color-main button-margin-left" id="sort-by-date">Date</button>
+                    <div class="spacer-fill"></div>
+                    <button class="button-margin-left color-caution inactive" id="clear-reminders">Clear</button>
+                </div>
+            </div>
+            <div class="flex-container-scroll" id="flex-container-elements"></div>
+        </div>
+    </section>
+</main>
+<footer></footer>
+
+<script id="list-group-template" type="text/x-handlebars-template">
+    <div class="list-group" data-id="{{id}}">
+        <div class="list-group-header">
+            <input type="checkbox" id="group-checkbox-{{id}}">
+            <span class="editable-label group-title text-font text-title" id="group-title-{{id}}" contenteditable="false">Group Title</span>
+        </div>
+        <button data-action="create-reminder">New Reminder</button>
+        <div class="reminders-container" id="reminders-container-{{id}}"></div>
+    </div>
+</script>
+
+<script id="reminder-template" type="text/x-handlebars-template">
+    <div class="checkbox-container" data-id="{{id}}">
+        <input type="checkbox" id="checkbox-{{id}}">
+        <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
+        <input class="date-input" type="date" id="date-{{id}}">
+        <button id="button-{{id}}" data-action="toggle-important">!</button>
+        <br/>
+    </div>
+</script>
+</body>
+</html>
+
+test

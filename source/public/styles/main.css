@@ -1,0 +1,298 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    --background-color: rgb(238, 238, 240);
+    --background-color-bubble: rgb(255, 255, 255);
+    --important-color: rgb(255, 184, 110);
+    --selection-color: rgb(0, 122, 255);
+    --text-color: rgb(67, 67, 67);
+    --base-font-size: 16px;
+    --border-radius: 28px;
+    --z-index-base: 1;
+    --z-index-toolbar: 100;
+    --z-index-menu: 1000;
+    --z-index-sheet: 2000;
+    --z-index-alert: 3000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: rgb(28, 28, 28);
+        --background-color-bubble: rgb(48, 48, 48);
+        --important-color: rgb(156, 40, 0);
+        --text-color: rgb(255, 255, 255);
+    }
+}
+
+body,
+html {
+    display: flex;
+    justify-content: center;
+    background-color: var(--background-color);
+}
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 96vw;
+    max-width: 1200px;
+    margin: 8px 16px;
+}
+
+.flex-container-fixed {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 16px;
+    z-index: var(--z-index-toolbar);
+}
+
+.flex-container-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 80vh;
+    width: 96vw;
+    max-width: 1200px;
+    overflow: auto;
+}
+
+.flex-container-elements {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+    border-radius: var(--border-radius);
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    overflow: hidden;
+    width: 100%;
+    max-height: 46px;
+    margin: 8px 8px;
+    padding: 20px 20px 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-bubble);
+}
+
+.list-group {
+    flex: 1;
+    flex-direction: column;
+    min-width: 260px;
+    margin: 8px 8px;
+    padding: 20px 20px 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-bubble);
+}
+
+.date-input {
+    background-color: var(--background-color-bubble);
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+
+.list-element {
+    flex: 1;
+    flex-direction: row;
+    align-items: flex-start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.spacer-fill {
+    flex-grow: 1;
+}
+
+.spacer-gap {
+    min-width: 2.4em;
+}
+
+.spacer-elements {
+    min-width: 0.8em;
+}
+
+.button-margin-bottom {
+    margin-bottom: 0.8em;
+}
+
+.color-caution {
+    color: rgb(255, 59, 48);
+}
+
+.element-text {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    max-width: 600px;
+}
+
+.text-font {
+    /*font-family: "Comfortaa", sans-serif;*/
+    /*font-optical-sizing: auto;*/
+    font-style: normal;
+    writing-mode: horizontal-tb;
+    margin-block-start: auto;
+    hyphens: auto;
+    white-space: normal;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.text-title {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.text-list {
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+.text-label {
+    font-size: 0.8em;
+    font-weight: 300;
+    color: var(--text-color);
+}
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    opacity: 0.968;
+}
+
+#infoButton {
+    position: relative;
+    z-index: -1000;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--background-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 16px;
+    padding: 16px 0;
+    position: absolute;
+    z-index: var(--z-index-menu: 1000);
+    bottom: auto;
+    left: auto;
+    right: 120%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0;
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 0.2s ease;
+    animation: fadeIn 0.2s ease;
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.checkbox-container input[type="checkbox"]:checked + .editable-label {
+    text-decoration: line-through;
+}
+
+.checkbox-container {
+    align-items: center;
+}
+
+.editable-label {
+    cursor: text;
+    padding: 2px 4px;
+    border: 1px dashed transparent;
+}
+
+.editable-label[contenteditable="true"] {
+    border: 1px dashed #000;
+}
+
+.list-group-header {
+    display: flex;
+    align-items: center;
+}
+
+.list-group-header input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+button[data-action="create-reminder"], .toolbar button {
+    margin: 10px 0;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+
+.inactive {
+    color: grey;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.active {
+    color: rgb(255, 59, 48);
+    cursor: pointer;
+}
+
+.greyed-out {
+    color: grey;
+}
+
+.blue-text {
+    color: rgb(0, 122, 240);
+}
+
+button {
+    background-color: var(--background-color-bubble);
+    border: 1px solid var(--background-color-bubble); /* Optional: Add a border */
+    /*padding: 5px 10px; !* Optional: Add some padding *!*/
+    border-radius: 4px; /* Optional: Add border radius */
+    cursor: pointer; /* Optional: Change cursor to pointer */
+    color: var(--text-color);
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+#clear-reminders {
+    margin-right: 20px; /* Indent the button to the right */
+}
+
+.selected-list-group {
+    outline: 2px solid rgb(0, 122, 255);
+}
+
