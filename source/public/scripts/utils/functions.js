@@ -1,6 +1,6 @@
-import {getListGroups, saveListGroups, updateListGroup} from "./noteService";
+import { getListGroups, saveListGroups, updateListGroup } from './noteService.js';
 
-async createNewListGroup() {
+export async function createNewListGroup() {
     try {
         const newListGroup = {
             id: this.groupIdCounter++,
@@ -15,7 +15,7 @@ async createNewListGroup() {
     }
 }
 
-async createNewReminder(groupId) {
+export async function createNewReminder(groupId) {
     try {
         const listGroup = this.listGroups.find(group => group.id === groupId);
         const newReminder = {
@@ -32,7 +32,7 @@ async createNewReminder(groupId) {
     }
 }
 
-renderListGroups() {
+export function renderListGroups() {
     this.flexContainerElements.innerHTML = '';
     this.listGroups.forEach(group => {
         const newListGroupHtml = this.compiledListGroupTemplate(group);
@@ -46,7 +46,7 @@ renderListGroups() {
     this.toggleClearButtonState();
 }
 
-renderReminders(group, remindersContainer) {
+export function renderReminders(group, remindersContainer) {
     remindersContainer.innerHTML = '';
     group.reminders.forEach(reminder => {
         const newReminderHtml = this.compiledReminderTemplate(reminder);
@@ -58,13 +58,7 @@ renderReminders(group, remindersContainer) {
     });
 }
 
-const checkboxes = reminderElement.querySelectorAll('input[type="checkbox"]');
-checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => this.toggleClearButtonState());
-});
-}
-
-async loadListGroups() {
+export async function loadListGroups() {
     try {
         console.log('Attempting to fetch list groups...');
         this.listGroups = await getListGroups();
@@ -75,7 +69,7 @@ async loadListGroups() {
     }
 }
 
-async clearAllListGroups() {
+export async function clearAllListGroups() {
     try {
         this.listGroups = [];
         this.renderListGroups();
@@ -85,7 +79,7 @@ async clearAllListGroups() {
     }
 }
 
-toggleClearButtonState() {
+export function toggleClearButtonState() {
     const checkboxes = document.querySelectorAll('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
     if (anyChecked) {
@@ -96,5 +90,3 @@ toggleClearButtonState() {
         this.clearRemindersButton.classList.add('inactive');
     }
 }
-
-new ReminderApp();
