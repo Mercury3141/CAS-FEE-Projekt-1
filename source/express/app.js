@@ -1,10 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
 const dataFilePath = path.join(__dirname, '../public/scripts/model/data.json');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 

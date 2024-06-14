@@ -54,6 +54,7 @@
     "compression": "^1.7.3",
     "concat-map": "^0.0.1",
     "content-disposition": "^0.5.2",
+    "cors": "^2.8.5",
     "cross-spawn": "^5.1.0",
     "debug": "^2.6.9",
     "deep-extend": "^0.6.0",

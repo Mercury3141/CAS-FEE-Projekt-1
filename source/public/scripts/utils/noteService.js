@@ -1,4 +1,4 @@
-const apiUrl = '/api/list-groups';
+const apiUrl = 'http://localhost:3000/api/list-groups';
 
 export const getListGroups = async () => {
     try {
