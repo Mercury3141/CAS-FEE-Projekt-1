@@ -1,4 +1,5 @@
 import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState } from './functions.js';
+import { updateListGroup } from './noteService.js'; // Ensure this import is present
 
 class ReminderApp {
     constructor() {
@@ -8,20 +9,18 @@ class ReminderApp {
     }
 
     async init() {
-        document.addEventListener('DOMContentLoaded', async () => {
-            this.toolbarNewGroupButton = document.querySelector('#toolbar-new-reminder');
-            this.clearRemindersButton = document.querySelector('#clear-reminders');
-            this.flexContainerElements = document.querySelector('#flex-container-elements');
-            this.listGroupTemplate = document.querySelector('#list-group-template').innerHTML;
-            this.reminderTemplate = document.querySelector('#reminder-template').innerHTML;
-            this.compiledListGroupTemplate = Handlebars.compile(this.listGroupTemplate);
-            this.compiledReminderTemplate = Handlebars.compile(this.reminderTemplate);
+        this.toolbarNewGroupButton = document.querySelector('#toolbar-new-reminder');
+        this.clearRemindersButton = document.querySelector('#clear-reminders');
+        this.flexContainerElements = document.querySelector('#flex-container-elements');
+        this.listGroupTemplate = document.querySelector('#list-group-template').innerHTML;
+        this.reminderTemplate = document.querySelector('#reminder-template').innerHTML;
+        this.compiledListGroupTemplate = Handlebars.compile(this.listGroupTemplate);
+        this.compiledReminderTemplate = Handlebars.compile(this.reminderTemplate);
 
-            this.toolbarNewGroupButton.addEventListener('click', () => this.createNewListGroup());
-            this.clearRemindersButton.addEventListener('click', () => this.clearAllListGroups());
+        this.toolbarNewGroupButton.addEventListener('click', () => this.createNewListGroup());
+        this.clearRemindersButton.addEventListener('click', () => this.clearAllListGroups());
 
-            await this.loadListGroups();
-        });
+        await this.loadListGroups();
     }
 
     async createNewListGroup() {

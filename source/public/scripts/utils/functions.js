@@ -82,11 +82,17 @@ export async function clearAllListGroups() {
 export function toggleClearButtonState() {
     const checkboxes = document.querySelectorAll('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    if (anyChecked) {
-        this.clearRemindersButton.classList.remove('inactive');
-        this.clearRemindersButton.classList.add('color-caution');
-    } else {
-        this.clearRemindersButton.classList.remove('color-caution');
-        this.clearRemindersButton.classList.add('inactive');
+    switch (anyChecked) {
+        case true:
+            this.clearRemindersButton.classList.remove('inactive');
+            this.clearRemindersButton.classList.add('color-caution');
+            break;
+        case false:
+            this.clearRemindersButton.classList.remove('color-caution');
+            this.clearRemindersButton.classList.add('inactive');
+            break;
+        default:
+            console.error('Unexpected checkbox state');
+            break;
     }
 }
