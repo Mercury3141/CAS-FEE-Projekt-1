@@ -1,6 +1,6 @@
 import { getListGroups, saveListGroups, updateListGroup, deleteListGroup } from '../utils/noteService.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const toolbarNewButton = document.querySelector('#toolbar-new-reminder');
     const flexContainerElements = document.querySelector('#flex-container-elements');
     const listGroupTemplate = document.querySelector('#list-group-template').innerHTML;
@@ -10,14 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let listGroups = [];
 
     const createNewListGroup = async () => {
-        const newListGroup = {
-            id: groupIdCounter++,
-            title: 'Group Title',
-            reminders: []
-        };
-        listGroups.push(newListGroup);
-        renderListGroups();
-        await saveListGroups(listGroups);
+        try {
+            const newListGroup = {
+                id: groupIdCounter++,
+                title: 'Group Title',
+                reminders: []
+            };
+            listGroups.push(newListGroup);
+            renderListGroups();
+            await saveListGroups(listGroups);
+        } catch (error) {
+            console.error('Error creating new list group:', error);
+        }
     };
 
     const renderListGroups = () => {
@@ -35,21 +39,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const addListGroupEventListeners = (listGroupElement, groupId) => {
         const newReminderButton = listGroupElement.querySelector('[data-action="create-reminder"]');
         const onNewReminderClick = async () => {
-
-            const listGroup = listGroups.find(group => group.id === groupId);
-            listGroup.reminders.push({ text: 'New Reminder' });
-            await updateListGroup(groupId, listGroup);
-            renderListGroups();
+            try {
+                const listGroup = listGroups.find(group => group.id === groupId);
+                listGroup.reminders.push({ text: 'New Reminder' });
+                await updateListGroup(groupId, listGroup);
+                renderListGroups();
+            } catch (error) {
+                console.error('Error creating new reminder:', error);
+            }
         };
         newReminderButton.addEventListener('click', onNewReminderClick);
     };
 
     const loadListGroups = async () => {
-        listGroups = await getListGroups();
-        renderListGroups();
+        try {
+            listGroups = await getListGroups();
+            renderListGroups();
+        } catch (error) {
+            console.error('Error loading list groups:', error);
+        }
     };
 
     toolbarNewButton.addEventListener('click', createNewListGroup);
 
-    loadListGroups();
+    await loadListGroups();
 });
