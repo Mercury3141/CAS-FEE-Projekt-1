@@ -2,6 +2,7 @@ import { getListGroups, saveListGroups, updateListGroup, deleteListGroup } from 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const toolbarNewButton = document.querySelector('#toolbar-new-reminder');
+    const clearRemindersButton = document.querySelector('#clear-reminders');
     const flexContainerElements = document.querySelector('#flex-container-elements');
     const listGroupTemplate = document.querySelector('#list-group-template').innerHTML;
     const compiledListGroupTemplate = Handlebars.compile(listGroupTemplate);
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             flexContainerElements.appendChild(listGroupElement);
             addListGroupEventListeners(listGroupElement, group.id);
         });
+        toggleClearButtonState();
     };
 
     const addListGroupEventListeners = (listGroupElement, groupId) => {
@@ -50,19 +52,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         newReminderButton.addEventListener('click', onNewReminderClick);
 
-        const deleteButton = listGroupElement.querySelector('[data-action="delete-group"]');
-        if (deleteButton) {
-            const onDeleteGroupClick = async () => {
-                try {
-                    listGroups = listGroups.filter(group => group.id !== groupId);
-                    await deleteListGroup(groupId);
-                    renderListGroups();
-                } catch (error) {
-                    console.error('Error deleting list group:', error);
-                }
-            };
-            deleteButton.addEventListener('click', onDeleteGroupClick);
-        }
+        const checkboxes = listGroupElement.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', toggleClearButtonState);
+        });
     };
 
     const loadListGroups = async () => {
@@ -74,7 +67,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    const clearAllListGroups = async () => {
+        try {
+            listGroups = [];
+            renderListGroups();
+            await saveListGroups(listGroups);
+        } catch (error) {
+            console.error('Error clearing list groups:', error);
+        }
+    };
+
+    const toggleClearButtonState = () => {
+        const checkboxes = document.querySelectorAll('.list-group input[type="checkbox"], .reminder input[type="checkbox"]');
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        if (anyChecked) {
+            clearRemindersButton.classList.remove('inactive');
+            clearRemindersButton.classList.add('color-caution');
+        } else {
+            clearRemindersButton.classList.remove('color-caution');
+            clearRemindersButton.classList.add('inactive');
+        }
+    };
+
     toolbarNewButton.addEventListener('click', createNewListGroup);
+    clearRemindersButton.addEventListener('click', clearAllListGroups);
 
     await loadListGroups();
 });
