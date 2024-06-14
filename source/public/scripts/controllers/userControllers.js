@@ -49,6 +49,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
         newReminderButton.addEventListener('click', onNewReminderClick);
+
+        const deleteButton = listGroupElement.querySelector('[data-action="delete-group"]');
+        if (deleteButton) {
+            const onDeleteGroupClick = async () => {
+                try {
+                    listGroups = listGroups.filter(group => group.id !== groupId);
+                    await deleteListGroup(groupId);
+                    renderListGroups();
+                } catch (error) {
+                    console.error('Error deleting list group:', error);
+                }
+            };
+            deleteButton.addEventListener('click', onDeleteGroupClick);
+        }
     };
 
     const loadListGroups = async () => {
