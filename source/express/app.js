@@ -1,6 +1,6 @@
-import express from 'express';
-import fs from 'fs';
-import path from 'path';
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const dataFilePath = path.join(__dirname, '../public/scripts/model/data.json');
@@ -78,4 +78,4 @@ app.delete('/api/list-groups/:id', (req, res) => {
     });
 });
 
-export { app };
+module.exports = { app };
