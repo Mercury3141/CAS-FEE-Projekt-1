@@ -1,4 +1,4 @@
-import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, saveState } from './functions.js';
+import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState } from './functions.js';
 import { updateListGroup } from './noteService.js';
 
 class ReminderApp {
@@ -6,11 +6,13 @@ class ReminderApp {
         this.groupIdCounter = 0;
         this.reminderIdCounter = 0;
         this.listGroups = [];
+        this.saveState = saveState.bind(this);
     }
 
     async init() {
         this.toolbarNewGroupButton = document.querySelector('#toolbar-new-reminder');
         this.clearRemindersButton = document.querySelector('#clear-reminders');
+        this.dateButton = document.querySelector('#sort-by-date');
         this.flexContainerElements = document.querySelector('#flex-container-elements');
         this.listGroupTemplate = document.querySelector('#list-group-template').innerHTML;
         this.reminderTemplate = document.querySelector('#reminder-template').innerHTML;
@@ -21,6 +23,7 @@ class ReminderApp {
         this.clearRemindersButton.addEventListener('click', () => this.clearAllListGroups());
 
         await this.loadListGroups();
+        this.toggleDateButtonState();
     }
 
     async createNewListGroup() {
@@ -51,6 +54,10 @@ class ReminderApp {
         toggleClearButtonState.call(this);
     }
 
+    toggleDateButtonState() {
+        toggleDateButtonState.call(this);
+    }
+
     addListGroupEventListeners(listGroupElement, groupId) {
         const newReminderButton = listGroupElement.querySelector('[data-action="create-reminder"]');
         newReminderButton.addEventListener('click', () => this.createNewReminder(groupId));
@@ -63,7 +70,7 @@ class ReminderApp {
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.checked = checkbox.checked;
                 this.toggleClearButtonState();
-                await updateListGroup(groupId, listGroup); // Save the state immediately
+                await updateListGroup(groupId, listGroup);
             });
         });
     }
@@ -76,7 +83,7 @@ class ReminderApp {
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.important = !reminder.important;
                 toggleImportantButton.innerText = reminder.important ? '!!' : '!';
-                await updateListGroup(groupId, listGroup); // Save the state immediately
+                await updateListGroup(groupId, listGroup);
             } catch (error) {
                 console.error('Error toggling important state:', error);
             }
@@ -89,7 +96,7 @@ class ReminderApp {
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.checked = checkbox.checked;
                 this.toggleClearButtonState();
-                await updateListGroup(groupId, listGroup); // Save the state immediately
+                await updateListGroup(groupId, listGroup);
             });
         });
 
@@ -98,8 +105,10 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.date = dateInput.value;
-            await updateListGroup(groupId, listGroup); // Save the state immediately
+            await updateListGroup(groupId, listGroup);
         });
+
+        dateInput.addEventListener('input', () => this.toggleDateButtonState());
     }
 }
 

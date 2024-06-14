@@ -53,6 +53,7 @@ export function renderListGroups() {
         this.addListGroupEventListeners(listGroupElement, group.id);
     });
     this.toggleClearButtonState();
+    this.toggleDateButtonState();
 }
 
 export function renderReminders(group, remindersContainer) {
@@ -65,18 +66,18 @@ export function renderReminders(group, remindersContainer) {
         remindersContainer.appendChild(reminderElement);
         this.addReminderEventListeners(reminderElement, group.id, reminder.id);
 
-        // Restore the state
         reminderElement.querySelector(`#checkbox-${reminder.id}`).checked = reminder.checked;
         reminderElement.querySelector(`#date-${reminder.id}`).value = reminder.date;
         reminderElement.querySelector(`#button-${reminder.id}`).innerText = reminder.important ? '!!' : '!';
+
+        const dateInput = reminderElement.querySelector(`#date-${reminder.id}`);
+        dateInput.addEventListener('input', () => this.toggleDateButtonState());
     });
 }
 
 export async function loadListGroups() {
     try {
-        console.log('Attempting to fetch list groups...');
         this.listGroups = await getListGroups();
-        console.log('List groups fetched successfully:', this.listGroups);
         this.renderListGroups();
     } catch (error) {
         console.error('Error loading list groups:', error);
@@ -96,17 +97,25 @@ export async function clearAllListGroups() {
 export function toggleClearButtonState() {
     const checkboxes = document.querySelectorAll('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    switch (anyChecked) {
-        case true:
-            this.clearRemindersButton.classList.remove('inactive');
-            this.clearRemindersButton.classList.add('color-caution');
-            break;
-        case false:
-            this.clearRemindersButton.classList.remove('color-caution');
-            this.clearRemindersButton.classList.add('inactive');
-            break;
-        default:
-            console.error('Unexpected checkbox state');
-            break;
+    const clearButton = document.querySelector('#clear-reminders');
+    if (anyChecked) {
+        clearButton.classList.remove('inactive');
+        clearButton.classList.add('color-caution');
+    } else {
+        clearButton.classList.remove('color-caution');
+        clearButton.classList.add('inactive');
+    }
+}
+
+export function toggleDateButtonState() {
+    const dateInputs = document.querySelectorAll('.date-input');
+    const anyDateEntered = Array.from(dateInputs).some(dateInput => dateInput.value !== '');
+    const dateButton = document.querySelector('#sort-by-date');
+    if (anyDateEntered) {
+        dateButton.classList.remove('inactive');
+        dateButton.classList.add('color-main');
+    } else {
+        dateButton.classList.remove('color-main');
+        dateButton.classList.add('inactive');
     }
 }
