@@ -142,6 +142,9 @@ export function filterRemindersByDate() {
             });
         });
 
+        // Sort reminders by date (ascending)
+        tempGroup.reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
+
         this.flexContainerElements.innerHTML = '';
         const newListGroupHtml = this.compiledListGroupTemplate(tempGroup);
         const tempDiv = document.createElement('div');
