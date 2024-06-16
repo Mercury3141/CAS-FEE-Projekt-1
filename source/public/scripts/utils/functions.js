@@ -2,6 +2,12 @@ import { getListGroups, saveListGroups, updateListGroup } from './noteService.js
 
 export async function createNewListGroup() {
     try {
+        const dateButton = document.querySelector('#sort-by-date');
+        const isActive = dateButton.classList.contains('active');
+        if (isActive) {
+            this.deactivateDateFilter();
+        }
+
         const newListGroup = {
             id: this.groupIdCounter++,
             title: 'Group Title',
@@ -13,6 +19,14 @@ export async function createNewListGroup() {
     } catch (error) {
         console.error('Error creating new list group:', error);
     }
+}
+
+export function deactivateDateFilter() {
+    const dateButton = document.querySelector('#sort-by-date');
+    dateButton.classList.remove('active');
+    dateButton.classList.add('inactive');
+    this.renderListGroups();
+    document.querySelectorAll('.selected-list-group').forEach(el => el.classList.remove('selected-list-group'));
 }
 
 export async function createNewReminder(groupId) {
@@ -124,9 +138,7 @@ export function filterRemindersByDate() {
     const isActive = dateButton.classList.contains('active');
 
     if (isActive) {
-        this.renderListGroups();
-        document.querySelectorAll('.selected-list-group').forEach(el => el.classList.remove('selected-list-group'));
-        dateButton.classList.remove('active');
+        this.deactivateDateFilter();
     } else {
         const tempGroup = {
             id: 'temp',
@@ -142,7 +154,6 @@ export function filterRemindersByDate() {
             });
         });
 
-        // Sort reminders by date (ascending)
         tempGroup.reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         this.flexContainerElements.innerHTML = '';
@@ -154,6 +165,7 @@ export function filterRemindersByDate() {
         this.flexContainerElements.appendChild(listGroupElement);
         this.renderReminders(tempGroup, listGroupElement.querySelector('.reminders-container'));
         dateButton.classList.add('active');
+        dateButton.classList.remove('inactive');
     }
 }
 
