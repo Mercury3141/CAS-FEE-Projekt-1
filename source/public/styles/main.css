@@ -35,7 +35,7 @@ html {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 96vw;
+    width: 94vw;
     max-width: 1200px;
     margin: 8px 16px;
 }
@@ -232,12 +232,6 @@ html {
     align-items: center;
 }
 
-.editable-label {
-    cursor: text;
-    padding: 2px 4px;
-    border: 1px dashed transparent;
-}
-
 .editable-label[contenteditable="true"] {
     border: 1px dashed #000;
 }
@@ -263,8 +257,7 @@ button[data-action="create-reminder"], .toolbar button {
     pointer-events: none;
 }
 .active {
-    color: rgb(255, 59, 48);
-    cursor: pointer;
+    color: var(--selection-color);
 }
 
 .greyed-out {
@@ -292,5 +285,29 @@ button {
 
 .selected-list-group {
     outline: 2px solid rgb(0, 122, 255);
+}
+
+.editable-label {
+    color: var(--text-color);
+}
+
+.editable-label {
+    cursor: text;
+    padding: 2px 4px;
+    border: 1px dashed transparent;
+}
+
+.selected-list-group {
+    outline: 2px solid var(--selection-color);
+}
+
+button#sort-by-date.active {
+    color: var(--selection-color);
+}
+
+button#sort-by-date.inactive {
+    color: grey;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 

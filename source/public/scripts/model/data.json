@@ -1,101 +1,31 @@
 [
   {
-    "id": 0,
+    "id": 5,
     "title": "Group Title",
-    "reminders": [
-      {
-        "id": 0,
-        "text": "New sdfasdf",
-        "date": "2024-06-06",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 0,
-        "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 1,
-        "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 2,
-        "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      }
-    ]
+    "reminders": []
   },
   {
-    "id": 1,
-    "title": "Group Title",
-    "reminders": [
-      {
-        "id": 1,
-        "text": "sdfasdfasd",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 2,
-        "text": "New Reminder",
-        "date": "2024-06-05",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 3,
-        "text": "HEellosadfasdf",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 4,
-        "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 5,
-        "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 2,
+    "id": 6,
     "title": "Group Title",
     "reminders": [
       {
         "id": 0,
         "text": "New Reminder",
-        "date": "2024-06-11",
+        "date": "",
         "important": false,
         "checked": false
       },
       {
         "id": 1,
         "text": "New Reminder",
-        "date": "",
+        "date": "2024-06-12",
         "important": false,
         "checked": false
       },
       {
         "id": 2,
         "text": "New Reminder",
-        "date": "",
+        "date": "2024-06-19",
         "important": false,
         "checked": false
       },
@@ -109,23 +39,23 @@
       {
         "id": 4,
         "text": "New Reminder",
-        "date": "",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 5,
-        "text": "New Reminder",
-        "date": "",
+        "date": "2024-06-19",
         "important": false,
         "checked": false
       }
     ]
   },
   {
-    "id": 3,
+    "id": 7,
     "title": "Group Title",
     "reminders": [
+      {
+        "id": 5,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
       {
         "id": 6,
         "text": "New Reminder",
@@ -143,19 +73,40 @@
       {
         "id": 8,
         "text": "New Reminder",
-        "date": "2024-06-12",
+        "date": "",
         "important": false,
         "checked": false
       },
       {
         "id": 9,
         "text": "New Reminder",
-        "date": "",
+        "date": "2024-06-18",
         "important": false,
         "checked": false
       },
       {
         "id": 10,
+        "text": "New Reminder",
+        "date": "2024-06-18",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 11,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 12,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 13,
         "text": "New Reminder",
         "date": "",
         "important": false,
@@ -164,7 +115,76 @@
     ]
   },
   {
-    "id": 4,
+    "id": 8,
+    "title": "Group Title",
+    "reminders": [
+      {
+        "id": 14,
+        "text": "New Reminder",
+        "date": "2024-06-20",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 15,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 16,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 17,
+        "text": "New Reminder",
+        "date": "",
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 10,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 11,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 12,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 13,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 14,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 15,
+    "title": "Group Title",
+    "reminders": []
+  },
+  {
+    "id": 16,
     "title": "Group Title",
     "reminders": []
   },
@@ -179,12 +199,12 @@
     "reminders": []
   },
   {
-    "id": 0,
+    "id": 2,
     "title": "Group Title",
     "reminders": []
   },
   {
-    "id": 0,
+    "id": 3,
     "title": "Group Title",
     "reminders": []
   },

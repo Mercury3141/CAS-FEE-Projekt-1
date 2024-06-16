@@ -114,9 +114,7 @@ export function toggleDateButtonState() {
     const dateButton = document.querySelector('#sort-by-date');
     if (anyDateEntered) {
         dateButton.classList.remove('inactive');
-        dateButton.classList.add('color-main');
     } else {
-        dateButton.classList.remove('color-main');
         dateButton.classList.add('inactive');
     }
 }
@@ -127,6 +125,8 @@ export function filterRemindersByDate() {
 
     if (isActive) {
         this.renderListGroups();
+        document.querySelectorAll('.selected-list-group').forEach(el => el.classList.remove('selected-list-group'));
+        dateButton.classList.remove('active');
     } else {
         const tempGroup = {
             id: 'temp',
@@ -147,20 +147,37 @@ export function filterRemindersByDate() {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = newListGroupHtml;
         const listGroupElement = tempDiv.firstElementChild;
+        listGroupElement.classList.add('selected-list-group');
         this.flexContainerElements.appendChild(listGroupElement);
         this.renderReminders(tempGroup, listGroupElement.querySelector('.reminders-container'));
+        dateButton.classList.add('active');
     }
+}
 
-    dateButton.classList.toggle('active');
+export function normalizePaste(event) {
+    event.preventDefault();
+    const text = (event.clipboardData || window.clipboardData).getData('text');
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return false;
+    selection.deleteFromDocument();
+
+    const range = selection.getRangeAt(0);
+    range.insertNode(document.createTextNode(text));
+
+    // Merge text nodes if necessary
+    range.commonAncestorContainer.normalize();
 }
 
 export function makeEditable(labelElement, saveCallback) {
     labelElement.contentEditable = 'true';
     labelElement.focus();
+
     const saveChanges = () => {
         labelElement.contentEditable = 'false';
         saveCallback(labelElement.innerText);
         document.removeEventListener('click', handleClickOutside);
+        labelElement.removeEventListener('paste', handlePaste);
     };
 
     const handleClickOutside = (event) => {
@@ -169,6 +186,11 @@ export function makeEditable(labelElement, saveCallback) {
         }
     };
 
+    const handlePaste = (event) => {
+        normalizePaste(event);
+    };
+
+    labelElement.addEventListener('paste', handlePaste);
     document.addEventListener('click', handleClickOutside);
 }
 
