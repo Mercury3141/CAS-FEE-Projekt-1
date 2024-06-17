@@ -39,6 +39,7 @@ class ReminderApp {
 
         await this.loadListGroups();
         this.toggleDateButtonState();
+        this.toggleClearButtonState(); // Ensure button state is set on initialization
     }
 
     async createNewListGroup() {
@@ -90,16 +91,17 @@ class ReminderApp {
             const reminderId = parseInt($(event.target).closest('.checkbox-container').data('id'), 10);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState();
+            this.toggleClearButtonState(); // Update button state when checkbox changes
             await updateListGroup(groupId, listGroup);
         });
 
         const $groupTitle = $listGroupElement.find('.group-title');
         $groupTitle.on('click', () => {
-            makeEditable($groupTitle[0], async (newTitle) => {
-                await updateGroupTitle.call(this, groupId, newTitle);
-            });
+            $groupTitle.attr('contenteditable', 'true').focus();
+            $groupTitle.removeClass('inactive-label');
         });
+
+        this.addInactiveLabelHandler($groupTitle);
     }
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
@@ -121,7 +123,7 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState();
+            this.toggleClearButtonState(); // Update button state when checkbox changes
             await updateListGroup(groupId, listGroup);
         });
 
@@ -137,9 +139,16 @@ class ReminderApp {
 
         const $reminderText = $reminderElement.find('.editable-label.text-list');
         $reminderText.on('click', () => {
-            makeEditable($reminderText[0], async (newText) => {
-                await updateReminderText.call(this, groupId, reminderId, newText);
-            });
+            $reminderText.attr('contenteditable', 'true').focus();
+            $reminderText.removeClass('inactive-label');
+        });
+
+        this.addInactiveLabelHandler($reminderText);
+    }
+
+    addInactiveLabelHandler($element) {
+        $element.on('focus', () => {
+            $element.removeClass('inactive-label');
         });
     }
 }

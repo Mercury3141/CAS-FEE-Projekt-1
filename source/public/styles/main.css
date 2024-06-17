@@ -251,11 +251,11 @@ button[data-action="create-reminder"], .toolbar button {
     margin-left: 20px;
 }
 
-.inactive {
+.inactive-label {
     color: grey;
-    cursor: not-allowed;
-    pointer-events: none;
 }
+
+
 .active {
     color: var(--selection-color);
 }
@@ -289,9 +289,6 @@ button {
 
 .editable-label {
     color: var(--text-color);
-}
-
-.editable-label {
     cursor: text;
     padding: 2px 4px;
     border: 1px dashed transparent;
@@ -311,3 +308,8 @@ button#sort-by-date.inactive {
     pointer-events: none;
 }
 
+button.inactive {
+    color: grey;
+    cursor: not-allowed;
+    pointer-events: none;
+}
