@@ -1,4 +1,18 @@
-import { createNewListGroup, createNewReminder, renderListGroups, renderReminders, loadListGroups, clearAllListGroups, toggleClearButtonState, toggleDateButtonState, saveState, filterRemindersByDate, makeEditable, updateGroupTitle, updateReminderText } from './functions.js';
+import {
+    createNewListGroup,
+    createNewReminder,
+    renderListGroups,
+    renderReminders,
+    loadListGroups,
+    clearAllListGroups,
+    toggleClearButtonState,
+    toggleDateButtonState,
+    saveState,
+    filterRemindersByDate,
+    makeEditable,
+    updateGroupTitle,
+    updateReminderText
+} from './functions.js';
 import { updateListGroup } from './noteService.js';
 
 class ReminderApp {
