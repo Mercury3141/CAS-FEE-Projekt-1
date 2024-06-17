@@ -78,13 +78,28 @@ export async function loadListGroups() {
     }
 }
 
-export async function clearAllListGroups() {
+export async function clearCheckedRemindersAndGroups() {
     try {
-        this.listGroups = [];
+        // Filter out the groups that have their header checkbox checked
+        this.listGroups = this.listGroups.filter(group => {
+            const $groupCheckbox = $(`#group-checkbox-${group.id}`);
+            if ($groupCheckbox.is(':checked')) {
+                return false; // Remove the entire group
+            }
+
+            // Filter out the reminders that are checked
+            group.reminders = group.reminders.filter(reminder => {
+                const $reminderCheckbox = $(`#checkbox-${reminder.id}`);
+                return !$reminderCheckbox.is(':checked');
+            });
+
+            return true; // Keep the group if its header checkbox is not checked
+        });
+
         await this.saveState();
         this.renderListGroups();
     } catch (error) {
-        console.error('Error clearing list groups:', error);
+        console.error('Error clearing checked reminders and groups:', error);
     }
 }
 

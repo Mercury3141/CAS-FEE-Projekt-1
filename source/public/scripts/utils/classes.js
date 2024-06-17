@@ -4,7 +4,7 @@ import {
     renderListGroups,
     renderReminders,
     loadListGroups,
-    clearAllListGroups,
+    clearCheckedRemindersAndGroups,
     toggleClearButtonState,
     toggleDateButtonState,
     saveState,
@@ -34,7 +34,7 @@ class ReminderApp {
         this.compiledReminderTemplate = Handlebars.compile(this.reminderTemplate);
 
         this.$toolbarNewGroupButton.on('click', () => this.createNewListGroup());
-        this.$clearRemindersButton.on('click', () => this.clearAllListGroups());
+        this.$clearRemindersButton.on('click', () => this.clearCheckedRemindersAndGroups());
         this.$dateButton.on('click', () => this.filterRemindersByDate());
 
         await this.loadListGroups();
@@ -65,8 +65,8 @@ class ReminderApp {
         await loadListGroups.call(this);
     }
 
-    async clearAllListGroups() {
-        await clearAllListGroups.call(this);
+    async clearCheckedRemindersAndGroups() {
+        await clearCheckedRemindersAndGroups.call(this);
     }
 
     toggleClearButtonState() {
