@@ -42,37 +42,30 @@ export async function saveState() {
 }
 
 export function renderListGroups() {
-    this.flexContainerElements.innerHTML = '';
+    this.$flexContainerElements.empty();
     this.listGroups.forEach(group => {
         const newListGroupHtml = this.compiledListGroupTemplate(group);
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newListGroupHtml;
-        const listGroupElement = tempDiv.firstElementChild;
-        this.flexContainerElements.appendChild(listGroupElement);
-        this.renderReminders(group, listGroupElement.querySelector('.reminders-container'));
-        this.addListGroupEventListeners(listGroupElement, group.id);
+        const $listGroupElement = $(newListGroupHtml);
+        this.$flexContainerElements.append($listGroupElement);
+        this.renderReminders(group, $listGroupElement.find('.reminders-container'));
+        this.addListGroupEventListeners($listGroupElement, group.id);
     });
     this.toggleClearButtonState();
     this.toggleDateButtonState();
 }
 
-export function renderReminders(group, remindersContainer) {
-    remindersContainer.innerHTML = '';
+export function renderReminders(group, $remindersContainer) {
+    $remindersContainer.empty();
     group.reminders.forEach(reminder => {
         const newReminderHtml = this.compiledReminderTemplate(reminder);
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newReminderHtml;
-        const reminderElement = tempDiv.firstElementChild;
-        remindersContainer.appendChild(reminderElement);
-        this.addReminderEventListeners(reminderElement, group.id, reminder.id);
+        const $reminderElement = $(newReminderHtml);
+        $remindersContainer.append($reminderElement);
+        this.addReminderEventListeners($reminderElement, group.id, reminder.id);
 
-        reminderElement.querySelector(`#checkbox-${reminder.id}`).checked = reminder.checked;
-        reminderElement.querySelector(`#date-${reminder.id}`).value = reminder.date;
-        reminderElement.querySelector(`#label-${reminder.id}`).innerText = reminder.text;
-        reminderElement.querySelector(`#button-${reminder.id}`).innerText = reminder.important ? '!!' : '!';
-
-        const dateInput = reminderElement.querySelector(`#date-${reminder.id}`);
-        dateInput.addEventListener('input', () => this.toggleDateButtonState());
+        $reminderElement.find(`#checkbox-${reminder.id}`).prop('checked', reminder.checked);
+        $reminderElement.find(`#date-${reminder.id}`).val(reminder.date);
+        $reminderElement.find(`#label-${reminder.id}`).text(reminder.text);
+        $reminderElement.find(`#button-${reminder.id}`).text(reminder.important ? '!!' : '!');
     });
 }
 
@@ -96,37 +89,35 @@ export async function clearAllListGroups() {
 }
 
 export function toggleClearButtonState() {
-    const checkboxes = document.querySelectorAll('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
-    const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    const clearButton = document.querySelector('#clear-reminders');
+    const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
+    const anyChecked = $checkboxes.is(':checked');
+    const $clearButton = $('#clear-reminders');
     if (anyChecked) {
-        clearButton.classList.remove('inactive');
-        clearButton.classList.add('color-caution');
+        $clearButton.removeClass('inactive').addClass('color-caution');
     } else {
-        clearButton.classList.remove('color-caution');
-        clearButton.classList.add('inactive');
+        $clearButton.removeClass('color-caution').addClass('inactive');
     }
 }
 
 export function toggleDateButtonState() {
-    const dateInputs = document.querySelectorAll('.date-input');
-    const anyDateEntered = Array.from(dateInputs).some(dateInput => dateInput.value !== '');
-    const dateButton = document.querySelector('#sort-by-date');
+    const $dateInputs = $('.date-input');
+    const anyDateEntered = $dateInputs.filter(function() { return $(this).val() !== ''; }).length > 0;
+    const $dateButton = $('#sort-by-date');
     if (anyDateEntered) {
-        dateButton.classList.remove('inactive');
+        $dateButton.removeClass('inactive');
     } else {
-        dateButton.classList.add('inactive');
+        $dateButton.addClass('inactive');
     }
 }
 
 export function filterRemindersByDate(turnOff = false) {
-    const dateButton = document.querySelector('#sort-by-date');
-    const isActive = dateButton.classList.contains('active');
+    const $dateButton = $('#sort-by-date');
+    const isActive = $dateButton.hasClass('active');
 
     if (isActive || turnOff) {
         this.renderListGroups();
-        document.querySelectorAll('.selected-list-group').forEach(el => el.classList.remove('selected-list-group'));
-        dateButton.classList.remove('active');
+        $('.selected-list-group').removeClass('selected-list-group');
+        $dateButton.removeClass('active');
     } else {
         const tempGroup = {
             id: 'temp',
@@ -142,50 +133,37 @@ export function filterRemindersByDate(turnOff = false) {
             });
         });
 
-            // Sort reminders by date (ascending)
         tempGroup.reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        this.flexContainerElements.innerHTML = '';
+        this.$flexContainerElements.empty();
         const newListGroupHtml = this.compiledListGroupTemplate(tempGroup);
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newListGroupHtml;
-        const listGroupElement = tempDiv.firstElementChild;
-        listGroupElement.classList.add('selected-list-group');
-        this.flexContainerElements.appendChild(listGroupElement);
-        this.renderReminders(tempGroup, listGroupElement.querySelector('.reminders-container'));
-        dateButton.classList.add('active');
+        const $listGroupElement = $(newListGroupHtml);
+        $listGroupElement.addClass('selected-list-group');
+        this.$flexContainerElements.append($listGroupElement);
+        this.renderReminders(tempGroup, $listGroupElement.find('.reminders-container'));
+        $dateButton.addClass('active');
     }
 }
-
 
 export function normalizePaste(event) {
     event.preventDefault();
     const text = (event.clipboardData || window.clipboardData).getData('text');
-
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return false;
-    selection.deleteFromDocument();
-
-    const range = selection.getRangeAt(0);
-    range.insertNode(document.createTextNode(text));
-
-    // Merge text nodes if necessary
-    range.commonAncestorContainer.normalize();
+    document.execCommand('insertText', false, text);
 }
 
 export function makeEditable(labelElement, saveCallback) {
-    labelElement.contentEditable = 'true';
-    labelElement.focus();
+    const $labelElement = $(labelElement);
+    $labelElement.prop('contentEditable', true).focus();
 
     const saveChanges = () => {
-        labelElement.contentEditable = 'false';
-        saveCallback(labelElement.innerText);
-        document.removeEventListener('click', handleClickOutside);
-        labelElement.removeEventListener('paste', handlePaste);
+        $labelElement.prop('contentEditable', false);
+        saveCallback($labelElement.text());
+        $(document).off('click', handleClickOutside);
+        $labelElement.off('paste', handlePaste);
     };
 
     const handleClickOutside = (event) => {
-        if (!labelElement.contains(event.target)) {
+        if (!$labelElement.is(event.target) && !$labelElement.has(event.target).length) {
             saveChanges();
         }
     };
@@ -194,8 +172,8 @@ export function makeEditable(labelElement, saveCallback) {
         normalizePaste(event);
     };
 
-    labelElement.addEventListener('paste', handlePaste);
-    document.addEventListener('click', handleClickOutside);
+    $labelElement.on('paste', handlePaste);
+    $(document).on('click', handleClickOutside);
 }
 
 export async function updateGroupTitle(groupId, newTitle) {

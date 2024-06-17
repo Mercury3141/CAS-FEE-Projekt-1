@@ -72,6 +72,7 @@
     "is-fullwidth-code-point": "^2.0.0",
     "is-stream": "^1.1.0",
     "isexe": "^2.0.0",
+    "jquery": "^3.7.1",
     "json-schema-traverse": "^0.4.1",
     "lru-cache": "^4.1.5",
     "luxon": "^3.4.4",

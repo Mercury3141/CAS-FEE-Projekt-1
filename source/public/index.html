@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reminders</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./libraries/handlebars.min.js" defer></script>
     <script type="module" src="./scripts/utils/noteService.js" defer></script>
     <script type="module" src="./scripts/controllers/userControllers.js" defer></script>
@@ -45,7 +46,6 @@
         <div class="reminders-container" id="reminders-container-{{id}}"></div>
     </div>
 </script>
-
 
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
