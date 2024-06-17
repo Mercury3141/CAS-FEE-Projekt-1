@@ -119,11 +119,11 @@ export function toggleDateButtonState() {
     }
 }
 
-export function filterRemindersByDate() {
+export function filterRemindersByDate(turnOff = false) {
     const dateButton = document.querySelector('#sort-by-date');
     const isActive = dateButton.classList.contains('active');
 
-    if (isActive) {
+    if (isActive || turnOff) {
         this.renderListGroups();
         document.querySelectorAll('.selected-list-group').forEach(el => el.classList.remove('selected-list-group'));
         dateButton.classList.remove('active');
@@ -142,7 +142,7 @@ export function filterRemindersByDate() {
             });
         });
 
-        // Sort reminders by date (ascending)
+            // Sort reminders by date (ascending)
         tempGroup.reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         this.flexContainerElements.innerHTML = '';
@@ -156,6 +156,7 @@ export function filterRemindersByDate() {
         dateButton.classList.add('active');
     }
 }
+
 
 export function normalizePaste(event) {
     event.preventDefault();

@@ -42,6 +42,9 @@ class ReminderApp {
     }
 
     async createNewListGroup() {
+        if (document.querySelector('#sort-by-date').classList.contains('active')) {
+            this.filterRemindersByDate(true);
+        }
         await createNewListGroup.call(this);
     }
 
@@ -73,8 +76,8 @@ class ReminderApp {
         toggleDateButtonState.call(this);
     }
 
-    filterRemindersByDate() {
-        filterRemindersByDate.call(this);
+    filterRemindersByDate(turnOff = false) {
+        filterRemindersByDate.call(this, turnOff);
     }
 
     addListGroupEventListeners(listGroupElement, groupId) {
