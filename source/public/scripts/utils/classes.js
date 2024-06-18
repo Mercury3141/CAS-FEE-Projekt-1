@@ -21,7 +21,8 @@ class ReminderApp {
         this.reminderIdCounter = 0;
         this.listGroups = [];
         this.saveState = saveState.bind(this);
-        this.updateReminderText = updateReminderText.bind(this); // Bind the updateReminderText function
+        this.updateReminderText = updateReminderText.bind(this);
+        this.updateGroupTitle = updateGroupTitle.bind(this);
     }
 
     async init() {
@@ -92,7 +93,7 @@ class ReminderApp {
             const reminderId = parseInt($(event.target).closest('.checkbox-container').data('id'), 10);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState(); // Update button state when checkbox changes
+            this.toggleClearButtonState();
             await updateListGroup(groupId, listGroup);
         });
 
@@ -102,7 +103,7 @@ class ReminderApp {
             $groupTitle.removeClass('inactive-label');
         });
 
-        this.addInactiveLabelHandler($groupTitle);
+        this.addInactiveLabelHandler($groupTitle, groupId);
     }
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
@@ -147,22 +148,24 @@ class ReminderApp {
         this.addInactiveLabelHandler($reminderText);
     }
 
-    addInactiveLabelHandler($element) {
+    addInactiveLabelHandler($element, groupId) {
         $element.on('focus', () => {
             $element.removeClass('inactive-label');
         });
 
         $element.on('blur keypress', async (event) => {
             if (event.type === 'blur' || event.key === 'Enter') {
-                event.preventDefault(); // Prevent default behavior if Enter key is pressed
+                event.preventDefault();
                 const newText = $element.text();
-                const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
-                const groupId = parseInt($element.closest('.list-group').data('id'), 10);
-
                 $element.attr('contenteditable', 'false');
                 $element.addClass('inactive-label');
 
-                await this.updateReminderText(groupId, reminderId, newText);
+                if ($element.hasClass('group-title')) {
+                    await this.updateGroupTitle(groupId, newText);
+                } else {
+                    const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
+                    await this.updateReminderText(groupId, reminderId, newText);
+                }
             }
         });
     }
