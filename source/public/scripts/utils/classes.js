@@ -7,8 +7,10 @@ import {
     clearCheckedRemindersAndGroups,
     toggleClearButtonState,
     toggleDateButtonState,
+    toggleImportantButtonState,
     saveState,
     filterRemindersByDate,
+    filterRemindersByImportant,
     makeEditable,
     updateGroupTitle,
     updateReminderText
@@ -24,12 +26,14 @@ class ReminderApp {
         this.updateReminderText = updateReminderText.bind(this); // Bind the updateReminderText function
         this.updateGroupTitle = updateGroupTitle.bind(this); // Bind the updateGroupTitle function
         this.toggleClearButtonState = toggleClearButtonState.bind(this); // Bind the toggleClearButtonState function
+        this.toggleImportantButtonState = toggleImportantButtonState.bind(this); // Bind the toggleImportantButtonState function
     }
 
     async init() {
         this.$toolbarNewGroupButton = $('#toolbar-new-reminder');
         this.$clearRemindersButton = $('#clear-reminders');
         this.$dateButton = $('#sort-by-date');
+        this.$importantButton = $('#show-important');
         this.$flexContainerElements = $('#flex-container-elements');
         this.listGroupTemplate = $('#list-group-template').html();
         this.reminderTemplate = $('#reminder-template').html();
@@ -39,15 +43,18 @@ class ReminderApp {
         this.$toolbarNewGroupButton.on('click', () => this.createNewListGroup());
         this.$clearRemindersButton.on('click', () => this.clearCheckedRemindersAndGroups());
         this.$dateButton.on('click', () => this.filterRemindersByDate());
+        this.$importantButton.on('click', () => this.filterRemindersByImportant());
 
         await this.loadListGroups();
         this.toggleDateButtonState();
+        this.toggleImportantButtonState();
         this.toggleClearButtonState(); // Ensure button state is set on initialization
     }
 
     async createNewListGroup() {
-        if ($('#sort-by-date').hasClass('active')) {
+        if ($('#sort-by-date').hasClass('active') || $('#show-important').hasClass('active')) {
             this.filterRemindersByDate(true);
+            this.filterRemindersByImportant(true);
         }
         await createNewListGroup.call(this);
     }
@@ -80,8 +87,16 @@ class ReminderApp {
         toggleDateButtonState.call(this);
     }
 
+    toggleImportantButtonState() {
+        toggleImportantButtonState.call(this);
+    }
+
     filterRemindersByDate(turnOff = false) {
         filterRemindersByDate.call(this, turnOff);
+    }
+
+    filterRemindersByImportant(turnOff = false) {
+        filterRemindersByImportant.call(this, turnOff);
     }
 
     addListGroupEventListeners($listGroupElement, groupId) {
@@ -122,8 +137,6 @@ class ReminderApp {
         this.addInactiveLabelHandler($groupTitle, groupId);
     }
 
-
-
     addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
         $toggleImportantButton.on('click', async () => {
@@ -132,6 +145,7 @@ class ReminderApp {
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.important = !reminder.important;
                 $toggleImportantButton.text(reminder.important ? '!!' : '!');
+                this.toggleImportantButtonState(); // Update the important button state
                 await updateListGroup(groupId, listGroup);
             } catch (error) {
                 console.error('Error toggling important state:', error);

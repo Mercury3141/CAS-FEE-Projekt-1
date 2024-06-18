@@ -56,6 +56,7 @@ export function renderListGroups() {
     });
     this.toggleClearButtonState();
     this.toggleDateButtonState();
+    this.toggleImportantButtonState();
 }
 
 export function renderReminders(group, $remindersContainer) {
@@ -106,7 +107,6 @@ export async function clearCheckedRemindersAndGroups() {
     }
 }
 
-
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = $checkboxes.is(':checked');
@@ -125,7 +125,6 @@ export function toggleClearButtonState() {
     }
 }
 
-
 export function toggleDateButtonState() {
     const $dateInputs = $('.date-input');
     const anyDateEntered = $dateInputs.filter(function() { return $(this).val() !== ''; }).length > 0;
@@ -137,6 +136,18 @@ export function toggleDateButtonState() {
     }
 }
 
+export function toggleImportantButtonState() {
+    const anyImportantReminders = this.listGroups.some(group =>
+        group.reminders.some(reminder => reminder.important)
+    );
+    const $importantButton = $('#show-important');
+    if (anyImportantReminders) {
+        $importantButton.removeClass('inactive');
+    } else {
+        $importantButton.addClass('inactive');
+    }
+}
+
 export function filterRemindersByDate(turnOff = false) {
     const $dateButton = $('#sort-by-date');
     const isActive = $dateButton.hasClass('active');
@@ -145,6 +156,7 @@ export function filterRemindersByDate(turnOff = false) {
         this.renderListGroups();
         $('.selected-list-group').removeClass('selected-list-group');
         $dateButton.removeClass('active');
+        $('#show-important').removeClass('inactive');
     } else {
         const tempGroup = {
             id: 'temp',
@@ -169,6 +181,32 @@ export function filterRemindersByDate(turnOff = false) {
         this.$flexContainerElements.append($listGroupElement);
         this.renderReminders(tempGroup, $listGroupElement.find('.reminders-container'));
         $dateButton.addClass('active');
+        $('#show-important').addClass('inactive');
+    }
+}
+
+export function filterRemindersByImportant(turnOff = false) {
+    const $importantButton = $('#show-important');
+    const isActive = $importantButton.hasClass('active');
+
+    if (isActive || turnOff) {
+        this.renderListGroups();
+        $('.selected-list-group').removeClass('selected-list-group');
+        $importantButton.removeClass('active');
+        $('#sort-by-date').removeClass('inactive');
+    } else {
+        this.listGroups.forEach(group => {
+            group.reminders.forEach(reminder => {
+                const $reminderElement = $(`#checkbox-${reminder.id}`).closest('.checkbox-container');
+                if (!reminder.important) {
+                    $reminderElement.hide();
+                } else {
+                    $reminderElement.show();
+                }
+            });
+        });
+        $importantButton.addClass('active');
+        $('#sort-by-date').addClass('inactive');
     }
 }
 

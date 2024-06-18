@@ -5,7 +5,7 @@
     --important-color: rgb(255, 184, 110);
     --selection-color: rgb(0, 122, 255);
     --text-color: rgb(67, 67, 67);
-    --inactive-label-color: grey;
+    --inactive-label-color: grey; /* Explicitly set the inactive label color */
     --base-font-size: 16px;
     --border-radius: 28px;
     --z-index-base: 1;
@@ -21,7 +21,7 @@
         --background-color-bubble: rgb(48, 48, 48);
         --important-color: rgb(156, 40, 0);
         --text-color: rgb(255, 255, 255);
-        --inactive-label-color: grey;
+        --inactive-label-color: grey; /* Ensure it is set for dark mode as well */
     }
 }
 
@@ -31,7 +31,6 @@ html {
     justify-content: center;
     background-color: var(--background-color);
 }
-
 
 .flex-container {
     display: flex;
@@ -97,7 +96,6 @@ html {
     padding: 5px;
     border-radius: 4px;
 }
-
 
 .list-element {
     flex: 1;
@@ -258,9 +256,8 @@ button[data-action="create-reminder"], .toolbar button {
 }
 
 .inactive-label {
-    color: grey;
+    color: var(--inactive-label-color);
 }
-
 
 .active {
     color: var(--selection-color);
@@ -277,7 +274,6 @@ button[data-action="create-reminder"], .toolbar button {
 button {
     background-color: var(--background-color-bubble);
     border: 1px solid var(--background-color-bubble); /* Optional: Add a border */
-    /*padding: 5px 10px; !* Optional: Add some padding *!*/
     border-radius: 4px; /* Optional: Add border radius */
     cursor: pointer; /* Optional: Change cursor to pointer */
     color: var(--text-color);
@@ -304,11 +300,11 @@ button {
     outline: 2px solid var(--selection-color);
 }
 
-button#sort-by-date.active {
+button#sort-by-date.active, button#show-important.active {
     color: var(--selection-color);
 }
 
-button#sort-by-date.inactive {
+button#sort-by-date.inactive, button#show-important.inactive {
     color: grey;
     cursor: not-allowed;
     pointer-events: none;
