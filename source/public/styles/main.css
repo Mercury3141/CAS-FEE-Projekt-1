@@ -5,7 +5,7 @@
     --important-color: rgb(255, 184, 110);
     --selection-color: rgb(0, 122, 255);
     --text-color: rgb(67, 67, 67);
-    --inactive-label-color: grey; /* Explicitly set the inactive label color */
+    --inactive-label-color: grey;
     --base-font-size: 16px;
     --border-radius: 28px;
     --z-index-base: 1;
@@ -21,7 +21,7 @@
         --background-color-bubble: rgb(48, 48, 48);
         --important-color: rgb(156, 40, 0);
         --text-color: rgb(255, 255, 255);
-        --inactive-label-color: grey; /* Ensure it is set for dark mode as well */
+        --inactive-label-color: grey;
     }
 }
 
@@ -263,6 +263,10 @@ button[data-action="create-reminder"], .toolbar button {
     color: var(--selection-color);
 }
 
+.important-active .toolbar-button-text {
+    color: var(--important-color);
+}
+
 .greyed-out {
     color: grey;
 }
@@ -273,20 +277,24 @@ button[data-action="create-reminder"], .toolbar button {
 
 button {
     background-color: var(--background-color-bubble);
-    border: 1px solid var(--background-color-bubble); /* Optional: Add a border */
-    border-radius: 4px; /* Optional: Add border radius */
-    cursor: pointer; /* Optional: Change cursor to pointer */
+    border: 1px solid var(--background-color-bubble);
+    border-radius: 4px;
+    cursor: pointer;
     color: var(--text-color);
     font-size: 0.8em;
     font-weight: 300;
 }
 
 #clear-reminders {
-    margin-right: 20px; /* Indent the button to the right */
+    margin-right: 20px;
 }
 
 .selected-list-group {
-    outline: 2px solid rgb(0, 122, 255);
+    outline: 2px solid var(--selection-color);
+}
+
+.selected-list-group-important {
+    outline: 2px solid var(--important-color);
 }
 
 .editable-label {
@@ -300,11 +308,15 @@ button {
     outline: 2px solid var(--selection-color);
 }
 
-button#sort-by-date.active, button#show-important.active {
+button#sort-by-date.active .toolbar-button-text {
     color: var(--selection-color);
 }
 
-button#sort-by-date.inactive, button#show-important.inactive {
+button#show-important.active .toolbar-button-text {
+    color: var(--important-color);
+}
+
+button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactive .toolbar-button-text {
     color: grey;
     cursor: not-allowed;
     pointer-events: none;

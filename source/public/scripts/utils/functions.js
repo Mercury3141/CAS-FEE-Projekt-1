@@ -192,9 +192,10 @@ export function filterRemindersByImportant(turnOff = false) {
     if (isActive || turnOff) {
         this.renderListGroups();
         $('.selected-list-group').removeClass('selected-list-group');
-        $importantButton.removeClass('active');
+        $('.selected-list-group-important').removeClass('selected-list-group-important');
+        $importantButton.removeClass('active important-active');
         $('#sort-by-date').removeClass('inactive');
-        this.toggleImportantButtonState(); // Ensure the button state is updated
+        this.toggleImportantButtonState();
     } else {
         this.listGroups.forEach(group => {
             let hasImportantReminders = false;
@@ -212,12 +213,17 @@ export function filterRemindersByImportant(turnOff = false) {
                 $listGroupElement.hide();
             } else {
                 $listGroupElement.show();
+                $listGroupElement.addClass('selected-list-group-important');
             }
         });
-        $importantButton.addClass('active');
+        $importantButton.addClass('active important-active');
         $('#sort-by-date').addClass('inactive');
     }
 }
+
+
+
+
 
 
 
