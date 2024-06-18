@@ -95,7 +95,7 @@ export async function clearCheckedRemindersAndGroups() {
                 return !$reminderCheckbox.is(':checked') && reminder.userInputted;
             });
 
-            return true; // Keep the group if its header checkbox is not checked
+            return group.reminders.length > 0; // Remove the group if it has no reminders
         });
 
         await this.saveState();
@@ -106,6 +106,7 @@ export async function clearCheckedRemindersAndGroups() {
     }
 }
 
+
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = $checkboxes.is(':checked');
@@ -114,13 +115,16 @@ export function toggleClearButtonState() {
         group.reminders.some(reminder => !reminder.userInputted)
     );
 
+    const anyEmptyGroups = this.listGroups.some(group => group.reminders.length === 0);
+
     const $clearButton = $('#clear-reminders');
-    if (anyChecked || anyUnusedReminders) {
+    if (anyChecked || anyUnusedReminders || anyEmptyGroups) {
         $clearButton.removeClass('inactive').addClass('color-caution');
     } else {
         $clearButton.removeClass('color-caution').addClass('inactive');
     }
 }
+
 
 export function toggleDateButtonState() {
     const $dateInputs = $('.date-input');
