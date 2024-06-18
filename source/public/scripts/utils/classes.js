@@ -88,6 +88,20 @@ class ReminderApp {
         const $newReminderButton = $listGroupElement.find('[data-action="create-reminder"]');
         $newReminderButton.on('click', () => this.createNewReminder(groupId));
 
+        const $groupCheckbox = $listGroupElement.find(`#group-checkbox-${groupId}`);
+        $groupCheckbox.on('change', async (event) => {
+            const listGroup = this.listGroups.find(group => group.id === groupId);
+            const isChecked = event.target.checked;
+
+            listGroup.reminders.forEach(reminder => {
+                reminder.checked = isChecked;
+                $(`#checkbox-${reminder.id}`).prop('checked', isChecked);
+            });
+
+            this.toggleClearButtonState();
+            await updateListGroup(groupId, listGroup);
+        });
+
         const $checkboxes = $listGroupElement.find('input[type="checkbox"]');
         $checkboxes.on('change', async (event) => {
             const listGroup = this.listGroups.find(group => group.id === groupId);
@@ -106,6 +120,7 @@ class ReminderApp {
 
         this.addInactiveLabelHandler($groupTitle, groupId);
     }
+
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
