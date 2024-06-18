@@ -5,6 +5,7 @@
     --important-color: rgb(255, 184, 110);
     --selection-color: rgb(0, 122, 255);
     --text-color: rgb(67, 67, 67);
+    --inactive-label-color: grey;
     --base-font-size: 16px;
     --border-radius: 28px;
     --z-index-base: 1;
@@ -20,6 +21,7 @@
         --background-color-bubble: rgb(48, 48, 48);
         --important-color: rgb(156, 40, 0);
         --text-color: rgb(255, 255, 255);
+        --inactive-label-color: grey;
     }
 }
 

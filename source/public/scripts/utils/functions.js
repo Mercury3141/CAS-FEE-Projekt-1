@@ -5,11 +5,13 @@ export async function createNewListGroup() {
         const newListGroup = {
             id: this.groupIdCounter++,
             title: 'Group Title',
+            userInputted: false,
             reminders: []
         };
         this.listGroups.push(newListGroup);
         await this.saveState();
         this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure the button state is updated
     } catch (error) {
         console.error('Error creating new list group:', error);
     }
@@ -21,6 +23,7 @@ export async function createNewReminder(groupId) {
         const newReminder = {
             id: this.reminderIdCounter++,
             text: 'New Reminder',
+            userInputted: false,
             date: '',
             important: false,
             checked: false
@@ -28,6 +31,7 @@ export async function createNewReminder(groupId) {
         listGroup.reminders.push(newReminder);
         await this.saveState();
         this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure the button state is updated
     } catch (error) {
         console.error('Error creating new reminder:', error);
     }
@@ -80,17 +84,15 @@ export async function loadListGroups() {
 
 export async function clearCheckedRemindersAndGroups() {
     try {
-        // Filter out the groups that have their header checkbox checked
         this.listGroups = this.listGroups.filter(group => {
             const $groupCheckbox = $(`#group-checkbox-${group.id}`);
             if ($groupCheckbox.is(':checked')) {
                 return false; // Remove the entire group
             }
 
-            // Filter out the reminders that are checked
             group.reminders = group.reminders.filter(reminder => {
                 const $reminderCheckbox = $(`#checkbox-${reminder.id}`);
-                return !$reminderCheckbox.is(':checked');
+                return !$reminderCheckbox.is(':checked') && reminder.userInputted;
             });
 
             return true; // Keep the group if its header checkbox is not checked
@@ -98,6 +100,7 @@ export async function clearCheckedRemindersAndGroups() {
 
         await this.saveState();
         this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure the button state is updated
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }
@@ -106,8 +109,13 @@ export async function clearCheckedRemindersAndGroups() {
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = $checkboxes.is(':checked');
+
+    const anyUnusedReminders = this.listGroups.some(group =>
+        group.reminders.some(reminder => !reminder.userInputted)
+    );
+
     const $clearButton = $('#clear-reminders');
-    if (anyChecked) {
+    if (anyChecked || anyUnusedReminders) {
         $clearButton.removeClass('inactive').addClass('color-caution');
     } else {
         $clearButton.removeClass('color-caution').addClass('inactive');
@@ -195,6 +203,7 @@ export async function updateGroupTitle(groupId, newTitle) {
     try {
         const listGroup = this.listGroups.find(group => group.id === groupId);
         listGroup.title = newTitle;
+        listGroup.userInputted = true;
         await updateListGroup(groupId, listGroup);
     } catch (error) {
         console.error('Error updating group title:', error);
@@ -206,6 +215,7 @@ export async function updateReminderText(groupId, reminderId, newText) {
         const listGroup = this.listGroups.find(group => group.id === groupId);
         const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
         reminder.text = newText;
+        reminder.userInputted = true;
         await updateListGroup(groupId, listGroup); // Save the updated list group to the backend
     } catch (error) {
         console.error('Error updating reminder text:', error);

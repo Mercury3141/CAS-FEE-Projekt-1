@@ -21,8 +21,9 @@ class ReminderApp {
         this.reminderIdCounter = 0;
         this.listGroups = [];
         this.saveState = saveState.bind(this);
-        this.updateReminderText = updateReminderText.bind(this);
-        this.updateGroupTitle = updateGroupTitle.bind(this);
+        this.updateReminderText = updateReminderText.bind(this); // Bind the updateReminderText function
+        this.updateGroupTitle = updateGroupTitle.bind(this); // Bind the updateGroupTitle function
+        this.toggleClearButtonState = toggleClearButtonState.bind(this); // Bind the toggleClearButtonState function
     }
 
     async init() {
@@ -93,7 +94,7 @@ class ReminderApp {
             const reminderId = parseInt($(event.target).closest('.checkbox-container').data('id'), 10);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState();
+            this.toggleClearButtonState(); // Update button state when checkbox changes
             await updateListGroup(groupId, listGroup);
         });
 
@@ -145,7 +146,7 @@ class ReminderApp {
             $reminderText.removeClass('inactive-label');
         });
 
-        this.addInactiveLabelHandler($reminderText);
+        this.addInactiveLabelHandler($reminderText, groupId);
     }
 
     addInactiveLabelHandler($element, groupId) {
@@ -158,7 +159,7 @@ class ReminderApp {
                 event.preventDefault();
                 const newText = $element.text();
                 $element.attr('contenteditable', 'false');
-                $element.addClass('inactive-label');
+                $element.removeClass('inactive-label');
 
                 if ($element.hasClass('group-title')) {
                     await this.updateGroupTitle(groupId, newText);
@@ -166,6 +167,7 @@ class ReminderApp {
                     const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
                     await this.updateReminderText(groupId, reminderId, newText);
                 }
+                this.toggleClearButtonState(); // Update button state when text changes
             }
         });
     }
