@@ -230,6 +230,10 @@ html {
     text-decoration: line-through;
 }
 
+.list-group-header input[type="checkbox"]:checked + .editable-label {
+    text-decoration: line-through;
+}
+
 .checkbox-container {
     align-items: center;
 }

@@ -93,6 +93,7 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const isChecked = event.target.checked;
 
+            // Check or uncheck all reminders within the group
             listGroup.reminders.forEach(reminder => {
                 reminder.checked = isChecked;
                 $(`#checkbox-${reminder.id}`).prop('checked', isChecked);
@@ -120,6 +121,7 @@ class ReminderApp {
 
         this.addInactiveLabelHandler($groupTitle, groupId);
     }
+
 
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
