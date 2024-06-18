@@ -285,6 +285,14 @@ button {
     font-weight: 300;
 }
 
+button.important {
+    color: var(--important-color);
+}
+
+button[data-action="toggle-important"].important {
+    color: var(--important-color);
+}
+
 #clear-reminders {
     margin-right: 20px;
 }

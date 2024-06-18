@@ -143,7 +143,7 @@ class ReminderApp {
                 const listGroup = this.listGroups.find(group => group.id === groupId);
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.important = !reminder.important;
-                $toggleImportantButton.text(reminder.important ? '!!' : '!');
+                $toggleImportantButton.text(reminder.important ? '!!' : '!').toggleClass('important', reminder.important);
                 this.toggleImportantButtonState();
                 await updateListGroup(groupId, listGroup);
             } catch (error) {
@@ -156,7 +156,7 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState();
+            this.toggleClearButtonState(); // Update button state when checkbox changes
             await updateListGroup(groupId, listGroup);
         });
 
@@ -178,6 +178,7 @@ class ReminderApp {
 
         this.addInactiveLabelHandler($reminderText, groupId);
     }
+
 
     addInactiveLabelHandler($element, groupId) {
         $element.on('focus', () => {

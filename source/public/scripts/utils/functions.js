@@ -201,12 +201,14 @@ export function filterRemindersByImportant(turnOff = false) {
             let hasImportantReminders = false;
             group.reminders.forEach(reminder => {
                 const $reminderElement = $(`#checkbox-${reminder.id}`).closest('.checkbox-container');
+                const $importantButton = $reminderElement.find('[data-action="toggle-important"]');
                 if (!reminder.important) {
                     $reminderElement.hide();
                 } else {
                     $reminderElement.show();
                     hasImportantReminders = true;
                 }
+                $importantButton.toggleClass('important', reminder.important);
             });
             const $listGroupElement = $(`#group-checkbox-${group.id}`).closest('.list-group');
             if (!hasImportantReminders) {
@@ -220,6 +222,7 @@ export function filterRemindersByImportant(turnOff = false) {
         $('#sort-by-date').addClass('inactive');
     }
 }
+
 
 
 
