@@ -23,10 +23,10 @@ class ReminderApp {
         this.reminderIdCounter = 0;
         this.listGroups = [];
         this.saveState = saveState.bind(this);
-        this.updateReminderText = updateReminderText.bind(this); // Bind the updateReminderText function
-        this.updateGroupTitle = updateGroupTitle.bind(this); // Bind the updateGroupTitle function
-        this.toggleClearButtonState = toggleClearButtonState.bind(this); // Bind the toggleClearButtonState function
-        this.toggleImportantButtonState = toggleImportantButtonState.bind(this); // Bind the toggleImportantButtonState function
+        this.updateReminderText = updateReminderText.bind(this);
+        this.updateGroupTitle = updateGroupTitle.bind(this);
+        this.toggleClearButtonState = toggleClearButtonState.bind(this);
+        this.toggleImportantButtonState = toggleImportantButtonState.bind(this);
     }
 
     async init() {
@@ -48,7 +48,7 @@ class ReminderApp {
         await this.loadListGroups();
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
-        this.toggleClearButtonState(); // Ensure button state is set on initialization
+        this.toggleClearButtonState();
     }
 
     async createNewListGroup() {
@@ -108,7 +108,6 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const isChecked = event.target.checked;
 
-            // Check or uncheck all reminders within the group
             listGroup.reminders.forEach(reminder => {
                 reminder.checked = isChecked;
                 $(`#checkbox-${reminder.id}`).prop('checked', isChecked);
@@ -124,7 +123,7 @@ class ReminderApp {
             const reminderId = parseInt($(event.target).closest('.checkbox-container').data('id'), 10);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState(); // Update button state when checkbox changes
+            this.toggleClearButtonState();
             await updateListGroup(groupId, listGroup);
         });
 
@@ -145,7 +144,7 @@ class ReminderApp {
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
                 reminder.important = !reminder.important;
                 $toggleImportantButton.text(reminder.important ? '!!' : '!');
-                this.toggleImportantButtonState(); // Update the important button state
+                this.toggleImportantButtonState();
                 await updateListGroup(groupId, listGroup);
             } catch (error) {
                 console.error('Error toggling important state:', error);
@@ -157,7 +156,7 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState(); // Update button state when checkbox changes
+            this.toggleClearButtonState();
             await updateListGroup(groupId, listGroup);
         });
 
@@ -198,7 +197,7 @@ class ReminderApp {
                     const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
                     await this.updateReminderText(groupId, reminderId, newText);
                 }
-                this.toggleClearButtonState(); // Update button state when text changes
+                this.toggleClearButtonState();
             }
         });
     }

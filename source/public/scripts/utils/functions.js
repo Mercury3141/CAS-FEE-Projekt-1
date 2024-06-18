@@ -196,19 +196,28 @@ export function filterRemindersByImportant(turnOff = false) {
         $('#sort-by-date').removeClass('inactive');
     } else {
         this.listGroups.forEach(group => {
+            let hasImportantReminders = false;
             group.reminders.forEach(reminder => {
                 const $reminderElement = $(`#checkbox-${reminder.id}`).closest('.checkbox-container');
                 if (!reminder.important) {
                     $reminderElement.hide();
                 } else {
                     $reminderElement.show();
+                    hasImportantReminders = true;
                 }
             });
+            const $listGroupElement = $(`#group-checkbox-${group.id}`).closest('.list-group');
+            if (!hasImportantReminders) {
+                $listGroupElement.hide();
+            } else {
+                $listGroupElement.show();
+            }
         });
         $importantButton.addClass('active');
         $('#sort-by-date').addClass('inactive');
     }
 }
+
 
 export function normalizePaste(event) {
     event.preventDefault();
