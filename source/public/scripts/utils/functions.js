@@ -206,9 +206,9 @@ export function filterRemindersByImportant(turnOff = false) {
                     $reminderElement.hide();
                 } else {
                     $reminderElement.show();
+                    $importantButton.addClass('important');
                     hasImportantReminders = true;
                 }
-                $importantButton.toggleClass('important', reminder.important);
             });
             const $listGroupElement = $(`#group-checkbox-${group.id}`).closest('.list-group');
             if (!hasImportantReminders) {
@@ -222,6 +222,7 @@ export function filterRemindersByImportant(turnOff = false) {
         $('#sort-by-date').addClass('inactive');
     }
 }
+
 
 
 
