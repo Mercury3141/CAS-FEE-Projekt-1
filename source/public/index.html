@@ -50,7 +50,7 @@
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
-        <span class="editable-label text-font text-list inactive-label" id="label-{{id}}" contenteditable="false">New Reminder</span>
+        <span class="editable-label text-font text-list inactive-label" id="label-{{id}}" contenteditable="false">{{text}}</span>
         <input class="date-input" type="date" id="date-{{id}}">
         <button id="button-{{id}}" data-action="toggle-important">!</button>
         <br/>

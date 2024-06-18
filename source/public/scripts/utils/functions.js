@@ -206,7 +206,7 @@ export async function updateReminderText(groupId, reminderId, newText) {
         const listGroup = this.listGroups.find(group => group.id === groupId);
         const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
         reminder.text = newText;
-        await updateListGroup(groupId, listGroup);
+        await updateListGroup(groupId, listGroup); // Save the updated list group to the backend
     } catch (error) {
         console.error('Error updating reminder text:', error);
     }

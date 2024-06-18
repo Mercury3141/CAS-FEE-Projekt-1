@@ -21,6 +21,7 @@ class ReminderApp {
         this.reminderIdCounter = 0;
         this.listGroups = [];
         this.saveState = saveState.bind(this);
+        this.updateReminderText = updateReminderText.bind(this); // Bind the updateReminderText function
     }
 
     async init() {
@@ -149,6 +150,20 @@ class ReminderApp {
     addInactiveLabelHandler($element) {
         $element.on('focus', () => {
             $element.removeClass('inactive-label');
+        });
+
+        $element.on('blur keypress', async (event) => {
+            if (event.type === 'blur' || event.key === 'Enter') {
+                event.preventDefault(); // Prevent default behavior if Enter key is pressed
+                const newText = $element.text();
+                const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
+                const groupId = parseInt($element.closest('.list-group').data('id'), 10);
+
+                $element.attr('contenteditable', 'false');
+                $element.addClass('inactive-label');
+
+                await this.updateReminderText(groupId, reminderId, newText);
+            }
         });
     }
 }
