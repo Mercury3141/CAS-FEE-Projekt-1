@@ -23,13 +23,13 @@
         <div class="flex-container">
             <div class="flex-container-fixed">
                 <div class="toolbar">
-                    <button class="color-main" id="toolbar-new-reminder">New Group</button>
+                    <button class="color-main" id="toolbar-new-reminder">+</button>
                     <div class="spacer-gap"></div>
-                    <button class="color-main inactive" id="show-important"><span class="toolbar-button-text">Important</span></button>
+                    <button class="color-main inactive" id="show-important"><span class="toolbar-button-text">!!</span></button>
                     <div class="spacer-elements"></div>
-                    <button class="color-main inactive" id="sort-by-date"><span class="toolbar-button-text">Date</span></button>
+                    <button class="color-main inactive" id="sort-by-date"><span class="toolbar-button-text">d</span></button>
                     <div class="spacer-fill"></div>
-                    <button class="button-margin-left color-caution inactive" id="clear-reminders">Clear</button>
+                    <button class="button-margin-left color-caution inactive" id="clear-reminders">x</button>
                 </div>
             </div>
             <div class="flex-container-scroll" id="flex-container-elements"></div>
@@ -44,7 +44,7 @@
             <input type="checkbox" id="group-checkbox-{{id}}">
             <span class="editable-label group-title text-font text-title {{#unless userInputted}}inactive-label{{/unless}}" id="group-title-{{id}}" contenteditable="false">{{title}}</span>
         </div>
-        <button data-action="create-reminder" data-group-id="{{id}}">New Reminder</button>
+        <button data-action="create-reminder" data-group-id="{{id}}">+</button>
         <div class="reminders-container" id="reminders-container-{{id}}"></div>
     </div>
 </script>
