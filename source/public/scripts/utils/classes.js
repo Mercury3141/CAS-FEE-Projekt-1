@@ -283,10 +283,18 @@ class ReminderApp {
             const $remindersContainer = $(`#reminders-container-${group.id}`);
             new Sortable($remindersContainer[0], {
                 animation: 150,
-                group: 'reminders',
+                group: {
+                    name: 'reminders',
+                    pull: true,
+                    put: true
+                },
                 onEnd: async (event) => {
-                    const movedReminder = group.reminders.splice(event.oldIndex, 1)[0];
-                    group.reminders.splice(event.newIndex, 0, movedReminder);
+                    const movedReminder = this.listGroups
+                        .find(g => g.id === parseInt(event.from.closest('.list-group').dataset.id, 10))
+                        .reminders.splice(event.oldIndex, 1)[0];
+                    this.listGroups
+                        .find(g => g.id === parseInt(event.to.closest('.list-group').dataset.id, 10))
+                        .reminders.splice(event.newIndex, 0, movedReminder);
                     await this.saveState();
                     this.renderListGroups();
                 }
