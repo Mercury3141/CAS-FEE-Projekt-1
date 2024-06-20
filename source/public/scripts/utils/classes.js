@@ -222,6 +222,26 @@ class ReminderApp {
         $reminderElement.on('click', (e) => {
             e.stopPropagation(); // Prevent the click from bubbling up to the list group
         });
+
+        const $toggleInfoButton = $reminderElement.find(`#toggle-info-${reminderId}`);
+        $toggleInfoButton.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            this.toggleReminderInfo(reminderId);
+        });
+    }
+
+    toggleReminderInfo(reminderId) {
+        const $dateInput = $(`#date-${reminderId}`);
+        const $importantButton = $(`#button-${reminderId}`);
+        const isHidden = $dateInput.is(':hidden');
+
+        if (isHidden) {
+            $dateInput.show();
+            $importantButton.show();
+        } else {
+            $dateInput.hide();
+            $importantButton.hide();
+        }
     }
 
     addInactiveLabelHandler($element, groupId) {
