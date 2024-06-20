@@ -32,9 +32,6 @@
         --selection-color-group-yellow: rgb(255, 251, 185);
         --text-color: rgb(255, 255, 255);
         --inactive-label-color: grey;
-        button[data-action="toggle-important"] {
-            color: grey;
-        }
     }
 
     .date-input {
@@ -353,25 +350,10 @@ button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactiv
 }
 
 
-button.inactive {
-    color: grey;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-button[data-action="toggle-important"] {
-    color: grey;
-}
 
 
 
 
-
-.date-input {
-    font-family: inherit; /* Inherit from :root */
-    font-size: var(--base-font-size);
- /* Adjust the font size as needed */
-}
 
 /* Specific styling for the date text in Chromium-based browsers and Safari */
 .date-input::-webkit-datetime-edit,
@@ -392,14 +374,4 @@ button[data-action="toggle-important"] {
 .date-input::-webkit-inner-spin-button,
 .date-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
-}
-
-.date-input.empty {
-    color: grey; /* Text color */
-    background-color: var(--background-color-bubble); /* Match the input background */
-}
-
-/* Ensuring the placeholder text is also styled correctly */
-.date-input::placeholder {
-    color: grey; /* Placeholder text color */
 }
