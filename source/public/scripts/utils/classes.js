@@ -117,7 +117,10 @@ class ReminderApp {
 
     addListGroupEventListeners($listGroupElement, groupId) {
         const $newReminderButton = $listGroupElement.find('[data-action="create-reminder"]');
-        $newReminderButton.on('click', () => this.createNewReminder(groupId));
+        $newReminderButton.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to the list group
+            this.createNewReminder(groupId);
+        });
 
         const $groupCheckbox = $listGroupElement.find(`#group-checkbox-${groupId}`);
         $groupCheckbox.on('change', async (event) => {
@@ -161,7 +164,8 @@ class ReminderApp {
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
-        $toggleImportantButton.on('click', async () => {
+        $toggleImportantButton.on('click', async (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to other elements
             try {
                 const listGroup = this.listGroups.find(group => group.id === groupId);
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
