@@ -4,6 +4,10 @@
     --background-color-bubble: rgb(255, 255, 255);
     --important-color: rgb(255, 184, 110);
     --selection-color: rgb(0, 122, 255);
+    --selection-color-group-red: rgb(255, 229, 235);
+    --selection-color-group-blue: rgb(229, 248, 255);
+    --selection-color-group-green: rgb(244, 255, 224);
+    --selection-color-group-yellow: rgb(255, 251, 224);
     --text-color: rgb(67, 67, 67);
     --inactive-label-color: grey;
     --base-font-size: 16px;
@@ -19,7 +23,11 @@
     :root {
         --background-color: rgb(28, 28, 28);
         --background-color-bubble: rgb(48, 48, 48);
-        --important-color: rgb(156, 40, 0);
+        --important-color: rgb(201, 52, 0);
+        --selection-color-group-red: rgb(255, 204, 219);
+        --selection-color-group-blue: rgb(206, 245, 255);
+        --selection-color-group-green: rgb(238, 255, 192);
+        --selection-color-group-yellow: rgb(255, 251, 185);
         --text-color: rgb(255, 255, 255);
         --inactive-label-color: grey;
     }
