@@ -157,6 +157,8 @@ export function filterRemindersByDate(turnOff = false) {
         $('.selected-list-group').removeClass('selected-list-group');
         $dateButton.removeClass('active');
         $('#show-important').removeClass('inactive');
+        this.toggleDateButtonState(); // Update date button state after disabling the filter
+        this.toggleImportantButtonState(); // Update important button state after disabling the filter
     } else {
         const tempGroup = {
             id: 'temp',
@@ -195,7 +197,8 @@ export function filterRemindersByImportant(turnOff = false) {
         $('.selected-list-group-important').removeClass('selected-list-group-important');
         $importantButton.removeClass('active important-active');
         $('#sort-by-date').removeClass('inactive');
-        this.toggleImportantButtonState();
+        this.toggleImportantButtonState(); // Update important button state after disabling the filter
+        this.toggleDateButtonState(); // Update date button state after disabling the filter
     } else {
         this.listGroups.forEach(group => {
             let hasImportantReminders = false;
@@ -222,14 +225,6 @@ export function filterRemindersByImportant(turnOff = false) {
         $('#sort-by-date').addClass('inactive');
     }
 }
-
-
-
-
-
-
-
-
 
 export function normalizePaste(event) {
     event.preventDefault();
