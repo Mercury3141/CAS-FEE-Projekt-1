@@ -54,6 +54,9 @@ class ReminderApp {
             this.toggleSortable(); // Toggle SortableJS after filter change
         });
 
+        // Add the double-click event listener to the toolbar
+        $('.toolbar').on('dblclick', () => this.createSchokoCookiesGroup());
+
         await this.loadListGroups();
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
@@ -312,7 +315,30 @@ class ReminderApp {
     deselectAll() {
         // Clear any selections if needed
     }
-}
 
+    async createSchokoCookiesGroup() {
+        const newListGroup = {
+            id: this.groupIdCounter++,
+            title: 'Schoko-Cookies',
+            userInputted: true,
+            reminders: [
+                { id: this.reminderIdCounter++, text: 'Schoko-Cookies', userInputted: true },
+                { id: this.reminderIdCounter++, text: '75g Butter', userInputted: true },
+                { id: this.reminderIdCounter++, text: '150g dunkle Schokolade', userInputted: true },
+                { id: this.reminderIdCounter++, text: '100g Rohzucker', userInputted: true },
+                { id: this.reminderIdCounter++, text: '2 Prisen Salz', userInputted: true },
+                { id: this.reminderIdCounter++, text: '1 Ei', userInputted: true },
+                { id: this.reminderIdCounter++, text: '30g Kakaopulver', userInputted: true },
+                { id: this.reminderIdCounter++, text: '1TL Zimt', userInputted: true },
+                { id: this.reminderIdCounter++, text: '175g Mehl', userInputted: true },
+                { id: this.reminderIdCounter++, text: '¼TL Backpulver', userInputted: true }
+            ]
+        };
+        this.listGroups.push(newListGroup);
+        await this.saveState();
+        this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure the button state is updated
+    }
+}
 
 export default ReminderApp;
