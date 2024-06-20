@@ -29,6 +29,9 @@ class ReminderApp {
         this.updateGroupTitle = updateGroupTitle.bind(this);
         this.toggleClearButtonState = toggleClearButtonState.bind(this);
         this.toggleImportantButtonState = toggleImportantButtonState.bind(this);
+
+        // Bind the global click handler
+        this.handleGlobalClick = this.handleGlobalClick.bind(this);
     }
 
     async init() {
@@ -54,6 +57,9 @@ class ReminderApp {
 
         // Initialize SortableJS for reminders
         this.initSortable();
+
+        // Add the global click event listener
+        document.addEventListener('click', this.handleGlobalClick);
     }
 
     async createNewListGroup() {
@@ -62,10 +68,14 @@ class ReminderApp {
             this.filterRemindersByImportant(true);
         }
         await createNewListGroup.call(this);
+        this.renderListGroups(); // Re-render the list groups to show the new group
+        this.initSortable(); // Re-initialize sortable after rendering
     }
 
     async createNewReminder(groupId) {
         await createNewReminder.call(this, groupId);
+        this.renderListGroups(); // Re-render the list groups to show the new reminder
+        this.initSortable(); // Re-initialize sortable after rendering
     }
 
     renderListGroups() {
@@ -134,7 +144,8 @@ class ReminderApp {
         });
 
         const $groupTitle = $listGroupElement.find('.group-title');
-        $groupTitle.on('click', () => {
+        $groupTitle.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to other elements
             $groupTitle.attr('contenteditable', 'true').focus();
             $groupTitle.removeClass('inactive-label');
         });
@@ -183,7 +194,8 @@ class ReminderApp {
         $dateInput.on('input', () => this.toggleDateButtonState());
 
         const $reminderText = $reminderElement.find('.editable-label.text-list');
-        $reminderText.on('click', () => {
+        $reminderText.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to other elements
             $reminderText.attr('contenteditable', 'true').focus();
             $reminderText.removeClass('inactive-label');
         });
@@ -276,6 +288,24 @@ class ReminderApp {
                 }
             });
         });
+    }
+
+    handleGlobalClick(event) {
+        const $target = $(event.target);
+        if (!$target.closest('.list-group, .checkbox-container').length) {
+            this.deselectAll();
+        }
+    }
+
+    deselectAll() {
+        if (this.selectedGroupId !== null) {
+            $(`[data-id="${this.selectedGroupId}"]`).removeClass('selected-list-group');
+            this.selectedGroupId = null;
+        }
+        if (this.selectedReminderId !== null) {
+            $(`[data-id="${this.selectedReminderId}"]`).removeClass('selected-reminder');
+            this.selectedReminderId = null;
+        }
     }
 }
 
