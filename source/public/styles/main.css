@@ -236,8 +236,15 @@ html {
     }
 }
 
+
+.list-group-header input[type="checkbox"] {
+    margin-right: 10px;
+}
+
 .checkbox-container input[type="checkbox"]:checked + .editable-label {
     text-decoration: line-through;
+    margin-right: 10px;
+
 }
 
 .list-group-header input[type="checkbox"]:checked + .editable-label {
@@ -256,7 +263,6 @@ html {
 .checkbox-container .text-font {
     margin-right: 8px;
     max-width: 200px;
-    padding: 2px 0;
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -276,6 +282,10 @@ html {
     flex-shrink: 0; /* Prevent date input and button from shrinking */
 }
 
+
+#clear-reminders {
+    margin-right: 20px;
+}
 
 
 
@@ -352,7 +362,6 @@ button[data-action="toggle-important"].important {
 .editable-label {
     color: var(--text-color);
     cursor: text;
-    padding: 2px 4px;
     border: 1px dashed transparent;
 }
 
