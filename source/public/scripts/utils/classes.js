@@ -317,23 +317,48 @@ class ReminderApp {
     }
 
     async createSchokoCookiesGroup() {
+        const remindersList = [
+            'Schoko-Cookies',
+            '75g Butter',
+            '150g dunkle Schokolade',
+            '100g Rohzucker',
+            '2 Prisen Salz',
+            '1 Ei',
+            '30g Kakaopulver',
+            '1TL Zimt',
+            '175g Mehl',
+            '¼TL Backpulver'
+        ];
+
+        const getRandomDate = () => {
+            const today = new Date();
+            const offset = Math.floor(Math.random() * 60) - 30; // Random date within +/- 30 days
+            const randomDate = new Date(today);
+            randomDate.setDate(today.getDate() + offset);
+            return randomDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        };
+
+        const reminderCount = Math.floor(Math.random() * 21);
+        const reminders = Array.from({ length: reminderCount }, () => {
+            const text = remindersList[Math.floor(Math.random() * remindersList.length)];
+            const date = getRandomDate();
+            const important = Math.random() < 0.1; // 10% chance to be important
+            return {
+                id: this.reminderIdCounter++,
+                text,
+                userInputted: true,
+                date,
+                important
+            };
+        });
+
         const newListGroup = {
             id: this.groupIdCounter++,
             title: 'Schoko-Cookies',
             userInputted: true,
-            reminders: [
-                { id: this.reminderIdCounter++, text: 'Schoko-Cookies', userInputted: true },
-                { id: this.reminderIdCounter++, text: '75g Butter', userInputted: true },
-                { id: this.reminderIdCounter++, text: '150g dunkle Schokolade', userInputted: true },
-                { id: this.reminderIdCounter++, text: '100g Rohzucker', userInputted: true },
-                { id: this.reminderIdCounter++, text: '2 Prisen Salz', userInputted: true },
-                { id: this.reminderIdCounter++, text: '1 Ei', userInputted: true },
-                { id: this.reminderIdCounter++, text: '30g Kakaopulver', userInputted: true },
-                { id: this.reminderIdCounter++, text: '1TL Zimt', userInputted: true },
-                { id: this.reminderIdCounter++, text: '175g Mehl', userInputted: true },
-                { id: this.reminderIdCounter++, text: '¼TL Backpulver', userInputted: true }
-            ]
+            reminders
         };
+
         this.listGroups.push(newListGroup);
         await this.saveState();
         this.renderListGroups();
