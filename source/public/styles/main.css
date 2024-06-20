@@ -30,6 +30,17 @@
         --selection-color-group-yellow: rgb(255, 251, 185);
         --text-color: rgb(255, 255, 255);
         --inactive-label-color: grey;
+        button[data-action="toggle-important"] {
+            color: grey;
+        }
+    }
+
+    .date-input {
+        color: var(--text-color); /* Set text color to white */
+    }
+
+    .date-input::-webkit-calendar-picker-indicator {
+        filter: invert(1); /* Invert the calendar icon color */
     }
 }
 
@@ -344,4 +355,6 @@ button.inactive {
     pointer-events: none;
 }
 
-
+button[data-action="toggle-important"] {
+    color: grey;
+}
