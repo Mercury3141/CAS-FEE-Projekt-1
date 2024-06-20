@@ -1,5 +1,5 @@
 :root {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --important-color: rgb(255, 184, 110);
@@ -8,9 +8,11 @@
     --selection-color-group-blue: rgb(229, 248, 255);
     --selection-color-group-green: rgb(244, 255, 224);
     --selection-color-group-yellow: rgb(255, 251, 224);
-    --text-color: rgb(67, 67, 67);
+    --text-color: rgb(0, 0, 0);
+    /*--text-color: rgb(67, 67, 67);*/
     --inactive-label-color: grey;
-    --base-font-size: 16px;
+    --base-font-size: 13px;
+    --main-font-weight: normal;
     --border-radius: 28px;
     --z-index-base: 1;
     --z-index-toolbar: 100;
@@ -154,7 +156,7 @@ html {
 }
 
 .text-font {
-    font-style: normal;
+    font-weight: var(--main-font-weight);
     writing-mode: horizontal-tb;
     margin-block-start: auto;
     hyphens: auto;
@@ -164,18 +166,18 @@ html {
 }
 
 .text-title {
-    font-size: 1em;
-    font-weight: 600;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .text-list {
-    font-size: 0.8em;
-    font-weight: 300;
+    font-size: var(--base-font-size);
+    font-weight: var(--main-font-weight);
 }
 
 .text-label {
-    font-size: 0.8em;
-    font-weight: 300;
+    font-size: var(--base-font-size);
+    font-weight: var(--main-font-weight);
     color: var(--text-color);
 }
 
@@ -190,10 +192,10 @@ html {
     opacity: 0.968;
 }
 
-#infoButton {
-    position: relative;
-    z-index: -1000;
-}
+/*#infoButton {*/
+/*    position: relative;*/
+/*    z-index: -1000;*/
+/*}*/
 
 .popup .popuptext {
     visibility: hidden;
@@ -300,8 +302,9 @@ button {
     border-radius: 4px;
     cursor: pointer;
     color: var(--text-color);
-    font-size: 0.8em;
-    font-weight: 300;
+    font-size: var(--base-font-size);
+    font-weight: var(--main-font-weight);
+    font-family: inherit;
 }
 
 button.important {
@@ -349,6 +352,7 @@ button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactiv
     pointer-events: none;
 }
 
+
 button.inactive {
     color: grey;
     cursor: not-allowed;
@@ -357,4 +361,45 @@ button.inactive {
 
 button[data-action="toggle-important"] {
     color: grey;
+}
+
+
+
+
+
+.date-input {
+    font-family: inherit; /* Inherit from :root */
+    font-size: var(--base-font-size);
+ /* Adjust the font size as needed */
+}
+
+/* Specific styling for the date text in Chromium-based browsers and Safari */
+.date-input::-webkit-datetime-edit,
+.date-input::-webkit-datetime-edit-fields-wrapper,
+.date-input::-webkit-datetime-edit-text,
+.date-input::-webkit-datetime-edit-month-field,
+.date-input::-webkit-datetime-edit-day-field,
+.date-input::-webkit-datetime-edit-year-field,
+.date-input::-webkit-datetime-edit-hour-field,
+.date-input::-webkit-datetime-edit-minute-field,
+.date-input::-webkit-datetime-edit-second-field,
+.date-input::-webkit-datetime-edit-millisecond-field,
+.date-input::-webkit-datetime-edit-ampm-field {
+    font-family: inherit; /* Inherit from :root */
+    font-size: var(--base-font-size); /* Adjust the font size as needed */
+}
+
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.date-input.empty {
+    color: grey; /* Text color */
+    background-color: var(--background-color-bubble); /* Match the input background */
+}
+
+/* Ensuring the placeholder text is also styled correctly */
+.date-input::placeholder {
+    color: grey; /* Placeholder text color */
 }

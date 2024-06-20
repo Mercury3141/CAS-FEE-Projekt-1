@@ -53,7 +53,9 @@
     <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
         <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}" id="label-{{id}}" contenteditable="false">{{text}}</span>
-        <input class="date-input" type="date" id="date-{{id}}">
+
+        <input class="date-input" type="date" id="date-{{id}}" placeholder="">
+
         <button id="button-{{id}}" data-action="toggle-important" class="{{#if important}}important{{/if}}">!</button>
         <br/>
     </div>

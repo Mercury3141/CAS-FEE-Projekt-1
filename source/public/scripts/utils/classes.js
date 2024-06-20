@@ -314,4 +314,30 @@ class ReminderApp {
     }
 }
 
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to check and toggle the empty class
+    const checkAndToggleEmptyClass = (input) => {
+        if (input.value) {
+            input.classList.remove('empty');
+        } else {
+            input.classList.add('empty');
+        }
+    };
+
+    // Select all date inputs and apply the initial check
+    document.querySelectorAll('.date-input').forEach(input => {
+        checkAndToggleEmptyClass(input);
+
+        // Add event listener to handle changes
+        input.addEventListener('input', () => {
+            checkAndToggleEmptyClass(input);
+        });
+    });
+});
+
+
 export default ReminderApp;

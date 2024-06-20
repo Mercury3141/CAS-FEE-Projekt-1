@@ -279,3 +279,18 @@ export async function updateReminderText(groupId, reminderId, newText) {
         console.error('Error updating reminder text:', error);
     }
 }
+
+document.querySelectorAll('.date-input').forEach(input => {
+    if (!input.value) {
+        input.classList.add('empty');
+    }
+
+    input.addEventListener('input', () => {
+        if (input.value) {
+            input.classList.remove('empty');
+        } else {
+            input.classList.add('empty');
+        }
+    });
+});
+
