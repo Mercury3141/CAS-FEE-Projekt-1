@@ -244,9 +244,24 @@ html {
     text-decoration: line-through;
 }
 
+
 .checkbox-container {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 5px 0; /* Add padding for better spacing */
 }
+
+.checkbox-container .text-font {
+    flex-grow: 1;
+    margin-right: 10px; /* Space between text and date input/button */
+}
+
+.checkbox-container .date-input,
+.checkbox-container button {
+    margin-left: 10px;
+}
+
 
 .editable-label[contenteditable="true"] {
     border: 1px dashed #000;
