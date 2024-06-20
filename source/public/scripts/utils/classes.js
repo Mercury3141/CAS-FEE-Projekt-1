@@ -22,6 +22,8 @@ class ReminderApp {
         this.groupIdCounter = 0;
         this.reminderIdCounter = 0;
         this.listGroups = [];
+        this.selectedGroupId = null;
+        this.selectedReminderId = null;
         this.saveState = saveState.bind(this);
         this.updateReminderText = updateReminderText.bind(this);
         this.updateGroupTitle = updateGroupTitle.bind(this);
@@ -49,6 +51,9 @@ class ReminderApp {
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
         this.toggleClearButtonState();
+
+        // Initialize SortableJS for reminders
+        this.initSortable();
     }
 
     async createNewListGroup() {
@@ -65,6 +70,7 @@ class ReminderApp {
 
     renderListGroups() {
         renderListGroups.call(this);
+        this.initSortable(); // Re-initialize sortable after rendering
     }
 
     renderReminders(group, $remindersContainer) {
@@ -134,6 +140,9 @@ class ReminderApp {
         });
 
         this.addInactiveLabelHandler($groupTitle, groupId);
+
+        // Add selection highlight
+        $listGroupElement.on('click', () => this.selectListGroup(groupId));
     }
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
@@ -177,8 +186,38 @@ class ReminderApp {
         });
 
         this.addInactiveLabelHandler($reminderText, groupId);
+
+        // Add selection highlight
+        $reminderElement.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to the list group
+            this.selectReminder(groupId, reminderId);
+        });
     }
 
+    selectListGroup(groupId) {
+        // Deselect previously selected group
+        if (this.selectedGroupId !== null) {
+            $(`[data-id="${this.selectedGroupId}"]`).removeClass('selected-list-group');
+        }
+        // Select the new group
+        this.selectedGroupId = groupId;
+        $(`[data-id="${groupId}"]`).addClass('selected-list-group');
+    }
+
+    selectReminder(groupId, reminderId) {
+        // Deselect previously selected reminder
+        if (this.selectedReminderId !== null) {
+            $(`[data-id="${this.selectedReminderId}"]`).removeClass('selected-reminder');
+        }
+        // Select the new reminder
+        this.selectedReminderId = reminderId;
+        $(`[data-id="${reminderId}"]`).addClass('selected-reminder');
+        // Deselect the list group to avoid multiple selections
+        if (this.selectedGroupId === groupId) {
+            this.selectedGroupId = null;
+            $(`[data-id="${groupId}"]`).removeClass('selected-list-group');
+        }
+    }
 
     addInactiveLabelHandler($element, groupId) {
         $element.on('focus', () => {
@@ -200,6 +239,34 @@ class ReminderApp {
                 }
                 this.toggleClearButtonState();
             }
+        });
+    }
+
+    initSortable() {
+        // Initialize Sortable for list groups
+        new Sortable(this.$flexContainerElements[0], {
+            animation: 150,
+            onEnd: async (event) => {
+                const movedGroup = this.listGroups.splice(event.oldIndex, 1)[0];
+                this.listGroups.splice(event.newIndex, 0, movedGroup);
+                await this.saveState();
+                this.renderListGroups();
+            }
+        });
+
+        // Initialize Sortable for each reminder container
+        this.listGroups.forEach(group => {
+            const $remindersContainer = $(`#reminders-container-${group.id}`);
+            new Sortable($remindersContainer[0], {
+                animation: 150,
+                group: 'reminders',
+                onEnd: async (event) => {
+                    const movedReminder = group.reminders.splice(event.oldIndex, 1)[0];
+                    group.reminders.splice(event.newIndex, 0, movedReminder);
+                    await this.saveState();
+                    this.renderListGroups();
+                }
+            });
         });
     }
 }
