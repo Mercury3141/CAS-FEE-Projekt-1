@@ -86,9 +86,14 @@ export async function loadListGroups() {
 export async function clearCheckedRemindersAndGroups() {
     try {
         this.listGroups = this.listGroups.filter(group => {
+            // Check if the group title was user inputted
+            if (group.userInputted) {
+                return true; // Keep the group
+            }
+
             const $groupCheckbox = $(`#group-checkbox-${group.id}`);
             if ($groupCheckbox.is(':checked')) {
-                return false; // Remove the entire group
+                return false; // Remove the entire group if it's checked and not user inputted
             }
 
             group.reminders = group.reminders.filter(reminder => {
@@ -106,6 +111,7 @@ export async function clearCheckedRemindersAndGroups() {
         console.error('Error clearing checked reminders and groups:', error);
     }
 }
+
 
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
