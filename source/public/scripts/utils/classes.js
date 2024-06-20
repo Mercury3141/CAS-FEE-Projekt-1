@@ -142,7 +142,10 @@ class ReminderApp {
         this.addInactiveLabelHandler($groupTitle, groupId);
 
         // Add selection highlight
-        $listGroupElement.on('click', () => this.selectListGroup(groupId));
+        $listGroupElement.on('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            this.selectListGroup(groupId);
+        });
     }
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
@@ -199,6 +202,11 @@ class ReminderApp {
         if (this.selectedGroupId !== null) {
             $(`[data-id="${this.selectedGroupId}"]`).removeClass('selected-list-group');
         }
+        // Deselect previously selected reminder
+        if (this.selectedReminderId !== null) {
+            $(`[data-id="${this.selectedReminderId}"]`).removeClass('selected-reminder');
+            this.selectedReminderId = null;
+        }
         // Select the new group
         this.selectedGroupId = groupId;
         $(`[data-id="${groupId}"]`).addClass('selected-list-group');
@@ -209,14 +217,14 @@ class ReminderApp {
         if (this.selectedReminderId !== null) {
             $(`[data-id="${this.selectedReminderId}"]`).removeClass('selected-reminder');
         }
+        // Deselect previously selected group
+        if (this.selectedGroupId !== null) {
+            $(`[data-id="${this.selectedGroupId}"]`).removeClass('selected-list-group');
+            this.selectedGroupId = null;
+        }
         // Select the new reminder
         this.selectedReminderId = reminderId;
         $(`[data-id="${reminderId}"]`).addClass('selected-reminder');
-        // Deselect the list group to avoid multiple selections
-        if (this.selectedGroupId === groupId) {
-            this.selectedGroupId = null;
-            $(`[data-id="${groupId}"]`).removeClass('selected-list-group');
-        }
     }
 
     addInactiveLabelHandler($element, groupId) {
