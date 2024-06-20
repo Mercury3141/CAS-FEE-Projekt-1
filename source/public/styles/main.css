@@ -92,7 +92,7 @@ html {
     overflow: hidden;
     width: 100%;
     margin: 8px 8px;
-    padding: 16px 16px 16px;
+    padding: 16px 22px;
     border-radius: var(--border-radius);
     background-color: var(--background-color-bubble);
 }
@@ -128,7 +128,7 @@ html {
 }
 
 .spacer-gap {
-    min-width: 2.4em;
+    min-width: 1.2em;
 }
 
 .spacer-elements {
@@ -248,19 +248,35 @@ html {
 .checkbox-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px 0; /* Add padding for better spacing */
+
+    padding: 5px 0;
+
 }
 
 .checkbox-container .text-font {
+    margin-right: 8px;
+    max-width: 200px;
+    padding: 2px 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.checkbox-container .spacer-fill {
+    margin-left: 10px;
+
+
     flex-grow: 1;
-    margin-right: 10px; /* Space between text and date input/button */
 }
 
 .checkbox-container .date-input,
 .checkbox-container button {
-    margin-left: 10px;
+    margin-left: 8px;
+    flex-shrink: 0; /* Prevent date input and button from shrinking */
 }
+
+
 
 
 .editable-label[contenteditable="true"] {
@@ -319,10 +335,6 @@ button.important {
 
 button[data-action="toggle-important"].important {
     color: var(--important-color);
-}
-
-#clear-reminders {
-    margin-right: 20px;
 }
 
 .selected-list-group {
