@@ -355,23 +355,10 @@ button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactiv
 
 
 
-/* Specific styling for the date text in Chromium-based browsers and Safari */
-.date-input::-webkit-datetime-edit,
-.date-input::-webkit-datetime-edit-fields-wrapper,
-.date-input::-webkit-datetime-edit-text,
-.date-input::-webkit-datetime-edit-month-field,
-.date-input::-webkit-datetime-edit-day-field,
-.date-input::-webkit-datetime-edit-year-field,
-.date-input::-webkit-datetime-edit-hour-field,
-.date-input::-webkit-datetime-edit-minute-field,
-.date-input::-webkit-datetime-edit-second-field,
-.date-input::-webkit-datetime-edit-millisecond-field,
-.date-input::-webkit-datetime-edit-ampm-field {
-    font-family: inherit; /* Inherit from :root */
-    font-size: var(--base-font-size); /* Adjust the font size as needed */
-}
 
-.date-input::-webkit-inner-spin-button,
-.date-input::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+
+
+.date-input {
+    font-family: inherit; /* Inherit from :root */
+    font-size: var(--base-font-size);
 }
