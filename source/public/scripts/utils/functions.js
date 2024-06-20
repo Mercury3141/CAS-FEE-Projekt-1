@@ -4,7 +4,7 @@ export async function createNewListGroup() {
     try {
         const newListGroup = {
             id: this.groupIdCounter++,
-            title: 'Group Title',
+            title: 'New Reminder',
             userInputted: false,
             reminders: []
         };

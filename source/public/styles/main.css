@@ -345,14 +345,13 @@ button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactiv
 
 
 
-
-
-
-
-
-
-
 .date-input {
     font-family: inherit; /* Inherit from :root */
     font-size: var(--base-font-size);
+}
+
+button.inactive {
+    color: grey;
+    cursor: not-allowed;
+    pointer-events: none;
 }
