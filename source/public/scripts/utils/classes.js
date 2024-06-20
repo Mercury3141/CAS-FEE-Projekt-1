@@ -45,15 +45,21 @@ class ReminderApp {
 
         this.$toolbarNewGroupButton.on('click', () => this.createNewListGroup());
         this.$clearRemindersButton.on('click', () => this.clearCheckedRemindersAndGroups());
-        this.$dateButton.on('click', () => this.filterRemindersByDate());
-        this.$importantButton.on('click', () => this.filterRemindersByImportant());
+        this.$dateButton.on('click', () => {
+            this.filterRemindersByDate();
+            this.toggleSortable(); // Toggle SortableJS after filter change
+        });
+        this.$importantButton.on('click', () => {
+            this.filterRemindersByImportant();
+            this.toggleSortable(); // Toggle SortableJS after filter change
+        });
 
         await this.loadListGroups();
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
         this.toggleClearButtonState();
 
-        // Initialize SortableJS for reminders
+        // Initialize SortableJS for reminders and list-groups
         this.initSortable();
 
         // Add the global click event listener
@@ -111,6 +117,18 @@ class ReminderApp {
 
     filterRemindersByImportant(turnOff = false) {
         filterRemindersByImportant.call(this, turnOff);
+    }
+
+    cancelFiltering() {
+        const isDateFilterActive = $('#sort-by-date').hasClass('active');
+        const isImportantFilterActive = $('#show-important').hasClass('active');
+
+        if (isDateFilterActive) {
+            this.filterRemindersByDate(true);
+        }
+        if (isImportantFilterActive) {
+            this.filterRemindersByImportant(true);
+        }
     }
 
     addListGroupEventListeners($listGroupElement, groupId) {
@@ -231,8 +249,9 @@ class ReminderApp {
 
     initSortable() {
         // Initialize Sortable for list groups
-        new Sortable(this.$flexContainerElements[0], {
+        this.sortableGroups = new Sortable(this.$flexContainerElements[0], {
             animation: 150,
+            onStart: () => this.cancelFiltering(), // Cancel filtering on drag start
             onEnd: async (event) => {
                 const movedGroup = this.listGroups.splice(event.oldIndex, 1)[0];
                 this.listGroups.splice(event.newIndex, 0, movedGroup);
@@ -242,15 +261,16 @@ class ReminderApp {
         });
 
         // Initialize Sortable for each reminder container
-        this.listGroups.forEach(group => {
+        this.sortableReminders = this.listGroups.map(group => {
             const $remindersContainer = $(`#reminders-container-${group.id}`);
-            new Sortable($remindersContainer[0], {
+            return new Sortable($remindersContainer[0], {
                 animation: 150,
                 group: {
                     name: 'reminders',
                     pull: true,
                     put: true
                 },
+                onStart: () => this.cancelFiltering(), // Cancel filtering on drag start
                 onEnd: async (event) => {
                     const fromGroupId = parseInt(event.from.closest('.list-group').dataset.id, 10);
                     const toGroupId = parseInt(event.to.closest('.list-group').dataset.id, 10);
@@ -265,6 +285,21 @@ class ReminderApp {
                 }
             });
         });
+    }
+
+    toggleSortable() {
+        const isDateFilterActive = $('#sort-by-date').hasClass('active');
+        const isImportantFilterActive = $('#show-important').hasClass('active');
+        const enableSortable = !isDateFilterActive && !isImportantFilterActive;
+
+        // Enable or disable sortable instances for list-groups
+        if (this.sortableGroups) {
+            this.sortableGroups.option('disabled', !enableSortable);
+        }
+        // Enable or disable sortable instances for reminders
+        if (this.sortableReminders) {
+            this.sortableReminders.forEach(sortable => sortable.option('disabled', !enableSortable));
+        }
     }
 
     handleGlobalClick(event) {
