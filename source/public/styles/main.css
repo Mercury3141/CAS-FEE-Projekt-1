@@ -47,13 +47,15 @@
     color: var(--inactive-label-color);
 }
 
+
+
+
 body,
 html {
     display: flex;
     justify-content: center;
     background-color: var(--background-color);
 }
-
 
 .flex-container {
     display: flex;
@@ -119,6 +121,8 @@ html {
 }
 
 
+
+
 .text-font {
 }
 
@@ -130,18 +134,12 @@ html {
     font-size: var(--base-font-size);
 }
 
-/*.list-group-header input[type="checkbox"] {*/
-/*    margin-right: 8px;*/
-/*}*/
-
-/*.list-group-header {*/
-/*    !*display: flex;*!*/
-/*    align-items: center;*/
-/*}*/
-
 .list-group-header input[type="checkbox"] {
     margin-right: 10px;
 }
+
+
+
 
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
@@ -155,55 +153,23 @@ html {
     text-decoration: line-through;
 }
 
-/*.checkbox-container .text-font {*/
-/*    margin-right: 8px;*/
-/*    max-width: 200px;*/
-
-/*    overflow: hidden;*/
-/*    text-overflow: ellipsis;*/
-/*    white-space: nowrap;*/
-
-
-/*}*/
-
-
-
-
-
-/*.checkbox-container .spacer-fill {*/
-/*    margin-left: 10px;*/
-
-
-/*    flex-grow: 1;*/
-/*}*/
-
-
-/*#clear-reminders {*/
-/*    margin-right: 20px;*/
-/*}*/
-
-/*.editable-label[contenteditable="true"] {*/
-/*    border: 1px dashed #000;*/
-/*}*/
 
 
 
 button[data-action="create-reminder"], .toolbar button {
-    margin: 0px 0;
-    padding: 5px 10px;
-    margin-left: 20px;
+    margin-top: 12px;
+    margin-left: 22px;
+    padding: 4px 10px 6px;
 }
 
-
 button {
-    background-color: var(--background-color-bubble);
-    border: 1px solid var(--background-color-bubble);
-    border-radius: 4px;
     cursor: pointer;
+    background-color: transparent;
+    border: transparent;
+    border-radius: 4px;
     color: var(--text-color);
     font-size: var(--base-font-size);
     font-weight: var(--main-font-weight);
-    font-family: inherit;
 }
 
 .date-input {
@@ -212,7 +178,6 @@ button {
     padding: 5px;
     border-radius: 4px;
 }
-
 
 button.important {
     color: var(--important-color);
@@ -245,7 +210,6 @@ button[data-action="toggle-important"].important {
     margin-left: 8px;
     flex-shrink: 0;
 }
-
 
 button#sort-by-date.active .toolbar-button-text {
     color: var(--selection-color);
