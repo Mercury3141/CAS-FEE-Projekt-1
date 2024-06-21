@@ -27,8 +27,6 @@ class ReminderApp {
         this.updateGroupTitle = updateGroupTitle.bind(this);
         this.toggleClearButtonState = toggleClearButtonState.bind(this);
         this.toggleImportantButtonState = toggleImportantButtonState.bind(this);
-
-        // Bind the global click handler
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
     }
 
@@ -42,27 +40,23 @@ class ReminderApp {
         this.reminderTemplate = $('#reminder-template').html();
         this.compiledListGroupTemplate = Handlebars.compile(this.listGroupTemplate);
         this.compiledReminderTemplate = Handlebars.compile(this.reminderTemplate);
-
         this.$toolbarNewGroupButton.on('click', () => this.createNewListGroup());
         this.$clearRemindersButton.on('click', () => this.clearCheckedRemindersAndGroups());
         this.$dateButton.on('click', () => {
             this.filterRemindersByDate();
-            this.toggleSortable(); // Toggle SortableJS after filter change
+            this.toggleSortable();
         });
         this.$importantButton.on('click', () => {
             this.filterRemindersByImportant();
-            this.toggleSortable(); // Toggle SortableJS after filter change
+            this.toggleSortable();
         });
 
         await this.loadListGroups();
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
         this.toggleClearButtonState();
-
-        // Initialize SortableJS for reminders and list-groups
         this.initSortable();
 
-        // Add the global click event listener
         document.addEventListener('click', this.handleGlobalClick);
     }
 
@@ -168,7 +162,6 @@ class ReminderApp {
 
         this.addInactiveLabelHandler($groupTitle, groupId);
 
-        // Add selection highlight
         $listGroupElement.on('click', (e) => {
             e.stopPropagation(); // Prevent the click from bubbling up to other elements
         });
@@ -195,7 +188,7 @@ class ReminderApp {
             const listGroup = this.listGroups.find(group => group.id === groupId);
             const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
             reminder.checked = event.target.checked;
-            this.toggleClearButtonState(); // Update button state when checkbox changes
+            this.toggleClearButtonState();
             await updateListGroup(groupId, listGroup);
         });
 
@@ -211,7 +204,7 @@ class ReminderApp {
 
         const $reminderText = $reminderElement.find('.editable-label.text-list');
         $reminderText.on('click', (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            e.stopPropagation();
             $reminderText.attr('contenteditable', 'true').focus();
             $reminderText.removeClass('inactive-label');
         });
@@ -220,7 +213,7 @@ class ReminderApp {
 
         // Add selection highlight
         $reminderElement.on('click', (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to the list group
+            e.stopPropagation();
         });
     }
 
@@ -260,7 +253,6 @@ class ReminderApp {
             }
         });
 
-        // Initialize Sortable for each reminder container
         this.sortableReminders = this.listGroups.map(group => {
             const $remindersContainer = $(`#reminders-container-${group.id}`);
             return new Sortable($remindersContainer[0], {
@@ -292,11 +284,10 @@ class ReminderApp {
         const isImportantFilterActive = $('#show-important').hasClass('active');
         const enableSortable = !isDateFilterActive && !isImportantFilterActive;
 
-        // Enable or disable sortable instances for list-groups
         if (this.sortableGroups) {
             this.sortableGroups.option('disabled', !enableSortable);
         }
-        // Enable or disable sortable instances for reminders
+
         if (this.sortableReminders) {
             this.sortableReminders.forEach(sortable => sortable.option('disabled', !enableSortable));
         }
@@ -310,9 +301,7 @@ class ReminderApp {
     }
 
     deselectAll() {
-        // Clear any selections if needed
     }
 }
-
 
 export default ReminderApp;

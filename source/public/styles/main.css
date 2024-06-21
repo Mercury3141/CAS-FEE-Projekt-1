@@ -23,7 +23,7 @@
     }
 
     .date-input {
-        color: var(--text-color); /* Set text color to white */
+        color: var(--text-color);
     }
 
     .date-input::-webkit-calendar-picker-indicator {
