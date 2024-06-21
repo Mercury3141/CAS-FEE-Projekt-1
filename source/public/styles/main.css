@@ -25,6 +25,10 @@
         --inactive-label-color: rgb(152, 152, 157);
         --text-color: rgb(255, 255, 255);
     }
+
+    .date-input::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
 }
 
 .color-caution {
@@ -49,8 +53,6 @@ html {
     justify-content: center;
     background-color: var(--background-color);
 }
-
-
 
 
 .flex-container {
@@ -105,7 +107,11 @@ html {
     flex: 1;
     flex-direction: row;
     align-items: flex-start;
-    /*word-wrap: break-word;*/
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
 }
 
 .spacer-fill {
@@ -113,44 +119,29 @@ html {
 }
 
 
-/*.element-text {*/
-/*    display: inline-block;*/
-/*    !*overflow: hidden;*!*/
-/*    !*text-overflow: ellipsis;*!*/
-/*    word-wrap: break-word;*/
-/*    !*max-width: 600px;*!*/
-/*}*/
-
 .text-font {
-    /*font-weight: var(--main-font-weight);*/
-    /*writing-mode: horizontal-tb;*/
-    /*margin-block-start: auto;*/
-    /*line-height: var(--line-height);*/
-    /*white-space: normal;*/
-    /*hyphens: auto;*/
-    /*color: var(--text-color);*/
 }
 
 .text-title {
-    /*font-size: 1.1em;*/
     font-weight: bold;
 }
 
 .text-list {
     font-size: var(--base-font-size);
-    /*font-weight: var(--main-font-weight);*/
 }
 
-/*.text-label {*/
-/*    font-size: var(--base-font-size);*/
-/*    font-weight: var(--main-font-weight);*/
-/*    color: var(--text-color);*/
+/*.list-group-header input[type="checkbox"] {*/
+/*    margin-right: 8px;*/
+/*}*/
+
+/*.list-group-header {*/
+/*    !*display: flex;*!*/
+/*    align-items: center;*/
 /*}*/
 
 .list-group-header input[type="checkbox"] {
-    margin-right: 8px;
+    margin-right: 10px;
 }
-
 
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
@@ -158,61 +149,44 @@ html {
 
 .checkbox-container input[type="checkbox"]:checked + .editable-label {
     text-decoration: line-through;
-    margin-right: 10px;
 }
 
 .list-group-header input[type="checkbox"]:checked + .editable-label {
     text-decoration: line-through;
 }
 
-.checkbox-container .text-font {
-    margin-right: 8px;
-    max-width: 200px;
+/*.checkbox-container .text-font {*/
+/*    margin-right: 8px;*/
+/*    max-width: 200px;*/
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*    white-space: nowrap;*/
 
 
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-
-    padding: 5px 0;
-
-}
+/*}*/
 
 
 
-.checkbox-container .spacer-fill {
-    margin-left: 10px;
 
 
-    flex-grow: 1;
-}
+/*.checkbox-container .spacer-fill {*/
+/*    margin-left: 10px;*/
 
 
-
-#clear-reminders {
-    margin-right: 20px;
-}
+/*    flex-grow: 1;*/
+/*}*/
 
 
+/*#clear-reminders {*/
+/*    margin-right: 20px;*/
+/*}*/
 
-.editable-label[contenteditable="true"] {
-    border: 1px dashed #000;
-}
+/*.editable-label[contenteditable="true"] {*/
+/*    border: 1px dashed #000;*/
+/*}*/
 
-.list-group-header {
-    display: flex;
-    align-items: center;
-}
 
-.list-group-header input[type="checkbox"] {
-    margin-right: 10px;
-}
 
 button[data-action="create-reminder"], .toolbar button {
     margin: 0px 0;
@@ -288,7 +262,6 @@ button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactiv
 }
 
 
-
 .date-input {
     font-family: inherit; /* Inherit from :root */
     font-size: var(--base-font-size);
@@ -301,13 +274,7 @@ button.inactive {
 }
 
 
-
-
-    .date-input {
-        color: var(--text-color);
-    }
-
-    .date-input::-webkit-calendar-picker-indicator {
-        filter: invert(1); /* Invert the calendar icon color */
-    }
+.date-input {
+    color: var(--text-color);
 }
+
