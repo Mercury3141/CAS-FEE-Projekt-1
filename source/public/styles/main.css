@@ -134,6 +134,8 @@ html {
 
 .list-group-header input[type="checkbox"] {
     margin-right: 10px;
+    position: relative;
+    bottom: 0.16em;
 }
 
 
