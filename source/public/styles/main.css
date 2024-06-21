@@ -22,15 +22,6 @@
         --text-color: rgb(255, 255, 255);
     }
 
-    .date-input {
-        color: var(--text-color);
-    }
-
-    .date-input::-webkit-calendar-picker-indicator {
-        filter: invert(1); /* Invert the calendar icon color */
-    }
-}
-
 body,
 html {
     display: flex;
@@ -51,8 +42,6 @@ html {
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-bottom: 16px;
-    z-index: var(--z-index-toolbar);
 }
 
 .flex-container-scroll {
@@ -79,7 +68,7 @@ html {
     align-items: flex-start;
     overflow: hidden;
     width: 100%;
-    margin: 8px 8px;
+    margin: 8px 8px 24px 8px;
     padding: 16px 22px;
     border-radius: var(--border-radius);
     background-color: var(--background-color-bubble);
@@ -378,4 +367,16 @@ button.inactive {
     color: grey;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+
+
+
+    .date-input {
+        color: var(--text-color);
+    }
+
+    .date-input::-webkit-calendar-picker-indicator {
+        filter: invert(1); /* Invert the calendar icon color */
+    }
 }
