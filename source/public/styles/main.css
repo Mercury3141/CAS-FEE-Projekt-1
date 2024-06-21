@@ -13,6 +13,8 @@
     --contentarea-dynamic: 94vw;
     --contentarea-max: 1200px;
     --border-radius: 28px;
+    --button-radius: 4px;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,8 +48,6 @@
 .inactive-label {
     color: var(--inactive-label-color);
 }
-
-
 
 
 body,
@@ -121,8 +121,6 @@ html {
 }
 
 
-
-
 .text-font {
 }
 
@@ -139,8 +137,6 @@ html {
 }
 
 
-
-
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
 }
@@ -154,14 +150,10 @@ html {
 }
 
 
-
-
 .editable-label {
     color: var(--text-color); /* ADAPT FOR GREY STANDARD LABELS */
     cursor: text;
 }
-
-
 
 
 button[data-action="create-reminder"], .toolbar button {
@@ -174,21 +166,31 @@ button {
     cursor: pointer;
     background-color: transparent;
     border: transparent;
-    border-radius: 4px;
+    border-radius: var(--button-radius);
     color: var(--text-color);
     font-size: var(--base-font-size);
     font-weight: var(--main-font-weight);
 }
 
-.date-input {
-    background-color: var(--background-color-bubble);
-    border: none;
-    padding: 5px;
-    border-radius: 4px;
-}
 
 button.important {
     color: var(--important-color);
+}
+
+button.inactive {
+    color: grey;
+    pointer-events: none;
+}
+
+
+.date-input {
+    font-family: inherit; /* Inherit from :root */
+    font-size: var(--base-font-size);
+    color: var(--text-color);
+    background-color: var(--background-color-bubble);
+    border: none;
+    border-radius: var(--button-radius);
+    padding: 5px;
 }
 
 
@@ -199,44 +201,3 @@ button.important {
 .selected-list-group-important {
     outline: 1.6px solid var(--important-color);
 }
-
-
-
-
-/*.checkbox-container .date-input,*/
-/*.checkbox-container button {*/
-/*    margin-left: 8px;*/
-/*    flex-shrink: 0;*/
-/*}*/
-
-/*button#sort-by-date.active .toolbar-button-text {*/
-/*    color: var(--selection-color);*/
-/*}*/
-
-/*button#show-important.active .toolbar-button-text {*/
-/*    color: var(--important-color);*/
-/*}*/
-
-/*button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactive .toolbar-button-text {*/
-/*    color: grey;*/
-/*    cursor: not-allowed;*/
-/*    pointer-events: none;*/
-/*}*/
-
-
-.date-input {
-    font-family: inherit; /* Inherit from :root */
-    font-size: var(--base-font-size);
-}
-
-button.inactive {
-    color: grey;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-
-.date-input {
-    color: var(--text-color);
-}
-
