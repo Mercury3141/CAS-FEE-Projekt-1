@@ -183,21 +183,21 @@ button.important {
     color: var(--important-color);
 }
 
-button[data-action="toggle-important"].important {
-    color: var(--important-color);
-}
+/*button[data-action="toggle-important"].important {*/
+/*    color: var(--important-color);*/
+/*}*/
 
 .selected-list-group {
-    outline: 2px solid var(--selection-color);
+    outline: 1.6px solid var(--selection-color);
 }
 
 .selected-list-group-important {
-    outline: 2px solid var(--important-color);
+    outline: 1.6px solid var(--important-color);
 }
 
-.selected-reminder {
-    border: 2px solid var(--selection-color);
-}
+/*.selected-reminder {*/
+/*    border: 2px solid var(--selection-color);*/
+/*}*/
 
 .editable-label {
     color: var(--text-color);
