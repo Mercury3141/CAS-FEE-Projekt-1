@@ -156,6 +156,14 @@ html {
 
 
 
+.editable-label {
+    color: var(--text-color); /* ADAPT FOR GREY STANDARD LABELS */
+    cursor: text;
+}
+
+
+
+
 button[data-action="create-reminder"], .toolbar button {
     margin-top: 12px;
     margin-left: 22px;
@@ -183,9 +191,6 @@ button.important {
     color: var(--important-color);
 }
 
-/*button[data-action="toggle-important"].important {*/
-/*    color: var(--important-color);*/
-/*}*/
 
 .selected-list-group {
     outline: 1.6px solid var(--selection-color);
@@ -195,35 +200,28 @@ button.important {
     outline: 1.6px solid var(--important-color);
 }
 
-/*.selected-reminder {*/
-/*    border: 2px solid var(--selection-color);*/
+
+
+
+/*.checkbox-container .date-input,*/
+/*.checkbox-container button {*/
+/*    margin-left: 8px;*/
+/*    flex-shrink: 0;*/
 /*}*/
 
-.editable-label {
-    color: var(--text-color);
-    cursor: text;
-    border: 1px dashed transparent;
-}
+/*button#sort-by-date.active .toolbar-button-text {*/
+/*    color: var(--selection-color);*/
+/*}*/
 
-.checkbox-container .date-input,
-.checkbox-container button {
-    margin-left: 8px;
-    flex-shrink: 0;
-}
+/*button#show-important.active .toolbar-button-text {*/
+/*    color: var(--important-color);*/
+/*}*/
 
-button#sort-by-date.active .toolbar-button-text {
-    color: var(--selection-color);
-}
-
-button#show-important.active .toolbar-button-text {
-    color: var(--important-color);
-}
-
-button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactive .toolbar-button-text {
-    color: grey;
-    cursor: not-allowed;
-    pointer-events: none;
-}
+/*button#sort-by-date.inactive .toolbar-button-text, button#show-important.inactive .toolbar-button-text {*/
+/*    color: grey;*/
+/*    cursor: not-allowed;*/
+/*    pointer-events: none;*/
+/*}*/
 
 
 .date-input {
