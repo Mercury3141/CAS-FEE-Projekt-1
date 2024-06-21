@@ -3,10 +3,12 @@
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --important-color: rgb(255, 184, 110);
+    --caution-color: rgb(255, 59, 48);
     --selection-color: rgb(0, 122, 255);
     --inactive-label-color: rgb(142, 142, 147);
     --text-color: rgb(0, 0, 0);
     --base-font-size: 13px;
+    --line-height: 1.6;
     --main-font-weight: normal;
     --contentarea-dynamic: 94vw;
     --contentarea-max: 1200px;
@@ -18,10 +20,27 @@
         --background-color: rgb(28, 28, 28);
         --background-color-bubble: rgb(48, 48, 48);
         --important-color: rgb(255, 159, 10);
+        --caution-color: rgb(255, 69, 58);
         --selection-color: rgb(10, 132, 255);
         --inactive-label-color: rgb(152, 152, 157);
         --text-color: rgb(255, 255, 255);
     }
+}
+
+.color-caution {
+    color: var(--caution-color);
+}
+
+.important-active .toolbar-button-text {
+    color: var(--important-color);
+}
+
+.active {
+    color: var(--selection-color);
+}
+
+.inactive-label {
+    color: var(--inactive-label-color);
 }
 
 body,
@@ -30,6 +49,9 @@ html {
     justify-content: center;
     background-color: var(--background-color);
 }
+
+
+
 
 .flex-container {
     display: flex;
@@ -53,26 +75,19 @@ html {
     height: 80vh;
     width: var(--contentarea-dynamic);
     max-width: var(--contentarea-max);
-    /*overflow: auto;*/
 }
 
 .flex-container-elements {
     display: flex;
-    /*justify-content: flex-start;*/
     flex-wrap: wrap;
-    /*overflow: auto;*/
     border-radius: var(--border-radius);
 }
 
 .toolbar {
     display: flex;
     flex-direction: row;
-    /*align-items: flex-start;*/
-    /*overflow: hidden;*/
-    /*width: 100%;*/ /*KEEP THIS*/ /*KEEP THIS*/ /*KEEP THIS*/
     margin: 8px 8px 24px 8px;
     padding: 16px 20px;
-    /*background-color: var(--background-color-bubble);*/ /*KEEP THIS*/ /*KEEP THIS*/ /*KEEP THIS*/
     border-radius: var(--border-radius);
 }
 
@@ -86,129 +101,51 @@ html {
     background-color: var(--background-color-bubble);
 }
 
-
 .list-element {
     flex: 1;
     flex-direction: row;
     align-items: flex-start;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
+    /*word-wrap: break-word;*/
 }
 
 .spacer-fill {
     flex-grow: 1;
 }
 
-.spacer-gap {
-    min-width: 1.2em;
-}
 
-.spacer-elements {
-    min-width: 0.8em;
-}
-
-.button-margin-bottom {
-    margin-bottom: 0.8em;
-}
-
-.color-caution {
-    color: rgb(255, 59, 48);
-}
-
-.element-text {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    max-width: 600px;
-}
+/*.element-text {*/
+/*    display: inline-block;*/
+/*    !*overflow: hidden;*!*/
+/*    !*text-overflow: ellipsis;*!*/
+/*    word-wrap: break-word;*/
+/*    !*max-width: 600px;*!*/
+/*}*/
 
 .text-font {
-    font-weight: var(--main-font-weight);
-    writing-mode: horizontal-tb;
-    margin-block-start: auto;
-    hyphens: auto;
-    white-space: normal;
-    color: var(--text-color);
-    line-height: 1.6;
+    /*font-weight: var(--main-font-weight);*/
+    /*writing-mode: horizontal-tb;*/
+    /*margin-block-start: auto;*/
+    /*line-height: var(--line-height);*/
+    /*white-space: normal;*/
+    /*hyphens: auto;*/
+    /*color: var(--text-color);*/
 }
 
 .text-title {
-    font-size: 1.1em;
+    /*font-size: 1.1em;*/
     font-weight: bold;
 }
 
 .text-list {
     font-size: var(--base-font-size);
-    font-weight: var(--main-font-weight);
+    /*font-weight: var(--main-font-weight);*/
 }
 
-.text-label {
-    font-size: var(--base-font-size);
-    font-weight: var(--main-font-weight);
-    color: var(--text-color);
-}
-
-/*.popup {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    cursor: pointer;*/
-/*    -webkit-user-select: none;*/
-/*    -moz-user-select: none;*/
-/*    -ms-user-select: none;*/
-/*    user-select: none;*/
-/*    opacity: 0.968;*/
+/*.text-label {*/
+/*    font-size: var(--base-font-size);*/
+/*    font-weight: var(--main-font-weight);*/
+/*    color: var(--text-color);*/
 /*}*/
-
-/*.popup .popuptext {*/
-/*    visibility: hidden;*/
-/*    width: 120px;*/
-/*    background-color: var(--background-color);*/
-/*    color: #fff;*/
-/*    text-align: center;*/
-/*    border-radius: 16px;*/
-/*    padding: 16px 0;*/
-/*    position: absolute;*/
-/*    z-index: var(--z-index-menu: 1000);*/
-/*    bottom: auto;*/
-/*    left: auto;*/
-/*    right: 120%;*/
-/*    top: 50%;*/
-/*    transform: translateY(-50%);*/
-/*    margin-left: 0;*/
-/*}*/
-
-/*.popup .show {*/
-/*    visibility: visible;*/
-/*    -webkit-animation: fadeIn 1s;*/
-/*    animation: fadeIn 1s;*/
-/*}*/
-
-/*.popup .show {*/
-/*    visibility: visible;*/
-/*    -webkit-animation: fadeIn 0.2s ease;*/
-/*    animation: fadeIn 0.2s ease;*/
-/*}*/
-
-/*@-webkit-keyframes fadeIn {*/
-/*    from {*/
-/*        opacity: 0;*/
-/*    }*/
-/*    to {*/
-/*        opacity: 1;*/
-/*    }*/
-/*}*/
-
-/*@keyframes fadeIn {*/
-/*    from {*/
-/*        opacity: 0;*/
-/*    }*/
-/*    to {*/
-/*        opacity: 1;*/
-/*    }*/
-/*}*/
-
 
 .list-group-header input[type="checkbox"] {
     margin-right: 10px;
@@ -224,6 +161,16 @@ html {
     text-decoration: line-through;
 }
 
+.checkbox-container .text-font {
+    margin-right: 8px;
+    max-width: 200px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+
+}
 
 .checkbox-container {
     display: flex;
@@ -233,14 +180,7 @@ html {
 
 }
 
-.checkbox-container .text-font {
-    margin-right: 8px;
-    max-width: 200px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 .checkbox-container .spacer-fill {
     margin-left: 10px;
@@ -276,25 +216,6 @@ button[data-action="create-reminder"], .toolbar button {
     margin-left: 20px;
 }
 
-.inactive-label {
-    color: var(--inactive-label-color);
-}
-
-.active {
-    color: var(--selection-color);
-}
-
-.important-active .toolbar-button-text {
-    color: var(--important-color);
-}
-
-.greyed-out {
-    color: grey;
-}
-
-.blue-text {
-    color: rgb(0, 122, 240);
-}
 
 button {
     background-color: var(--background-color-bubble);
