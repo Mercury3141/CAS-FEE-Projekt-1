@@ -148,13 +148,17 @@ html {
 /*}*/
 
 .list-group-header input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+
+.checkbox-container input[type="checkbox"] {
     margin-right: 10px;
 }
 
 .checkbox-container input[type="checkbox"]:checked + .editable-label {
     text-decoration: line-through;
     margin-right: 10px;
-
 }
 
 .list-group-header input[type="checkbox"]:checked + .editable-label {
