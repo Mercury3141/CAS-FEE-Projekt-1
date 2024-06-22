@@ -24,7 +24,7 @@ export async function createNewReminder(groupId) {
             id: this.reminderIdCounter++,
             text: 'New Reminder',
             userInputted: false,
-            date: '',
+            date: '', // Not sure if this is the right way of initialization
             important: false,
             checked: false
         };
