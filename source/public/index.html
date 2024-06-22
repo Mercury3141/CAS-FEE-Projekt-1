@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reminders</title>
     <script src="./libraries/handlebars.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <script type="module" src="./scripts/utils/noteService.js" defer></script>
     <script type="module" src="./scripts/controllers/userControllers.js" defer></script>
     <script type="module" src="./scripts/model/routes.js" defer></script>
@@ -20,13 +23,13 @@
         <div class="flex-container">
             <div class="flex-container-fixed">
                 <div class="toolbar">
-                    <button class="color-main" id="toolbar-new-reminder">New Group</button>
+                    <button class="color-main" id="toolbar-new-reminder">+</button>
                     <div class="spacer-gap"></div>
-                    <button class="color-main" id="show-important">Important</button>
+                    <button class="color-main inactive" id="show-important"><span class="toolbar-button-text">!!</span></button>
                     <div class="spacer-elements"></div>
-                    <button class="color-main inactive" id="sort-by-date">Date</button>
+                    <button class="color-main inactive" id="sort-by-date"><span class="toolbar-button-text">d</span></button>
                     <div class="spacer-fill"></div>
-                    <button class="button-margin-left color-caution inactive" id="clear-reminders">Clear</button>
+                    <button class="button-margin-left color-caution inactive" id="clear-reminders">x</button>
                 </div>
             </div>
             <div class="flex-container-scroll" id="flex-container-elements"></div>
@@ -39,9 +42,9 @@
     <div class="list-group" data-id="{{id}}">
         <div class="list-group-header">
             <input type="checkbox" id="group-checkbox-{{id}}">
-            <span class="editable-label group-title text-font text-title" id="group-title-{{id}}" contenteditable="false">{{title}}</span>
+            <span class="editable-label group-title text-font text-title {{#unless userInputted}}inactive-label{{/unless}}" id="group-title-{{id}}" contenteditable="false">{{title}}</span>
         </div>
-        <button data-action="create-reminder">New Reminder</button>
+        <button data-action="create-reminder" data-group-id="{{id}}">+</button>
         <div class="reminders-container" id="reminders-container-{{id}}"></div>
     </div>
 </script>
@@ -49,11 +52,12 @@
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
-        <span class="editable-label text-font text-list" id="label-{{id}}" contenteditable="false">New Reminder</span>
+        <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}" id="label-{{id}}" contenteditable="false">{{text}}</span>
+        <div class="spacer-fill"></div>
         <input class="date-input" type="date" id="date-{{id}}">
-        <button id="button-{{id}}" data-action="toggle-important">!</button>
-        <br/>
+        <button id="button-{{id}}" data-action="toggle-important" class="{{#if important}}important{{/if}}">!</button>
     </div>
 </script>
+
 </body>
 </html>
