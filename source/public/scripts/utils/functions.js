@@ -299,4 +299,3 @@ document.querySelectorAll('.date-input').forEach(input => {
         }
     });
 });
-
