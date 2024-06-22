@@ -112,7 +112,6 @@ export async function clearCheckedRemindersAndGroups() {
     }
 }
 
-
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
     const anyChecked = $checkboxes.is(':checked');
