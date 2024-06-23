@@ -11,7 +11,7 @@ export async function createNewListGroup() {
         this.listGroups.push(newListGroup);
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error creating new list group:', error);
     }
@@ -31,7 +31,7 @@ export async function createNewReminder(groupId) {
         listGroup.reminders.push(newReminder);
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error creating new reminder:', error);
     }
@@ -78,6 +78,7 @@ export async function loadListGroups() {
     try {
         this.listGroups = await getListGroups();
         this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure button state is updated after loading
     } catch (error) {
         console.error('Error loading list groups:', error);
     }
@@ -109,7 +110,7 @@ export async function clearCheckedRemindersAndGroups() {
 
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }
