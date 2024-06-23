@@ -167,7 +167,7 @@ class ReminderApp {
         });
     }
 
-addReminderEventListeners($reminderElement, groupId, reminderId) {
+    addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
         $toggleImportantButton.on('click', async (e) => {
             e.stopPropagation();
@@ -215,7 +215,6 @@ addReminderEventListeners($reminderElement, groupId, reminderId) {
             e.stopPropagation();
         });
     }
-
 
     addInactiveLabelHandler($element, groupId) {
         $element.on('focus', () => {
@@ -300,6 +299,7 @@ addReminderEventListeners($reminderElement, groupId, reminderId) {
     }
 
     deselectAll() {
+        // Implementation for deselecting all items
     }
 }
 

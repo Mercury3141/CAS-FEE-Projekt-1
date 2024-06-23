@@ -1,4 +1,4 @@
-import {getListGroups, saveListGroups, updateListGroup} from './noteService.js';
+import { getListGroups, saveListGroups, updateListGroup } from './noteService.js';
 
 export async function createNewListGroup() {
     try {
@@ -11,7 +11,7 @@ export async function createNewListGroup() {
         this.listGroups.push(newListGroup);
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error creating new list group:', error);
     }
@@ -31,7 +31,7 @@ export async function createNewReminder(groupId) {
         listGroup.reminders.push(newReminder);
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error creating new reminder:', error);
     }
@@ -78,6 +78,7 @@ export async function loadListGroups() {
     try {
         this.listGroups = await getListGroups();
         this.renderListGroups();
+        this.toggleClearButtonState(); // Ensure button state is updated after loading
     } catch (error) {
         console.error('Error loading list groups:', error);
     }
@@ -86,26 +87,30 @@ export async function loadListGroups() {
 export async function clearCheckedRemindersAndGroups() {
     try {
         this.listGroups = this.listGroups.filter(group => {
-            if (group.userInputted) {
-                return true; // Keep the group
-            }
-
             const $groupCheckbox = $(`#group-checkbox-${group.id}`);
-            if ($groupCheckbox.is(':checked')) {
-                return false;
-            }
+            const isGroupChecked = $groupCheckbox.is(':checked');
+            const isGroupUserInputted = group.userInputted;
+            const isGroupEmptyTitle = group.title.trim() === 'New Reminder';
 
             group.reminders = group.reminders.filter(reminder => {
                 const $reminderCheckbox = $(`#checkbox-${reminder.id}`);
-                return !$reminderCheckbox.is(':checked') && reminder.userInputted;
+                const isReminderChecked = $reminderCheckbox.is(':checked');
+                const isReminderUserInputted = reminder.userInputted;
+                const isReminderEmptyText = reminder.text.trim() === 'New Reminder';
+
+                return !isReminderChecked && !(isReminderEmptyText && !isReminderUserInputted);
             });
 
-            return group.reminders.length > 0;
+            if (isGroupChecked || (isGroupEmptyTitle && !isGroupUserInputted && group.reminders.length === 0)) {
+                return false;
+            }
+
+            return true;
         });
 
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }
@@ -195,7 +200,6 @@ export function filterRemindersByDate(turnOff = false) {
                 title: 'Upcoming',
                 reminders: []
             }
-
         };
 
         this.listGroups.forEach(group => {
@@ -221,7 +225,6 @@ export function filterRemindersByDate(turnOff = false) {
             });
         });
 
-
         this.$flexContainerElements.empty();
 
         Object.values(groups).forEach(group => {
@@ -233,7 +236,6 @@ export function filterRemindersByDate(turnOff = false) {
                 this.renderReminders(group, $listGroupElement.find('.reminders-container'));
             }
         });
-
 
         $dateButton.addClass('active');
         $('#show-important').addClass('inactive');
