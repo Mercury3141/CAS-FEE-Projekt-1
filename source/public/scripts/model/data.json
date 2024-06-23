@@ -1,149 +1,156 @@
 [
   {
-    "id": 3,
-    "title": "√√√√√√",
-    "userInputted": true,
+    "id": 10,
+    "title": "New Reminder",
+    "userInputted": false,
     "reminders": [
       {
-        "id": 3,
-        "text": "√",
+        "id": 6,
+        "text": "asdfasdfa",
         "userInputted": true,
+        "date": null,
+        "important": true,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": [
+      {
+        "id": 12,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 13,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": "2024-06-18",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 14,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 15,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 16,
+        "text": "New Reminder",
+        "userInputted": false,
         "date": "2024-06-23",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 17,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 18,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
         "important": false,
         "checked": false
       }
     ]
   },
   {
-    "id": 8,
+    "id": 16,
     "title": "New Reminder",
     "userInputted": false,
     "reminders": [
       {
-        "id": 0,
-        "text": "Hello",
-        "userInputted": true,
-        "date": "2024-06-22",
+        "id": 19,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 20,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": "2024-06-04",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 21,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "sdfasdfasdf",
+    "userInputted": true,
+    "reminders": []
+  },
+  {
+    "id": 18,
+    "title": "New Reminder",
+    "userInputted": true,
+    "reminders": [
+      {
+        "id": 22,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 23,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
         "important": true,
         "checked": false
       },
       {
-        "id": 4,
-        "text": "Updated",
-        "userInputted": true,
-        "date": "2024-06-23",
+        "id": 24,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": "2024-08-22",
         "important": false,
         "checked": false
       },
       {
-        "id": 5,
+        "id": 25,
         "text": "New Reminder",
         "userInputted": false,
-        "date": "2024-06-24",
+        "date": null,
         "important": false,
         "checked": false
       }
     ]
-  },
-  {
-    "id": 0,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": [
-      {
-        "id": 0,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": "2024-06-28",
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 1,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 2,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 3,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 4,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 5,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 6,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 7,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": "2024-07-19",
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 1,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 2,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 3,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 4,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 5,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
   }
 ]
