@@ -140,21 +140,6 @@ html {
 }
 
 
-.group-title {
-    width: 240px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.editable-label.text-list {
-    display: block;
-    width: 240px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
 }
@@ -167,10 +152,13 @@ html {
     text-decoration: line-through;
 }
 
-
 .editable-label {
     color: var(--text-color); /* ADAPT FOR GREY STANDARD LABELS */
     cursor: text;
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 

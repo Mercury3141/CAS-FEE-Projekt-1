@@ -1,12 +1,12 @@
 [
   {
-    "id": 56,
-    "title": "asdfasdfasdkj fjkashd fkljahsd f",
+    "id": 0,
+    "title": "New Reminders",
     "userInputted": true,
     "reminders": [
       {
-        "id": 1,
-        "text": "asdfasdf",
+        "id": 0,
+        "text": "New Reminder New Reminder New Reminder New Reminder ",
         "userInputted": true,
         "date": null,
         "important": false,
@@ -15,24 +15,9 @@
     ]
   },
   {
-    "id": 5,
-    "title": "asdfasdfa sdfasd fasdf asdf ",
+    "id": 10,
+    "title": "New Reminder",
     "userInputted": true,
     "reminders": []
-  },
-  {
-    "id": 20,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": [
-      {
-        "id": 1,
-        "text": "asdfasdf",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
   }
 ]
