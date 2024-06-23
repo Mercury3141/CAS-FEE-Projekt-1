@@ -76,6 +76,7 @@ html {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    overflow: auto;
     height: 80vh;
     width: var(--contentarea-dynamic);
     max-width: var(--contentarea-max);
