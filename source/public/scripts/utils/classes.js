@@ -15,7 +15,7 @@ import {
     updateGroupTitle,
     updateReminderText
 } from './functions.js';
-import { updateListGroup } from './noteService.js';
+import {updateListGroup} from './noteService.js';
 
 class ReminderApp {
     constructor() {
@@ -66,19 +66,19 @@ class ReminderApp {
             this.filterRemindersByImportant(true);
         }
         await createNewListGroup.call(this);
-        this.renderListGroups(); // Re-render the list groups to show the new group
-        this.initSortable(); // Re-initialize sortable after rendering
+        this.renderListGroups();
+        this.initSortable();
     }
 
     async createNewReminder(groupId) {
         await createNewReminder.call(this, groupId);
-        this.renderListGroups(); // Re-render the list groups to show the new reminder
-        this.initSortable(); // Re-initialize sortable after rendering
+        this.renderListGroups();
+        this.initSortable();
     }
 
     renderListGroups() {
         renderListGroups.call(this);
-        this.initSortable(); // Re-initialize sortable after rendering
+        this.initSortable();
     }
 
     renderReminders(group, $remindersContainer) {
@@ -155,7 +155,7 @@ class ReminderApp {
 
         const $groupTitle = $listGroupElement.find('.group-title');
         $groupTitle.on('click', (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            e.stopPropagation();
             $groupTitle.attr('contenteditable', 'true').focus();
             $groupTitle.removeClass('inactive-label');
         });
@@ -163,14 +163,14 @@ class ReminderApp {
         this.addInactiveLabelHandler($groupTitle, groupId);
 
         $listGroupElement.on('click', (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            e.stopPropagation();
         });
     }
 
     addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
         $toggleImportantButton.on('click', async (e) => {
-            e.stopPropagation(); // Prevent the click from bubbling up to other elements
+            e.stopPropagation();
             try {
                 const listGroup = this.listGroups.find(group => group.id === groupId);
                 const reminder = listGroup.reminders.find(rem => rem.id === reminderId);
@@ -211,7 +211,6 @@ class ReminderApp {
 
         this.addInactiveLabelHandler($reminderText, groupId);
 
-        // Add selection highlight
         $reminderElement.on('click', (e) => {
             e.stopPropagation();
         });
@@ -241,10 +240,9 @@ class ReminderApp {
     }
 
     initSortable() {
-        // Initialize Sortable for list groups
         this.sortableGroups = new Sortable(this.$flexContainerElements[0], {
             animation: 150,
-            onStart: () => this.cancelFiltering(), // Cancel filtering on drag start
+            onStart: () => this.cancelFiltering(),
             onEnd: async (event) => {
                 const movedGroup = this.listGroups.splice(event.oldIndex, 1)[0];
                 this.listGroups.splice(event.newIndex, 0, movedGroup);
@@ -262,7 +260,7 @@ class ReminderApp {
                     pull: true,
                     put: true
                 },
-                onStart: () => this.cancelFiltering(), // Cancel filtering on drag start
+                onStart: () => this.cancelFiltering(),
                 onEnd: async (event) => {
                     const fromGroupId = parseInt(event.from.closest('.list-group').dataset.id, 10);
                     const toGroupId = parseInt(event.to.closest('.list-group').dataset.id, 10);
