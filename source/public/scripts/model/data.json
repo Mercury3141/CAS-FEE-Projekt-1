@@ -1,28 +1,13 @@
 [
   {
-    "id": 20,
-    "title": "asdfasdfasd",
+    "id": 25,
+    "title": "fasdfads",
     "userInputted": true,
     "reminders": []
   },
   {
-    "id": 22,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": [
-      {
-        "id": 15,
-        "text": "sdfasdfasdf",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 23,
-    "title": "asfdfasdfasf",
+    "id": 20,
+    "title": "asdfasdfasd",
     "userInputted": true,
     "reminders": []
   },
@@ -33,54 +18,20 @@
     "reminders": []
   },
   {
-    "id": 25,
-    "title": "fasdfads",
+    "id": 23,
+    "title": "asfdfasdfasf",
+    "userInputted": true,
+    "reminders": []
+  },
+  {
+    "id": 34,
+    "title": "fasdfasdf",
     "userInputted": true,
     "reminders": [
       {
-        "id": 40,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 41,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 42,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 43,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 44,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 45,
-        "text": "New Reminder",
-        "userInputted": false,
+        "id": 15,
+        "text": "sdfasdfasdf",
+        "userInputted": true,
         "date": null,
         "important": false,
         "checked": false
@@ -118,58 +69,21 @@
     ]
   },
   {
-    "id": 34,
-    "title": "fasdfasdf",
-    "userInputted": true,
-    "reminders": [
-      {
-        "id": 34,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 35,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 36,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 37,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 38,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      },
-      {
-        "id": 39,
-        "text": "New Reminder",
-        "userInputted": false,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
+    "id": 22,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
+  },
+  {
+    "id": 5,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
+  },
+  {
+    "id": 6,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
   }
 ]

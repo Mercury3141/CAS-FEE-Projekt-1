@@ -112,7 +112,7 @@ export async function clearCheckedRemindersAndGroups() {
 
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState();
+        this.toggleClearButtonState(); // Ensure button state is updated after deletion
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }
