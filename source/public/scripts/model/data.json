@@ -1,13 +1,52 @@
 [
   {
     "id": 56,
-    "title": "sdfasdfa",
+    "title": "asdfasdfasdkj fjkashd fkljahsd f",
     "userInputted": true,
-    "reminders": []
+    "reminders": [
+      {
+        "id": 1,
+        "text": "asdfasdf",
+        "userInputted": true,
+        "date": null,
+        "important": false,
+        "checked": false
+      }
+    ]
   },
   {
     "id": 0,
     "title": "fasdfakjsdhflkjashdf",
+    "userInputted": true,
+    "reminders": [
+      {
+        "id": 0,
+        "text": "fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf fasdfakjsdhflkjashdf",
+        "userInputted": true,
+        "date": null,
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "asdfasdfa sdfasd fasdf asdf ",
+    "userInputted": true,
+    "reminders": [
+      {
+        "id": 3,
+        "text": "sdafasdfasdf",
+        "userInputted": true,
+        "date": null,
+        "important": false,
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "New Reminder",
     "userInputted": true,
     "reminders": []
   }

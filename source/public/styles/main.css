@@ -140,6 +140,22 @@ html {
 }
 
 
+.group-title {
+    display: block;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.editable-label.text-list {
+    display: block;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
 }

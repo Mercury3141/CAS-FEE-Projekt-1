@@ -11,7 +11,6 @@ import {
     saveState,
     filterRemindersByDate,
     filterRemindersByImportant,
-    makeEditable,
     updateGroupTitle,
     updateReminderText
 } from './functions.js';
