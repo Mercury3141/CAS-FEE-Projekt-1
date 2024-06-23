@@ -126,7 +126,7 @@ export function toggleClearButtonState() {
         group.reminders.some(reminder => !reminder.userInputted)
     );
 
-    const anyEmptyGroups = this.listGroups.some(group => group.reminders.length === 0);
+    const anyEmptyGroups = this.listGroups.some(group => !group.userInputted && group.title.trim() === 'New Reminder');
 
     const $clearButton = $('#clear-reminders');
     if (anyChecked || anyUnusedReminders || anyEmptyGroups) {
@@ -320,6 +320,7 @@ export async function updateGroupTitle(groupId, newTitle) {
         listGroup.title = newTitle;
         listGroup.userInputted = true;
         await updateListGroup(groupId, listGroup);
+        this.toggleClearButtonState(); // Ensure button state is updated after title update
     } catch (error) {
         console.error('Error updating group title:', error);
     }
@@ -332,6 +333,7 @@ export async function updateReminderText(groupId, reminderId, newText) {
         reminder.text = newText;
         reminder.userInputted = true;
         await updateListGroup(groupId, listGroup);
+        this.toggleClearButtonState(); // Ensure button state is updated after text update
     } catch (error) {
         console.error('Error updating reminder text:', error);
     }

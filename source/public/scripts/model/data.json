@@ -1,89 +1,14 @@
 [
   {
-    "id": 25,
-    "title": "fasdfads",
+    "id": 56,
+    "title": "sdfasdfa",
     "userInputted": true,
     "reminders": []
   },
   {
-    "id": 20,
-    "title": "asdfasdfasd",
+    "id": 0,
+    "title": "fasdfakjsdhflkjashdf",
     "userInputted": true,
-    "reminders": []
-  },
-  {
-    "id": 21,
-    "title": "asdfaf",
-    "userInputted": true,
-    "reminders": []
-  },
-  {
-    "id": 23,
-    "title": "asfdfasdfasf",
-    "userInputted": true,
-    "reminders": []
-  },
-  {
-    "id": 34,
-    "title": "fasdfasdf",
-    "userInputted": true,
-    "reminders": [
-      {
-        "id": 15,
-        "text": "sdfasdfasdf",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 32,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": [
-      {
-        "id": 25,
-        "text": "sdfasdfasdf",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 33,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": [
-      {
-        "id": 26,
-        "text": "sdfasdf",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
-  },
-  {
-    "id": 22,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 5,
-    "title": "New Reminder",
-    "userInputted": false,
-    "reminders": []
-  },
-  {
-    "id": 6,
-    "title": "New Reminder",
-    "userInputted": false,
     "reminders": []
   }
 ]
