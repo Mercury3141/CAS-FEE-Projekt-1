@@ -98,10 +98,12 @@ export async function clearCheckedRemindersAndGroups() {
                 const isReminderUserInputted = reminder.userInputted;
                 const isReminderEmptyText = reminder.text.trim() === 'New Reminder';
 
-                return !isReminderChecked && !(isReminderEmptyText && !isReminderUserInputted);
+                return !(isReminderChecked || (!isReminderUserInputted && isReminderEmptyText));
             });
 
-            if (isGroupChecked || (isGroupEmptyTitle && !isGroupUserInputted && group.reminders.length === 0)) {
+            // Check if group should be deleted
+            const hasNonDeletableReminders = group.reminders.some(reminder => reminder.userInputted);
+            if (isGroupChecked || (!isGroupUserInputted && isGroupEmptyTitle && !hasNonDeletableReminders)) {
                 return false;
             }
 
@@ -110,7 +112,7 @@ export async function clearCheckedRemindersAndGroups() {
 
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState(); // Ensure button state is updated
+        this.toggleClearButtonState();
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }

@@ -53,11 +53,11 @@
     </div>
 </script>
 
+
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
-        <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}"
-              id="label-{{id}}" contenteditable="false">{{text}}</span>
+        <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}" id="label-{{id}}" contenteditable="false">{{text}}</span>
         <div class="spacer-fill"></div>
         <button id="button-{{id}}" data-action="toggle-important" class="{{#if important}}important{{/if}}">!</button>
         <input class="date-input" type="date" id="date-{{id}}">
