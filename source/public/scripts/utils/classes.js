@@ -126,7 +126,11 @@ class ReminderApp {
 
     addListGroupEventListeners($listGroupElement, groupId) {
         const $newReminderButton = $listGroupElement.find('[data-action="create-reminder"]');
-        $newReminderButton.on('click', () => this.createNewReminder(groupId));
+        $newReminderButton.on('click', async (event) => {
+            const $closestListGroup = $(event.target).closest('.list-group');
+            const closestGroupId = parseInt($closestListGroup.data('id'), 10);
+            await this.createNewReminder(closestGroupId);
+        });
 
         const $groupCheckbox = $listGroupElement.find(`#group-checkbox-${groupId}`);
         $groupCheckbox.on('change', async (event) => {
@@ -298,7 +302,6 @@ class ReminderApp {
     }
 
     deselectAll() {
-        // Implementation for deselecting all items
     }
 }
 

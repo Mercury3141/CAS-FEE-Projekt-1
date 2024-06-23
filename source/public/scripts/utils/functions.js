@@ -78,7 +78,7 @@ export async function loadListGroups() {
     try {
         this.listGroups = await getListGroups();
         this.renderListGroups();
-        this.toggleClearButtonState(); // Ensure button state is updated after loading
+        this.toggleClearButtonState();
     } catch (error) {
         console.error('Error loading list groups:', error);
     }
@@ -101,14 +101,13 @@ export async function clearCheckedRemindersAndGroups() {
                 return !(isReminderChecked || (!isReminderUserInputted && isReminderEmptyText));
             });
 
-            // Simplified check for whether the group should be deleted
             const hasNonDeletableReminders = group.reminders.some(reminder => reminder.userInputted);
             return !(isGroupChecked || (!isGroupUserInputted && isGroupEmptyTitle && !hasNonDeletableReminders));
         });
 
         await this.saveState();
         this.renderListGroups();
-        this.toggleClearButtonState(); // Ensure button state is updated after deletion
+        this.toggleClearButtonState();
     } catch (error) {
         console.error('Error clearing checked reminders and groups:', error);
     }
@@ -284,28 +283,22 @@ export function normalizePaste(event) {
     event.preventDefault();
     const text = (event.clipboardData || window.clipboardData).getData('text');
 
-    // Create a new text node with the pasted text
     const textNode = document.createTextNode(text);
 
-    // Get the current selection
     const selection = window.getSelection();
     if (!selection.rangeCount) return false;
 
-    // Get the first range of the selection
     const range = selection.getRangeAt(0);
     range.deleteContents();
 
-    // Insert the new text node at the current selection
     range.insertNode(textNode);
 
-    // Move the caret to the end of the inserted text
     range.setStartAfter(textNode);
     range.setEndAfter(textNode);
     selection.removeAllRanges();
     selection.addRange(range);
 }
 
-// Example usage of the normalizePaste function
 document.querySelectorAll('.editable-label').forEach(label => {
     label.addEventListener('paste', normalizePaste);
 });
@@ -317,7 +310,7 @@ export async function updateGroupTitle(groupId, newTitle) {
         listGroup.title = newTitle;
         listGroup.userInputted = true;
         await updateListGroup(groupId, listGroup);
-        this.toggleClearButtonState(); // Ensure button state is updated after title update
+        this.toggleClearButtonState();
     } catch (error) {
         console.error('Error updating group title:', error);
     }
@@ -330,7 +323,7 @@ export async function updateReminderText(groupId, reminderId, newText) {
         reminder.text = newText;
         reminder.userInputted = true;
         await updateListGroup(groupId, listGroup);
-        this.toggleClearButtonState(); // Ensure button state is updated after text update
+        this.toggleClearButtonState();
     } catch (error) {
         console.error('Error updating reminder text:', error);
     }
