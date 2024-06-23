@@ -167,7 +167,7 @@ class ReminderApp {
         });
     }
 
-    addReminderEventListeners($reminderElement, groupId, reminderId) {
+addReminderEventListeners($reminderElement, groupId, reminderId) {
         const $toggleImportantButton = $reminderElement.find('[data-action="toggle-important"]');
         $toggleImportantButton.on('click', async (e) => {
             e.stopPropagation();
@@ -215,6 +215,7 @@ class ReminderApp {
             e.stopPropagation();
         });
     }
+
 
     addInactiveLabelHandler($element, groupId) {
         $element.on('focus', () => {
