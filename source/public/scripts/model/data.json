@@ -8,7 +8,7 @@
         "id": 3,
         "text": "√",
         "userInputted": true,
-        "date": "",
+        "date": "2024-06-23",
         "important": false,
         "checked": false
       }
@@ -23,7 +23,7 @@
         "id": 0,
         "text": "Hello",
         "userInputted": true,
-        "date": "",
+        "date": "2024-06-22",
         "important": true,
         "checked": false
       },
@@ -31,7 +31,7 @@
         "id": 4,
         "text": "Updated",
         "userInputted": true,
-        "date": "",
+        "date": "2024-06-23",
         "important": false,
         "checked": false
       },
@@ -39,7 +39,7 @@
         "id": 5,
         "text": "New Reminder",
         "userInputted": false,
-        "date": "",
+        "date": "2024-06-24",
         "important": false,
         "checked": false
       }
@@ -49,7 +49,72 @@
     "id": 0,
     "title": "New Reminder",
     "userInputted": false,
-    "reminders": []
+    "reminders": [
+      {
+        "id": 0,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": "2024-06-28",
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 1,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 2,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 3,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 4,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 5,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 6,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": null,
+        "important": false,
+        "checked": false
+      },
+      {
+        "id": 7,
+        "text": "New Reminder",
+        "userInputted": false,
+        "date": "2024-07-19",
+        "important": false,
+        "checked": false
+      }
+    ]
   },
   {
     "id": 1,

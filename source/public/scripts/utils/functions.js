@@ -166,28 +166,75 @@ export function filterRemindersByDate(turnOff = false) {
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
     } else {
-        const tempGroup = {
-            id: 'temp',
-            title: 'Sorted by Date',
-            reminders: []
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const groups = {
+            past: {
+                id: 'past',
+                title: 'Past',
+                reminders: []
+            },
+            today: {
+                id: 'today',
+                title: 'Today',
+                reminders: []
+            },
+            tomorrow: {
+                id: 'tomorrow',
+                title: 'Tomorrow',
+                reminders: []
+            },
+            withinWeek: {
+                id: 'within-week',
+                title: 'Next Week',
+                reminders: []
+            },
+            beyondWeek: {
+                id: 'beyond-week',
+                title: 'Upcoming',
+                reminders: []
+            }
+
         };
 
         this.listGroups.forEach(group => {
             group.reminders.forEach(reminder => {
                 if (reminder.date) {
-                    tempGroup.reminders.push(reminder);
+                    const reminderDate = new Date(reminder.date);
+                    reminderDate.setHours(0, 0, 0, 0);
+
+                    const diffDays = Math.floor((reminderDate - today) / (1000 * 60 * 60 * 24));
+
+                    if (reminderDate < today) {
+                        groups.past.reminders.push(reminder);
+                    } else if (diffDays === 0) {
+                        groups.today.reminders.push(reminder);
+                    } else if (diffDays === 1) {
+                        groups.tomorrow.reminders.push(reminder);
+                    } else if (diffDays <= 7) {
+                        groups.withinWeek.reminders.push(reminder);
+                    } else {
+                        groups.beyondWeek.reminders.push(reminder);
+                    }
                 }
             });
         });
 
-        tempGroup.reminders.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         this.$flexContainerElements.empty();
-        const newListGroupHtml = this.compiledListGroupTemplate(tempGroup);
-        const $listGroupElement = $(newListGroupHtml);
-        $listGroupElement.addClass('selected-list-group');
-        this.$flexContainerElements.append($listGroupElement);
-        this.renderReminders(tempGroup, $listGroupElement.find('.reminders-container'));
+
+        Object.values(groups).forEach(group => {
+            if (group.reminders.length > 0) {
+                const newListGroupHtml = this.compiledListGroupTemplate(group);
+                const $listGroupElement = $(newListGroupHtml);
+                $listGroupElement.addClass('selected-list-group');
+                this.$flexContainerElements.append($listGroupElement);
+                this.renderReminders(group, $listGroupElement.find('.reminders-container'));
+            }
+        });
+
+
         $dateButton.addClass('active');
         $('#show-important').addClass('inactive');
     }
