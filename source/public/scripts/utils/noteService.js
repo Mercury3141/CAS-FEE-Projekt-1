@@ -1,50 +1,38 @@
 const apiUrl = '/api/list-groups';
 
-export const getListGroups = async () => {
+const fetchWithHandling = async (url, options = {}) => {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(url, options);
         if (!response.ok) {
-            throw new Error('Failed to fetch data');
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching list groups:', error);
+        console.error(`Error with request to ${url}:`, error);
         throw error;
     }
+};
+
+export const getListGroups = async () => {
+    return fetchWithHandling(apiUrl);
 };
 
 export const saveListGroups = async (listGroups) => {
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(listGroups)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to save data');
-        }
-    } catch (error) {
-        console.error('Error saving list groups:', error);
-        throw error;
-    }
+    await fetchWithHandling(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(listGroups)
+    });
 };
 
 export const updateListGroup = async (listGroupId, updatedListGroup) => {
-    try {
-        const response = await fetch(`${apiUrl}/${listGroupId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedListGroup)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to update data');
-        }
-    } catch (error) {
-        console.error('Error updating list group:', error);
-        throw error;
-    }
+    await fetchWithHandling(`${apiUrl}/${listGroupId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedListGroup)
+    });
 };

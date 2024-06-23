@@ -101,13 +101,9 @@ export async function clearCheckedRemindersAndGroups() {
                 return !(isReminderChecked || (!isReminderUserInputted && isReminderEmptyText));
             });
 
-            // Check if group should be deleted
+            // Simplified check for whether the group should be deleted
             const hasNonDeletableReminders = group.reminders.some(reminder => reminder.userInputted);
-            if (isGroupChecked || (!isGroupUserInputted && isGroupEmptyTitle && !hasNonDeletableReminders)) {
-                return false;
-            }
-
-            return true;
+            return !(isGroupChecked || (!isGroupUserInputted && isGroupEmptyTitle && !hasNonDeletableReminders));
         });
 
         await this.saveState();
@@ -117,6 +113,7 @@ export async function clearCheckedRemindersAndGroups() {
         console.error('Error clearing checked reminders and groups:', error);
     }
 }
+
 
 export function toggleClearButtonState() {
     const $checkboxes = $('.list-group input[type="checkbox"], .checkbox-container input[type="checkbox"]');
@@ -286,33 +283,33 @@ export function filterRemindersByImportant(turnOff = false) {
 export function normalizePaste(event) {
     event.preventDefault();
     const text = (event.clipboardData || window.clipboardData).getData('text');
-    document.execCommand('insertText', false, text);
+
+    // Create a new text node with the pasted text
+    const textNode = document.createTextNode(text);
+
+    // Get the current selection
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return false;
+
+    // Get the first range of the selection
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+
+    // Insert the new text node at the current selection
+    range.insertNode(textNode);
+
+    // Move the caret to the end of the inserted text
+    range.setStartAfter(textNode);
+    range.setEndAfter(textNode);
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
-export function makeEditable(labelElement, saveCallback) {
-    const $labelElement = $(labelElement);
-    $labelElement.prop('contentEditable', true).focus();
+// Example usage of the normalizePaste function
+document.querySelectorAll('.editable-label').forEach(label => {
+    label.addEventListener('paste', normalizePaste);
+});
 
-    const saveChanges = () => {
-        $labelElement.prop('contentEditable', false);
-        saveCallback($labelElement.text());
-        $(document).off('click', handleClickOutside);
-        $labelElement.off('paste', handlePaste);
-    };
-
-    const handleClickOutside = (event) => {
-        if (!$labelElement.is(event.target) && !$labelElement.has(event.target).length) {
-            saveChanges();
-        }
-    };
-
-    const handlePaste = (event) => {
-        normalizePaste(event);
-    };
-
-    $labelElement.on('paste', handlePaste);
-    $(document).on('click', handleClickOutside);
-}
 
 export async function updateGroupTitle(groupId, newTitle) {
     try {

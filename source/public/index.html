@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Reminders</title>
-    <script src="./libraries/handlebars.min.js" defer></script>
+    <script defer src="./libraries/handlebars.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <script type="module" src="./scripts/utils/noteService.js" defer></script>
-    <script type="module" src="./scripts/controllers/userControllers.js" defer></script>
-    <script type="module" src="./scripts/model/routes.js" defer></script>
-    <script type="module" src="./scripts/model/store.js" defer></script>
-    <script type="module" src="./scripts/utils/classes.js" defer></script>
-    <script type="module" src="./scripts/utils/functions.js" defer></script>
-    <link rel="stylesheet" href="./styles/main.css"/>
+    <script defer src="./scripts/utils/noteService.js" type="module"></script>
+    <script defer src="./scripts/controllers/userControllers.js" type="module"></script>
+    <script defer src="./scripts/model/routes.js" type="module"></script>
+    <script defer src="./scripts/model/store.js" type="module"></script>
+    <script defer src="./scripts/utils/classes.js" type="module"></script>
+    <script defer src="./scripts/utils/functions.js" type="module"></script>
+    <link href="./styles/main.css" rel="stylesheet"/>
 </head>
 <body>
 <header></header>
@@ -57,7 +57,8 @@
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
         <input type="checkbox" id="checkbox-{{id}}">
-        <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}" id="label-{{id}}" contenteditable="false">{{text}}</span>
+        <span class="editable-label text-font text-list {{#unless userInputted}}inactive-label{{/unless}}"
+              id="label-{{id}}" contenteditable="false">{{text}}</span>
         <div class="spacer-fill"></div>
         <button id="button-{{id}}" data-action="toggle-important" class="{{#if important}}important{{/if}}">!</button>
         <input class="date-input" type="date" id="date-{{id}}">

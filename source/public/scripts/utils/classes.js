@@ -1,20 +1,20 @@
 import {
+    clearCheckedRemindersAndGroups,
     createNewListGroup,
     createNewReminder,
+    filterRemindersByDate,
+    filterRemindersByImportant,
+    loadListGroups,
     renderListGroups,
     renderReminders,
-    loadListGroups,
-    clearCheckedRemindersAndGroups,
+    saveState,
     toggleClearButtonState,
     toggleDateButtonState,
     toggleImportantButtonState,
-    saveState,
-    filterRemindersByDate,
-    filterRemindersByImportant,
     updateGroupTitle,
     updateReminderText
 } from './functions.js';
-import { updateListGroup } from './noteService.js';
+import {updateListGroup} from './noteService.js';
 
 class ReminderApp {
     constructor() {
