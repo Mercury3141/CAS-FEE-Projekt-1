@@ -1,23 +1,32 @@
 [
   {
     "id": 0,
-    "title": "New Reminders",
-    "userInputted": true,
-    "reminders": [
-      {
-        "id": 0,
-        "text": "New Reminder New Reminder New Reminder New Reminder ",
-        "userInputted": true,
-        "date": null,
-        "important": false,
-        "checked": false
-      }
-    ]
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
   },
   {
-    "id": 10,
+    "id": 1,
     "title": "New Reminder",
-    "userInputted": true,
+    "userInputted": false,
+    "reminders": []
+  },
+  {
+    "id": 2,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
+  },
+  {
+    "id": 3,
+    "title": "New Reminder",
+    "userInputted": false,
+    "reminders": []
+  },
+  {
+    "id": 4,
+    "title": "New Reminder",
+    "userInputted": false,
     "reminders": []
   }
 ]

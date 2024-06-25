@@ -14,18 +14,18 @@ import {
     updateGroupTitle,
     updateReminderText
 } from './functions.js';
-import {updateListGroup} from './noteService.js';
+import { updateListGroup } from './noteService.js';
 
 class ReminderApp {
     constructor() {
         this.groupIdCounter = 0;
         this.reminderIdCounter = 0;
         this.listGroups = [];
-        this.saveState = saveState.bind(this);
-        this.updateReminderText = updateReminderText.bind(this);
-        this.updateGroupTitle = updateGroupTitle.bind(this);
-        this.toggleClearButtonState = toggleClearButtonState.bind(this);
-        this.toggleImportantButtonState = toggleImportantButtonState.bind(this);
+        this.saveState = saveState.bind(null, this.listGroups);
+        this.updateReminderText = updateReminderText.bind(null, this.listGroups);
+        this.updateGroupTitle = updateGroupTitle.bind(null, this.listGroups);
+        this.toggleClearButtonState = toggleClearButtonState.bind(null, this.listGroups);
+        this.toggleImportantButtonState = toggleImportantButtonState.bind(null, this.listGroups);
         this.handleGlobalClick = this.handleGlobalClick.bind(this);
     }
 
@@ -50,7 +50,7 @@ class ReminderApp {
             this.toggleSortable();
         });
 
-        await this.loadListGroups();
+        this.listGroups = await loadListGroups(this.renderListGroups.bind(this), this.toggleClearButtonState);
         this.toggleDateButtonState();
         this.toggleImportantButtonState();
         this.toggleClearButtonState();
@@ -64,52 +64,52 @@ class ReminderApp {
             this.filterRemindersByDate(true);
             this.filterRemindersByImportant(true);
         }
-        await createNewListGroup.call(this);
+        const result = await createNewListGroup(this.listGroups, this.groupIdCounter, this.renderListGroups.bind(this), this.saveState.bind(this), this.toggleClearButtonState.bind(this));
+        this.listGroups = result.listGroups;
+        this.groupIdCounter = result.groupIdCounter;
         this.renderListGroups();
         this.initSortable();
     }
 
     async createNewReminder(groupId) {
-        await createNewReminder.call(this, groupId);
+        const result = await createNewReminder(this.listGroups, this.reminderIdCounter, groupId, this.renderListGroups.bind(this), this.saveState.bind(this), this.toggleClearButtonState.bind(this));
+        this.listGroups = result.listGroups;
+        this.reminderIdCounter = result.reminderIdCounter;
         this.renderListGroups();
         this.initSortable();
     }
 
     renderListGroups() {
-        renderListGroups.call(this);
+        renderListGroups(this.listGroups, this.compiledListGroupTemplate, this.renderReminders.bind(this), this.addListGroupEventListeners.bind(this), this.toggleClearButtonState.bind(this), this.toggleDateButtonState.bind(this), this.toggleImportantButtonState.bind(this));
         this.initSortable();
     }
 
     renderReminders(group, $remindersContainer) {
-        renderReminders.call(this, group, $remindersContainer);
-    }
-
-    async loadListGroups() {
-        await loadListGroups.call(this);
+        renderReminders(group, $remindersContainer, this.compiledReminderTemplate, this.addReminderEventListeners.bind(this));
     }
 
     async clearCheckedRemindersAndGroups() {
-        await clearCheckedRemindersAndGroups.call(this);
+        this.listGroups = await clearCheckedRemindersAndGroups(this.listGroups, this.saveState.bind(this), this.renderListGroups.bind(this), this.toggleClearButtonState.bind(this));
     }
 
     toggleClearButtonState() {
-        toggleClearButtonState.call(this);
+        toggleClearButtonState(this.listGroups);
     }
 
     toggleDateButtonState() {
-        toggleDateButtonState.call(this);
+        toggleDateButtonState();
     }
 
     toggleImportantButtonState() {
-        toggleImportantButtonState.call(this);
+        toggleImportantButtonState(this.listGroups);
     }
 
     filterRemindersByDate(turnOff = false) {
-        filterRemindersByDate.call(this, turnOff);
+        filterRemindersByDate(this.listGroups, this.compiledListGroupTemplate, this.renderReminders.bind(this), this.toggleDateButtonState.bind(this), this.toggleImportantButtonState.bind(this), turnOff);
     }
 
     filterRemindersByImportant(turnOff = false) {
-        filterRemindersByImportant.call(this, turnOff);
+        filterRemindersByImportant(this.listGroups, this.compiledListGroupTemplate, this.renderReminders.bind(this), this.toggleDateButtonState.bind(this), this.toggleImportantButtonState.bind(this), turnOff);
     }
 
     cancelFiltering() {
@@ -232,10 +232,10 @@ class ReminderApp {
                 $element.removeClass('inactive-label');
 
                 if ($element.hasClass('group-title')) {
-                    await this.updateGroupTitle(groupId, newText);
+                    this.listGroups = await updateGroupTitle(this.listGroups, groupId, newText, this.saveState.bind(this), this.toggleClearButtonState.bind(this));
                 } else {
                     const reminderId = parseInt($element.closest('.checkbox-container').data('id'), 10);
-                    await this.updateReminderText(groupId, reminderId, newText);
+                    this.listGroups = await updateReminderText(this.listGroups, groupId, reminderId, newText, this.saveState.bind(this), this.toggleClearButtonState.bind(this));
                 }
                 this.toggleClearButtonState();
             }
@@ -249,7 +249,7 @@ class ReminderApp {
             onEnd: async (event) => {
                 const movedGroup = this.listGroups.splice(event.oldIndex, 1)[0];
                 this.listGroups.splice(event.newIndex, 0, movedGroup);
-                await this.saveState();
+                await this.saveState(this.listGroups);
                 this.renderListGroups();
             }
         });
@@ -273,7 +273,7 @@ class ReminderApp {
                     this.listGroups
                         .find(g => g.id === toGroupId)
                         .reminders.splice(event.newIndex, 0, movedReminder);
-                    await this.saveState();
+                    await this.saveState(this.listGroups);
                     this.renderListGroups();
                 }
             });
@@ -302,6 +302,7 @@ class ReminderApp {
     }
 
     deselectAll() {
+        // Implement deselect logic if needed
     }
 }
 
