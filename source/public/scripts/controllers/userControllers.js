@@ -1,6 +1,7 @@
-import ReminderApp from '../utils/classes.js';
+import { createNewListGroup, createNewReminder, clearCheckedRemindersAndGroups, loadListGroups, saveState, updateGroupTitle, updateReminderText } from '../utils/functions.js';
+import { ReminderApp } from '../utils/classes.js';
 
-$(document).ready(async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const app = new ReminderApp();
-    await app.init();
+    app.init();
 });
