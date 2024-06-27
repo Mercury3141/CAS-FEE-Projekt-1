@@ -14,7 +14,7 @@ import {
     updateGroupTitle,
     updateReminderText
 } from './functions.js';
-import {updateListGroup} from './noteService.js';
+import {updateListGroup} from './public/scripts/utils/noteService.js';
 
 class ReminderApp {
     constructor() {

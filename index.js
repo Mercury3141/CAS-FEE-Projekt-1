@@ -1,5 +1,5 @@
 const express = require('express');
-const { app } = require('./source/express/app.js');
+const { app } = require('./app.js');
 
 const port = 3000;
 app.use(express.static('source/public'));

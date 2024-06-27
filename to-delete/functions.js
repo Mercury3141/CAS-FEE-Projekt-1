@@ -1,4 +1,4 @@
-import { getListGroups, saveListGroups, updateListGroup } from './noteService.js';
+import { getListGroups, saveListGroups, updateListGroup } from './public/scripts/utils/noteService.js';
 
 export async function createNewListGroup() {
     try {
