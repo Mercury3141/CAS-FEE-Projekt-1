@@ -212,3 +212,9 @@ button.inactive {
 .hidden {
     display: none
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
