@@ -1,5 +1,6 @@
 :root {
     font-family: Helvetica, Arial, sans-serif;
+    scroll-behavior: smooth;
     --background-color: rgb(238, 238, 240);
     --background-color-bubble: rgb(255, 255, 255);
     --important-color: rgb(255, 184, 110);
@@ -206,4 +207,8 @@ button.inactive {
 
 .selected-list-group-important {
     outline: 1.6px solid var(--important-color);
+}
+
+.hidden {
+    display: none
 }

@@ -2,56 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Reminders</title>
-    <script defer src="../libraries/handlebars.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <script defer src="../scripts/utils/noteService.js" type="module"></script>
-    <script defer src="../../node_modules/controller/userControllers.js" type="module"></script>
-    <script defer src="../scripts/model/routes.js" type="module"></script>
-    <script defer src="../scripts/model/store.js" type="module"></script>
-    <script defer src="../../to-delete/classes.js" type="module"></script>
-    <script defer src="../../to-delete/functions.js" type="module"></script>
-    <link href="../css/main.css" rel="stylesheet"/>
+    <script src="../libs/handlebars-v4.0.5.js" defer></script>
+    <script src="../js/utils/handlebars-helpers.js" defer></script>
+    <script src="../js/controllers/index-controller.js" type="module" defer></script>
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-<header></header>
-<main>
-    <section>
-        <div class="flex-container">
-            <div class="flex-container-fixed">
-                <div class="toolbar">
-                    <button class="color-main" id="toolbar-new-reminder">+</button>
-                    <div class="spacer-gap"></div>
-                    <button class="color-main inactive" id="show-important"><span class="toolbar-button-text">!!</span>
-                    </button>
-                    <div class="spacer-elements"></div>
-                    <button class="color-main inactive" id="sort-by-date"><span class="toolbar-button-text">d</span>
-                    </button>
-                    <div class="spacer-fill"></div>
-                    <button class="button-margin-left color-caution inactive" id="clear-reminders">x</button>
-                </div>
-            </div>
-            <div class="flex-container-scroll" id="flex-container-elements"></div>
-        </div>
-    </section>
-</main>
-<footer></footer>
+<div class="flex-container-fixed">
+    <header>
+        <nav class="toolbar">
+            <button id="toolbar-add-reminder">+</button>
+            <button id="toolbar-sort-important">!!</button>
+            <button id="toolbar-sort-date">d</button>
+            <button id="toolbar-clear">x</button>
+        </nav>
+    </header>
+    <main>
+        <section id="list-group">
+        <h2>
+        <input type="checkbox" id="group-checkbox">
+            <label for="group-checkbox" class="list-group-header">New Reminder</label>
+            <br>
+            <button id="group-add-reminder">+</button>
 
-<script id="list-group-template" type="text/x-handlebars-template">
-    <div class="list-group" data-id="{{id}}">
-        <div class="list-group-header">
-            <input type="checkbox" id="group-checkbox-{{id}}">
-            <span class="editable-label group-title text-font text-title {{#unless
-                    userInputted}}inactive-label{{/unless}}" id="group-title-{{id}}"
-                  contenteditable="false">{{title}}</span>
-        </div>
-        <button data-action="create-reminder" data-group-id="{{id}}">+</button>
-        <div class="reminders-container" id="reminders-container-{{id}}"></div>
-    </div>
-</script>
+        </h2>
+
+
+            <ul>
+                <li>
+                    <input type="checkbox" id="group-checkbox">
+
+
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
 
 <script id="reminder-template" type="text/x-handlebars-template">
     <div class="checkbox-container" data-id="{{id}}">
@@ -63,6 +52,7 @@
         <input class="date-input" type="date" id="date-{{id}}">
     </div>
 </script>
+
 
 </body>
 </html>
