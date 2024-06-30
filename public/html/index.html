@@ -14,68 +14,74 @@
 <body>
 <div class="flex-container">
     <header>
-        <nav class="flex-container-fixed">
-            <button id="add-group">+</button>
-            <button id="sort-important">!!</button>
-            <button id="sort-date">d</button>
-            <button id="clear">x</button>
+        <nav class="flex-container-fixed" aria-label="Toolbar">
+            <button id="add-group" title="Add New Reminder" aria-label="Add New Reminder Group" tabindex="0">+</button>
+            <button id="sort-important" title="Toggle Important Filter" aria-label="Toggle Important Filter" tabindex="0">!!</button>
+            <button id="sort-date" title="Toggle Date Filter" aria-label="Toggle Date Filter" tabindex="0">d</button>
+            <button id="clear" title="Delete Checked / Empty" aria-label="Delete Checked / Empty" tabindex="0">x</button>
         </nav>
     </header>
 
     <main class="flex-container-scroll">
 
-        <!--        <section id="group">-->
-        <!--            <h2>-->
-        <!--                <input type="checkbox" id="group-checkbox">-->
-        <!--                <label for="group-checkbox">New Reminder</label>-->
-        <!--                <br>-->
-        <!--                <button id="add-item">+</button>-->
-        <!--            </h2>-->
-        <!--            <ul>-->
-        <!--                <li>-->
-        <!--                    <input type="checkbox" id="item-checkbox">-->
-        <!--                    <label for="item-checkbox">New Reminder</label>-->
-        <!--                    <button id="important">!</button>-->
-        <!--                    <input type="date" name="item-date"/>-->
-        <!--                    <p>due date</p>-->
-        <!--                </li>-->
 
-        <!--                <li>-->
-        <!--                    <input type="checkbox" id="item-checkbox">-->
-        <!--                    <label for="item-checkbox">New Reminder</label>-->
-        <!--                    <button id="important">!</button>-->
-        <!--                    <input type="date" name="item-date"/>-->
-        <!--                    <p>due date</p>-->
-        <!--                </li>-->
-        <!--            </ul>-->
-        <!--        </section>-->
+
+
+        <section id="group-0" aria-labelledby="group-checkbox-0">
+            <h2>
+                <input type="checkbox" id="group-checkbox-0" checked aria-label="Toggle Group 1">
+                <input type="text" placeholder="Group 1" aria-label="Group 1">
+                <p>
+                    <button id="add-item" data-group="0" title="Add New Reminder" aria-label="Add New Reminder">+</button>
+                </p>
+            </h2>
+
+            <ul id="item-0" aria-label="List of Reminders in group">
+                <li aria-labelledby="item-checkbox-0-0">
+                    <input type="checkbox" id="item-checkbox-0-0" checked aria-label="Toggle Item 1">
+                    <input type="text" placeholder="Item 1" aria-label="Item 1">
+                    <button id="toggle-important" title="Toggle Importance" aria-label="Toggle Importance">!!</button>
+                    <input type="date" name="item-date" title="Set Due Date" value="2023-12-31"/>
+                    <p>Tomorrow (Tuesday)</p>
+                </li>
+                <li aria-labelledby="item-checkbox-0-1">
+                    <input type="checkbox" id="item-checkbox-0-1" aria-label="Toggle Item 2">
+                    <input type="text" placeholder="Item 2" aria-label="Item 2">
+                    <button id="toggle-important" title="Toggle Importance" aria-label="Toggle Importance">!</button>
+                    <input type="date" name="item-date" title="Set Due Date" value="2024-01-15"/>
+                    <p>In 2 days (Wednesday)</p>
+                </li>
+            </ul>
+        </section>
+
+
+
 
         <script id="reminder-template" type="text/x-handlebars-template">
-            {{#each groups}}
-                <section id="group-{{@index}}">
+                    {{#each groups}}
+                        <section id="group-{{@index}}" aria-labelledby="group-name-input-{{@index}}">
+                            <h2>
+                                <input type="checkbox" id="group-checkbox-{{@index}}" {{#if groupChecked}}checked{{/if}} title="Toggle Completed" aria-label="Toggle {{groupName}}" tabindex="0">
+                                <input type="text" placeholder="{{groupName}}" class="group-name-input" title="Enter Group Title" aria-label="{{groupName}}">
+                                <p>
+                                    <button id="add-item" data-group="{{@index}}" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0">+</button>
+                                </p>
+                            </h2>
 
-                    <h2>
-                        <input type="checkbox" id="group-checkbox-{{@index}}" {{#if groupChecked}}checked{{/if}}>
-                        <label for="group-checkbox-{{@index}}">{{groupTitle}}</label>
-                        <br>
-                        <button class="add-item" data-group="{{@index}}">+</button>
-                    </h2>
+                            <ul id="item-{{@index}}" aria-label="List of Reminders in group">
+                                {{#each items}}
+                                    <li aria-labelledby="item-name-input-{{@../index}}-{{@index}}">
+                                        <input type="checkbox" id="item-checkbox-{{@../index}}-{{@index}}" {{#if isChecked}}checked{{/if}} title="Toggle Completed" aria-label="Toggle {{itemName}}" tabindex="0">
+                                        <input type="text" placeholder="{{itemName}}" class="item-name-input" title="Enter Reminder Description" aria-label="{{itemName}}">
+                                        <button id="toggle-important" title="Toggle Importance" aria-pressed="{{important}}" aria-label="Toggle Importance">{{#if important}}!!{{else}}!{{/if}} tabindex="0"</button>
+                                        <input type="date" id="item-date-{{@../index}}-{{@index}}" name="item-date" title="Set Due Date" value="{{dueDate}}" aria-describedby="due-date-text-{{@../index}}-{{@index}}"/>
+                                        <p id="due-date-text-{{@../index}}-{{@index}}" >{{dueDateText}}</p>
+                                    </li>
+                                {{/each}}
+                            </ul>
+                        </section>
+                    {{/each}}
 
-                    <ul id="item-{{@index}}">
-                        {{#each items}}
-                            <li>
-                                <input type="checkbox" id="item-checkbox-{{@../index}}-{{@index}}"
-                                       {{#if isChecked}}checked{{/if}}>
-                                <label for="item-checkbox-{{@../index}}-{{@index}}">{{title}}</label>
-                                <button class="important">{{#if important}}!!{{else}}!{{/if}}</button>
-                                <input type="date" name="item-date" value="{{dueDate}}"/>
-                                <p>{{dueDateText}}</p>
-                            </li>
-                        {{/each}}
-                    </ul>
-
-                </section>
-            {{/each}}
         </script>
     </main>
 </div>

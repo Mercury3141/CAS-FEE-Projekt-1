@@ -186,7 +186,6 @@ button.important {
 
 button.inactive {
     color: grey;
-    pointer-events: none;
 }
 
 
