@@ -10,38 +10,93 @@
     <script src="../js/controllers/index-controller.js" type="module" defer></script>
     <link rel="stylesheet" href="../css/main.css">
 </head>
+
 <body>
-<div class="flex-container-fixed">
+<div class="flex-container">
     <header>
-        <nav class="toolbar">
-            <button id="toolbar-add-reminder">+</button>
-            <button id="toolbar-sort-important">!!</button>
-            <button id="toolbar-sort-date">d</button>
-            <button id="toolbar-clear">x</button>
+        <nav class="flex-container-fixed">
+            <button id="add-group">+</button>
+            <button id="sort-important">!!</button>
+            <button id="sort-date">d</button>
+            <button id="clear">x</button>
         </nav>
     </header>
-    <main>
-        <section id="list-group">
-        <h2>
-        <input type="checkbox" id="group-checkbox">
-            <label for="group-checkbox" class="list-group-header">New Reminder</label>
-            <br>
-            <button id="group-add-reminder">+</button>
-        </h2>
-            <ul>
-                <li>
-                    <input type="checkbox" id="item-checkbox">
-                    <label for="item-checkbox">New Reminder</label>
-                    <button id="important">!</button>
-                    <input type="date">
-                </li>
-            </ul>
-        </section>
+
+    <main class="flex-container-scroll">
+
+        <!--        <section id="group">-->
+        <!--            <h2>-->
+        <!--                <input type="checkbox" id="group-checkbox">-->
+        <!--                <label for="group-checkbox">New Reminder</label>-->
+        <!--                <br>-->
+        <!--                <button id="add-item">+</button>-->
+        <!--            </h2>-->
+        <!--            <ul>-->
+        <!--                <li>-->
+        <!--                    <input type="checkbox" id="item-checkbox">-->
+        <!--                    <label for="item-checkbox">New Reminder</label>-->
+        <!--                    <button id="important">!</button>-->
+        <!--                    <input type="date" name="item-date"/>-->
+        <!--                    <p>due date</p>-->
+        <!--                </li>-->
+
+        <!--                <li>-->
+        <!--                    <input type="checkbox" id="item-checkbox">-->
+        <!--                    <label for="item-checkbox">New Reminder</label>-->
+        <!--                    <button id="important">!</button>-->
+        <!--                    <input type="date" name="item-date"/>-->
+        <!--                    <p>due date</p>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--        </section>-->
+
+        <script id="reminder-template" type="text/x-handlebars-template">
+            {{#each groups}}
+                <section id="group-{{@index}}">
+
+                    <h2>
+                        <input type="checkbox" id="group-checkbox-{{@index}}" {{#if groupChecked}}checked{{/if}}>
+                        <label for="group-checkbox-{{@index}}">{{groupTitle}}</label>
+                        <br>
+                        <button class="add-item" data-group="{{@index}}">+</button>
+                    </h2>
+
+                    <ul id="item-{{@index}}">
+                        {{#each items}}
+                            <li>
+                                <input type="checkbox" id="item-checkbox-{{@../index}}-{{@index}}"
+                                       {{#if isChecked}}checked{{/if}}>
+                                <label for="item-checkbox-{{@../index}}-{{@index}}">{{title}}</label>
+                                <button class="important">{{#if important}}!!{{else}}!{{/if}}</button>
+                                <input type="date" name="item-date" value="{{dueDate}}"/>
+                                <p>{{dueDateText}}</p>
+                            </li>
+                        {{/each}}
+                    </ul>
+
+                </section>
+            {{/each}}
+        </script>
     </main>
 </div>
-<script>
-</script>
-
-
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
