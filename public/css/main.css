@@ -1,76 +1,60 @@
 :root {
-    font-family: Helvetica, Arial, sans-serif;
-    scroll-behavior: smooth;
-    --background-color: rgb(238, 238, 240);
-    --background-color-bubble: rgb(255, 255, 255);
-    --important-color: rgb(255, 184, 110);
-    --caution-color: rgb(255, 59, 48);
-    --selection-color: rgb(0, 122, 255);
-    --inactive-label-color: rgb(142, 142, 147);
-    --text-color: rgb(0, 0, 0);
-    --base-font-size: 13px;
-    --line-height: 1.6;
-    --main-font-weight: normal;
-    --contentarea-dynamic: 94vw;
-    --contentarea-max: 1200px;
-    --border-radius: 28px;
+    --base-unit: 8px;
+    --scroll-behavior: smooth;
+    --toolbar-height: 4em;
+    --contentarea-width: calc(100vw - 2em);
+    --contentarea-width-max: 1200px;
+    --border-radius: 1.6em;
     --button-radius: 4px;
-
+    --font-family: Helvetica, Arial, sans-serif;
+    --base-font-size: 14px;
+    --main-font-weight: normal;
+    --color-background: rgb(238, 238, 240);
+    --color-background-group: rgb(255, 255, 255);
+    --color-important: rgb(255, 184, 110);
+    --color-caution: rgb(255, 59, 48);
+    --color-selection: rgb(0, 122, 255);
+    --color-text: rgb(0, 0, 0);
+    --color-text-inactive: rgb(142, 142, 147);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background-color: rgb(28, 28, 28);
-        --background-color-bubble: rgb(48, 48, 48);
-        --important-color: rgb(255, 159, 10);
-        --caution-color: rgb(255, 69, 58);
-        --selection-color: rgb(10, 132, 255);
-        --inactive-label-color: rgb(152, 152, 157);
-        --text-color: rgb(255, 255, 255);
-    }
-
-    .date-input::-webkit-calendar-picker-indicator {
-        filter: invert(1);
+        --color-background: rgb(28, 28, 28);
+        --color-background-group: rgb(48, 48, 48);
+        --color-important: rgb(255, 159, 10);
+        --color-caution: rgb(255, 69, 58);
+        --color-selection: rgb(10, 132, 255);
+        --color-text: rgb(255, 255, 255);
+        --color-text-inactive: rgb(152, 152, 157);
     }
 }
-
-.color-caution {
-    color: var(--caution-color);
-}
-
-.important-active .toolbar-button-text {
-    color: var(--important-color);
-}
-
-.active {
-    color: var(--selection-color);
-}
-
-.inactive-label {
-    color: var(--inactive-label-color);
-}
-
 
 body,
 html {
     display: flex;
     justify-content: center;
-    background-color: var(--background-color);
+    overflow: hidden;
+    background-color: var(--color-background);
 }
 
 .flex-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: var(--contentarea-dynamic);
-    max-width: var(--contentarea-max);
-    margin: 16px 16px;
+    width: var(--contentarea-width);
+    max-width: var(--contentarea-width-max);
+    margin: 2em;
 }
 
 .flex-container-fixed {
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: var(--toolbar-height);
+    padding-left: 2em;
+    padding-right: 2em;
+    gap: 0.8em;
 }
 
 .flex-container-scroll {
@@ -78,40 +62,45 @@ html {
     flex-wrap: wrap;
     align-content: flex-start;
     overflow: auto;
-    height: 80vh;
-    width: var(--contentarea-dynamic);
-    max-width: var(--contentarea-max);
+    width: var(--contentarea-width);
+    max-width: var(--contentarea-width-max);
+    height: calc(100vh - var(--toolbar-height));
 }
 
-.flex-container-elements {
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: var(--border-radius);
-}
+/*.flex-container-elements {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    border-radius: var(--border-radius);*/
+/*}*/
 
-.toolbar {
-    display: flex;
-    flex-direction: row;
-    margin: 8px 8px 24px 8px;
-    padding: 16px 20px;
-    border-radius: var(--border-radius);
-}
+/*.toolbar {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    margin: 8px 8px 24px 8px;*/
+/*    padding: 16px 20px;*/
+/*    border-radius: var(--border-radius);*/
+/*}*/
 
-.list-group {
+.group {
     flex: 1;
     flex-direction: column;
-    min-width: 260px;
-    margin: 8px 8px;
+    min-width: 20em;
+    margin: 0.8em ;
     padding: 20px 20px;
     border-radius: var(--border-radius);
-    background-color: var(--background-color-bubble);
+    background-color: var(--color-background-group);
 }
 
-.list-element {
+.item {
     flex: 1;
     flex-direction: row;
     align-items: flex-start;
 }
+
+
+
+
+
 
 .checkbox-container {
     display: flex;
@@ -140,6 +129,22 @@ html {
     bottom: 0.16em;
 }
 
+.color-caution {
+    color: var(--color-caution);
+}
+
+.important-active .toolbar-button-text {
+    color: var(--color-important);
+}
+
+.active {
+    color: var(--color-selection);
+}
+
+.inactive-label {
+    color: var(--color-text-inactive);
+}
+
 
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
@@ -154,7 +159,7 @@ html {
 }
 
 .editable-label {
-    color: var(--text-color); /* ADAPT FOR GREY STANDARD LABELS */
+    color: var(--color-text); /* ADAPT FOR GREY STANDARD LABELS */
     cursor: text;
     width: 50%;
     white-space: nowrap;
@@ -174,14 +179,14 @@ button {
     background-color: transparent;
     border: transparent;
     border-radius: var(--button-radius);
-    color: var(--text-color);
+    color: var(--color-text);
     font-size: var(--base-font-size);
     font-weight: var(--main-font-weight);
 }
 
 
 button.important {
-    color: var(--important-color);
+    color: var(--color-important);
 }
 
 button.inactive {
@@ -192,8 +197,8 @@ button.inactive {
 .date-input {
     font-family: inherit; /* Inherit from :root */
     font-size: var(--base-font-size);
-    color: var(--text-color);
-    background-color: var(--background-color-bubble);
+    color: var(--color-text);
+    background-color: var(--color-background-group);
     border: none;
     border-radius: var(--button-radius);
     padding: 5px;
@@ -201,11 +206,11 @@ button.inactive {
 
 
 .selected-list-group {
-    outline: 1.6px solid var(--selection-color);
+    outline: 1.6px solid var(--color-selection);
 }
 
 .selected-list-group-important {
-    outline: 1.6px solid var(--important-color);
+    outline: 1.6px solid var(--color-important);
 }
 
 .hidden {

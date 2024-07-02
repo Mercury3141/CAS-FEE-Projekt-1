@@ -27,14 +27,14 @@
 
 
 
-        <section id="group-1" aria-labelledby="group-name-input-1">
-            <h2>
+        <div class=group id="group-1" aria-labelledby="group-name-input-1">
+            <h1>
                 <input type="checkbox" id="group-checkbox-1" title="Toggle Completed" aria-label="Toggle {{groupName}}" tabindex="0">
                 <input type="text" placeholder="Group Name" class="group-name-input" title="Enter Group Title" aria-label="Group Name">
                 <p>
                     <button id="add-item" data-group="1" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0">+</button>
                 </p>
-            </h2>
+            </h1>
 
             <ul id="item-1" aria-label="List of Reminders in group">
                 <li aria-labelledby="item-name-input-1-0">
@@ -52,21 +52,74 @@
                     <p id="due-date-text-1-1"></p>
                 </li>
             </ul>
-        </section>
+        </div>
 
+        <div class=group id="group-1" aria-labelledby="group-name-input-1">
+            <h1>
+                <input type="checkbox" id="group-checkbox-1" title="Toggle Completed" aria-label="Toggle {{groupName}}" tabindex="0">
+                <input type="text" placeholder="Group Name" class="group-name-input" title="Enter Group Title" aria-label="Group Name">
+                <li>
+                    <button id="add-item" data-group="1" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0">+</button>
+                </li>
+            </h1>
+
+            <ul id="item-1" aria-label="List of Reminders in group">
+                <li aria-labelledby="item-name-input-1-0">
+                    <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item Name" tabindex="0">
+                    <input type="text" placeholder="Item Name" class="item-name-input" title="Enter Reminder Description" aria-label="Item Name">
+                    <button id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance">!</button>
+                    <input type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value="" aria-describedby="due-date-text-1-0"/>
+                    <p id="due-date-text-1-0"></p>
+                </li>
+                <li aria-labelledby="item-name-input-1-1">
+                    <input type="checkbox" id="item-checkbox-1-1" title="Toggle Completed" aria-label="Toggle Item Name" tabindex="0">
+                    <input type="text" placeholder="Item Name" class="item-name-input" title="Enter Reminder Description" aria-label="Item Name">
+                    <button id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance">!</button>
+                    <input type="date" id="item-date-1-1" name="item-date" title="Set Due Date" value="" aria-describedby="due-date-text-1-1"/>
+                    <p id="due-date-text-1-1"></p>
+                </li>
+            </ul>
+        </div>
+
+        <div class=group id="group-1" aria-labelledby="group-name-input-1">
+            <h1>
+                <input type="checkbox" id="group-checkbox-1" title="Toggle Completed" aria-label="Toggle {{groupName}}" tabindex="0">
+                <input type="text" placeholder="Group Name" class="group-name-input" title="Enter Group Title" aria-label="Group Name">
+                <li>
+                    <button id="add-item" data-group="1" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0">+</button>
+                </li>
+            </h1>
+
+            <ul class=item id="item-1" aria-label="List of Reminders in group">
+                <li aria-labelledby="item-name-input-1-0">
+                    <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item Name" tabindex="0">
+                    <input type="text" placeholder="Item Name" class="item-name-input" title="Enter Reminder Description" aria-label="Item Name">
+                    <button id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance">!</button>
+                    <input type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value="" aria-describedby="due-date-text-1-0"/>
+                    <p id="due-date-text-1-0"></p>
+                </li>
+                <li aria-labelledby="item-name-input-1-1">
+                    <input type="checkbox" id="item-checkbox-1-1" title="Toggle Completed" aria-label="Toggle Item Name" tabindex="0">
+                    <input type="text" placeholder="Item Name" class="item-name-input" title="Enter Reminder Description" aria-label="Item Name">
+                    <button id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance">!</button>
+                    <input type="date" id="item-date-1-1" name="item-date" title="Set Due Date" value="" aria-describedby="due-date-text-1-1"/>
+                    <p id="due-date-text-1-1"></p>
+                </li>
+            </ul>
+        </div>
 
 
 
         <script id="reminder-template" type="text/x-handlebars-template">
                     {{#each groups}}
-                        <section id="group-{{@index}}" aria-labelledby="group-name-input-{{@index}}">
-                            <h2>
+                        <div class=group id="group-{{@index}}" aria-labelledby="group-name-input-{{@index}}">
+                            <h1>
                                 <input type="checkbox" id="group-checkbox-{{@index}}" {{#if groupChecked}}checked{{/if}} title="Toggle Completed" aria-label="Toggle {{groupName}}" tabindex="0">
                                 <input type="text" placeholder="{{groupName}}" class="group-name-input" title="Enter Group Title" aria-label="{{groupName}}">
                                 <p>
                                     <button id="add-item" data-group="{{@index}}" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0">+</button>
                                 </p>
-                            </h2>
+                            </h1>
 
                             <ul id="item-{{@index}}" aria-label="List of Reminders in group">
                                 {{#each items}}
@@ -79,7 +132,7 @@
                                     </li>
                                 {{/each}}
                             </ul>
-                        </section>
+                        </div>
                     {{/each}}
 
         </script>

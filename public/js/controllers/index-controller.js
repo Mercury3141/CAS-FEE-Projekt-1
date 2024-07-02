@@ -61,3 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        // Your resize handling logic here
+    }, 100);
+});
