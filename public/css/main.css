@@ -1,6 +1,5 @@
 :root {
-    --base-unit: 8
-    px;
+    --base-unit: 8px;
     --scroll-behavior: smooth;
     --toolbar-height: 4em;
     --contentarea-width: calc(100vw - 2em);
@@ -31,6 +30,7 @@
         --color-text: rgb(255, 255, 255);
         --color-text-inactive: rgb(152, 152, 157);
     }
+
     input {
         color-scheme: dark;
     }
@@ -161,6 +161,10 @@ button:disabled {
     margin-right: 0.2em;
 }
 
+.margin-left-auto {
+    margin-left: auto;
+}
+
 .hidden {
     display: none
 }
@@ -174,6 +178,7 @@ button:disabled {
 }
 
 .label-item {
+    max-width: 9em;
     font-size: calc(var(--base-unit) * 2);
     border: none;
     background: none;
