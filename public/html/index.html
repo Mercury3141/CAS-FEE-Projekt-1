@@ -56,7 +56,7 @@
                     <input class="label-item" placeholder="Item Name"
                            title="Enter Reminder Description" aria-label="Item Name">
                     <button class="margin-left-right margin-left-auto" id="toggle-important" title="Toggle Importance" aria-pressed="false"
-                            aria-label="Toggle Importance">!
+                            aria-label="Toggle Importance" tabindex="0">!
                     </button>
                     <input class="custom-date-input" type="date" id="item-date-1-0" name="item-date"
                            title="Set Due Date" value=""
@@ -250,7 +250,7 @@
                                 title="Enter Reminder Description" aria-label="{{itemName}}">
                                 <button class="margin-left-right" id="toggle-important" title="Toggle Importance"
                                         aria-pressed="{{important}}"
-                                        aria-label="Toggle Importance">{{#if important}}!!{{else}}!{{/if}} tabindex="0"
+                                        aria-label="Toggle Importance" tabindex="0">{{#if important}}!!{{else}}!{{/if}}>
                                 </button>
                                 <input type="date" id="item-date-{{@../index}}-{{@index}}" name="item-date"
                                        title="Set Due Date" value="{{dueDate}}"
