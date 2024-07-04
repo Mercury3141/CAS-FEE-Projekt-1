@@ -38,7 +38,7 @@
                     <input type="checkbox" id="group-checkbox-1" title="Toggle Completed"
                            aria-label="Toggle {{groupName}}"
                            tabindex="0">
-                    <input class="text-heading invisible-background-border" type="text" placeholder="Group Name"
+                    <input class="label-heading" type="text" placeholder="Group Name"
                            title="Enter Group Title"
                            aria-label="Group Name">
 
@@ -60,7 +60,7 @@
                 <li class="item" aria-labelledby="item-name-input-1-0">
                     <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item Name"
                            tabindex="0">
-                    <input class="text-item invisible-background-border" placeholder="Item Name"
+                    <input class="label-item" placeholder="Item Name"
                            title="Enter Reminder Description" aria-label="Item Name">
                     <button class=margin-left-right id="toggle-important" title="Toggle Importance" aria-pressed="false"
                             aria-label="Toggle Importance">!
@@ -98,7 +98,7 @@
                             <input type="checkbox" id="group-checkbox-{{@index}}"
                                    {{#if groupChecked}}checked{{/if}} title="Toggle Completed"
                                    aria-label="Toggle {{groupName}}" tabindex="0">
-                            <input class="text-heading invisible-background-border" id="reminders-group-{{@index}}"
+                            <input class="label-heading" id="reminders-group-{{@index}}"
                                    type="text" placeholder="{{groupName}}"
                                    title="Enter Group Title" aria-label="{{groupName}}">
                             <div>
@@ -118,7 +118,7 @@
                                 <input type="checkbox" id="item-checkbox-{{@../index}}-{{@index}}"
                                        {{#if isChecked}}checked{{/if}} title="Toggle Completed"
                                        aria-label="Toggle {{itemName}}" tabindex="0">
-                                <input class="text-item invisible-background-border"
+                                <input class="label-item"
                                        id="reminder-item-{{@../index}}-{{@index}} placeholder="{{itemName}}"
                                 title="Enter Reminder Description" aria-label="{{itemName}}">
                                 <button class="margin-left-right" id="toggle-important" title="Toggle Importance"

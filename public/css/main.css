@@ -82,7 +82,7 @@ html {
     flex-direction: row;
     width: 100%;
     height: var(--toolbar-height);
-    padding-left: 3em;
+    padding-left: 3.4em;
     gap: 0.8em;
 }
 
@@ -147,7 +147,7 @@ button:disabled {
 .margins-plus-button {
     margin-top: 0.4em;
     margin-bottom: 0.4em;
-    margin-left: 0.8em;
+    margin-left: 1.3em;
 }
 
 .margin-left-right {
@@ -164,13 +164,19 @@ button:disabled {
     display: none
 }
 
-.text-heading {
+.label-heading {
     font-weight: bold;
     font-size: calc(var(--base-unit) * 2.6);
+    border: none;
+    background: none;
+    margin-left: 0.4em;
 }
 
-.text-item {
+.label-item {
     font-size: calc(var(--base-unit) * 2);
+    border: none;
+    background: none;
+    margin-left: 0.5em;
 }
 
 .text-due-date {
@@ -179,12 +185,7 @@ button:disabled {
     font-size: calc(var(--base-unit) * 1.8);
     margin-top: 0.4em;
     margin-bottom: 0.4em;
-    margin-left: 1.6em;
-}
-
-.invisible-background-border {
-    border: none;
-    background: none;
+    margin-left: 2.1em;
 }
 
 .custom-date-input {
