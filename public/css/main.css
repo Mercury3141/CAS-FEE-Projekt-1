@@ -31,10 +31,8 @@
         --color-text: rgb(255, 255, 255);
         --color-text-inactive: rgb(152, 152, 157);
     }
-    .date-input::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-        color: red;
-
+    input {
+        color-scheme: dark;
     }
 }
 
@@ -75,6 +73,7 @@ html {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    /*min-width: 20em;*/
     width: var(--contentarea-width);
     max-width: var(--contentarea-width-max);
     margin: 3em 2em;
@@ -164,44 +163,11 @@ button:disabled {
     background: none;
 }
 
-
-
-
-
-
-
 .custom-date-input {
-    /*appearance: none; !* Remove default styling (not supported in all browsers) *!*/
-    /*-webkit-appearance: none; !* Remove default styling in WebKit browsers *!*/
-    /*-moz-appearance: textfield; !* Remove default styling in Firefox *!*/
-
-
-    border: none; /* Add a border */
-    font-size: var(--base-font-size);
-    background: none; /* Make background transparent */
-    color: var(--color-text);
+    background: none;
+    border: none;
     font-family: Helvetica, Arial, sans-serif;
-
-
-
+    font-size: var(--base-font-size);
+    color: var(--color-text);
 }
 
-
-/*::-webkit-calendar-picker-indicator {*/
-/*    background: white;*/
-/*    color:Cornsilk*/
-/*    borde-radius: 3px;*/
-
-/*}*/
-
-/*::-webkit-calendar-picker-indicator:hover{*/
-/*    background: Teal;*/
-/*    color:Cyan;*/
-/*    transform:scale(1.2);*/
-/*    cursor:pointer;*/
-/*}*/
-
-
-input {
-    color-scheme: dark;
-}

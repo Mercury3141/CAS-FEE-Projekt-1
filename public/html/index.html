@@ -57,39 +57,10 @@
                     </button>
                     <input class="custom-date-input" type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value=""
                            aria-describedby="due-date-text-1-0"/>
-                    <p id="due-date-text-1-0"></p>
+                    <li id="due-date-text-0-0" class="due-date-text">"Due on July 15, 2024">
                 </li>
             </ul>
 
-            <ul id="item-1" aria-label="List of Reminders in group">
-                <li aria-labelledby="item-name-input-1-0">
-                    <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item Name"
-                           tabindex="0">
-                    <input class="group-name-input" type="text" placeholder="Item Name"
-                           title="Enter Reminder Description" aria-label="Item Name">
-                    <button class=margin-left-right id="toggle-important" title="Toggle Importance" aria-pressed="false"
-                            aria-label="Toggle Importance">!
-                    </button>
-                    <input type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value=""
-                           aria-describedby="due-date-text-1-0"/>
-                    <p id="due-date-text-1-0"></p>
-                </li>
-            </ul>
-
-            <ul id="item-1" aria-label="List of Reminders in group">
-                <li aria-labelledby="item-name-input-1-0">
-                    <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item Name"
-                           tabindex="0">
-                    <input class="group-name-input" type="text" placeholder="Item Name"
-                           title="Enter Reminder Description" aria-label="Item Name">
-                    <button class=margin-left-right id="toggle-important" title="Toggle Importance" aria-pressed="false"
-                            aria-label="Toggle Importance">!
-                    </button>
-                    <input type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value=""
-                           aria-describedby="due-date-text-1-0"/>
-                    <p id="due-date-text-1-0"></p>
-                </li>
-            </ul>
         </div>
 
 
@@ -129,7 +100,7 @@
                                 <input type="date" id="item-date-{{@../index}}-{{@index}}" name="item-date"
                                        title="Set Due Date" value="{{dueDate}}"
                                        aria-describedby="due-date-text-{{@../index}}-{{@index}}"/>
-                                <p id="due-date-text-{{@../index}}-{{@index}}">{{dueDateText}}</p>
+                                <li id="due-date-text-{{@../index}}-{{@index}}">{{dueDateText}}</li>
                             </li>
                         {{/each}}
                     </ul>
