@@ -7,7 +7,6 @@
     --border-radius: 1.6em;
     --button-radius: 4px;
     --font-family: Helvetica, Arial, sans-serif;
-    --base-font-size: 14px;
     --color-background: rgb(238, 238, 240);
     --color-background-group: rgb(255, 255, 255);
     --color-hover: rgb(209, 209, 214);
@@ -73,7 +72,6 @@ html {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    /*min-width: 20em;*/
     width: var(--contentarea-width);
     max-width: var(--contentarea-width-max);
     margin: 3em 2em;
@@ -84,7 +82,7 @@ html {
     flex-direction: row;
     width: 100%;
     height: var(--toolbar-height);
-    padding-left: 51px;
+    padding-left: 3em;
     gap: 0.8em;
 }
 
@@ -108,6 +106,14 @@ html {
     background-color: var(--color-background-group);
 }
 
+.item {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+
+}
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -122,7 +128,7 @@ button {
     background-color: transparent;
     border: transparent;
     border-radius: var(--button-radius);
-    font-size: var(--base-font-size);
+    font-size: calc(var(--base-unit) * 2);
 }
 
 button:hover {
@@ -141,8 +147,13 @@ button:disabled {
 .margins-plus-button {
     margin-top: 0.4em;
     margin-bottom: 0.4em;
-    margin-left: 16px;
+    margin-left: 0.8em;
 }
+
+.margin-left-right {
+    margin-left: 0.2em;
+}
+
 
 .margin-left-right {
     margin-left: 0.2em;
@@ -155,7 +166,20 @@ button:disabled {
 
 .text-heading {
     font-weight: bold;
-    font-size: 1em;
+    font-size: calc(var(--base-unit) * 2.6);
+}
+
+.text-item {
+    font-size: calc(var(--base-unit) * 2);
+}
+
+.text-due-date {
+    font-family: Helvetica, Arial, sans-serif;
+    color: var(--color-text-inactive);
+    font-size: calc(var(--base-unit) * 1.8);
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    margin-left: 1.6em;
 }
 
 .invisible-background-border {
@@ -167,7 +191,6 @@ button:disabled {
     background: none;
     border: none;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: var(--base-font-size);
+    font-size: calc(var(--base-unit) * 2);
     color: var(--color-text);
 }
-
