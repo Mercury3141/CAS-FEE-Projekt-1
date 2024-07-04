@@ -31,6 +31,11 @@
         --color-text: rgb(255, 255, 255);
         --color-text-inactive: rgb(152, 152, 157);
     }
+    .date-input::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        color: red;
+
+    }
 }
 
 .color-selection {
@@ -166,63 +171,37 @@ button:disabled {
 
 
 .custom-date-input {
-    appearance: none; /* Remove default styling (not supported in all browsers) */
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: textfield; /* Remove default styling in Firefox */
+    /*appearance: none; !* Remove default styling (not supported in all browsers) *!*/
+    /*-webkit-appearance: none; !* Remove default styling in WebKit browsers *!*/
+    /*-moz-appearance: textfield; !* Remove default styling in Firefox *!*/
+
+
     border: none; /* Add a border */
     font-size: var(--base-font-size);
     background: none; /* Make background transparent */
     color: var(--color-text);
-    font-style: var( --font-family);
-}
+    font-family: Helvetica, Arial, sans-serif;
 
-.custom-date-input::-webkit-calendar-picker-indicator {
-    opacity: 0; /* Hide the default date picker icon in WebKit browsers */
-}
 
-.custom-date-input::-webkit-inner-spin-button,
-.custom-date-input::-webkit-clear-button {
-    display: none; /* Hide the spin buttons in WebKit browsers */
+
 }
 
 
-/*.custom-date-input {*/
-/*    -webkit-appearance: none; !* Remove default styling in WebKit browsers *!*/
-/*    -moz-appearance: none; !* Remove default styling in Firefox *!*/
-/*    appearance: none; !* Remove default styling *!*/
-/*    border: 1px solid #ccc; !* Add a border *!*/
-/*    padding: 10px; !* Add padding *!*/
-/*    font-size: 16px; !* Set font size *!*/
-/*    border-radius: 4px; !* Rounded corners *!*/
-/*    background-color: transparent; !* Make background transparent *!*/
-/*    color: var(--color-text);*/
-/*    position: relative;*/
+/*::-webkit-calendar-picker-indicator {*/
+/*    background: white;*/
+/*    color:Cornsilk*/
+/*    borde-radius: 3px;*/
+
 /*}*/
 
-/*.custom-date-input::before {*/
-/*    content: attr(placeholder); !* Placeholder text *!*/
-/*    position: absolute;*/
-/*    left: 10px;*/
-/*    top: 50%;*/
-/*    transform: translateY(-50%);*/
-/*    color: var(--color-text);*/
-/*    pointer-events: none; !* Allow clicks to pass through *!*/
+/*::-webkit-calendar-picker-indicator:hover{*/
+/*    background: Teal;*/
+/*    color:Cyan;*/
+/*    transform:scale(1.2);*/
+/*    cursor:pointer;*/
 /*}*/
 
-/*.custom-date-input:not(:placeholder-shown)::before {*/
-/*    content: '';*/
-/*}*/
 
-/*.custom-date-input::-webkit-calendar-picker-indicator {*/
-/*    position: absolute;*/
-/*    right: 10px;*/
-/*    top: 50%;*/
-/*    transform: translateY(-50%);*/
-/*    cursor: pointer;*/
-/*    color: var(--color-text);*/
-/*}*/
-
-/*.custom-date-input:focus {*/
-/*    outline: none;*/
-/*    border-color: #777; !* Change border color on focus *!*/
-/*}*/
+input {
+    color-scheme: dark;
+}
