@@ -1,7 +1,6 @@
 :root {
     --base-unit: 8px;
     --scroll-behavior: smooth;
-    --toolbar-height: 3em;
     --contentarea-width: calc(100vw - 2em);
     --contentarea-width-max: 1200px;
     --border-radius: 1.6em;
@@ -81,7 +80,8 @@ html {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: var(--toolbar-height);
+    height: auto;
+    padding-bottom: 0.8em;
     padding-left: 3.4em;
     gap: 0.8em;
 }
