@@ -157,6 +157,14 @@ button:active {
     background-color: var(--color-activated);
 }
 
+.date-input {
+    background: none;
+    border: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: calc(var(--base-unit) * 2);
+    color: var(--color-text);
+}
+
 .margins-plus-button {
     margin-top: 0.4em;
     margin-bottom: 0.4em;
@@ -168,15 +176,13 @@ button:active {
     margin-right: 0.2em;
 }
 
+.strikethrough {
+    text-decoration: line-through;
+}
+
 .hidden {
     display: none;
 }
 
-.date-input {
-    background: none;
-    border: none;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: calc(var(--base-unit) * 2);
-    color: var(--color-text);
-}
+
 
