@@ -6,13 +6,12 @@ const btnSortImportant = document.getElementById("sort-important");
 const btnSortDate = document.getElementById("sort-date");
 const btnClear = document.getElementById("clear");
 const groupContainer = document.getElementById("group-container");
-
 const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
 
 btnAddGroup.addEventListener("click", async event => {
     event.preventDefault();
-    await itemService.createItem(inputitem.value)
-    renderItems();
+    await itemService.createGroup();
+    await renderItems();
 });
 
 async function renderItems() {

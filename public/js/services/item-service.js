@@ -1,5 +1,4 @@
 import { httpService } from './http-service.js'
-import {itemStore} from "../../../services/item-store";
 
 class ItemService {
     async getItems() {

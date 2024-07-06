@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Reminders</title>
+    <script src="../libs/handlebars-v4.0.5.js" defer></script>
     <script src="../js/controllers/index-controller.js" type="module" defer></script>
     <link rel="stylesheet" href="../css/main.css">
 </head>
@@ -26,54 +27,49 @@
 
     <main class="flex-container-scroll">
 
+        <!--     <div class="group" id="group-0" aria-labelledby="group-name-input-0" data-id="1" data-order="0">
+                 <div>
+                     <div class="item">
+                         <input type="checkbox" id="group-checkbox-0" title="Toggle Completed" aria-label="Toggle Group 1" tabindex="0" data-id="1">
+                         <input class="label-heading" id="reminders-group-0" type="text" placeholder="Group 1" title="Enter Group Title" aria-label="Group 1">
+                     </div>
+                     <div>
+                         <button class="margins-plus-button" id="add-item" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="1">+</button>
+                     </div>
+                 </div>
+                 <ul id="item-0" aria-label="List of Reminders in group" data-order="0">
+                     <li class="item" aria-labelledby="item-name-input-0-0" data-id="101" data-group="1">
+                         <input type="checkbox" id="item-checkbox-0-0" title="Toggle Completed" aria-label="Toggle Item 1" tabindex="0" data-id="101">
+                         <input class="label-item" id="reminder-item-0-0" type="text" placeholder="Item 1" title="Enter Reminder Description" aria-label="Item 1" data-id="101">
+                         <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="101">!</button>
+                         <input class="date-input" type="date" id="item-date-0-0" name="item-date" title="Set Due Date" value="2023-07-05" aria-describedby="due-date-text-0-0" data-id="101">
+                     </li>
+                     <li class="label-due-date" id="due-date-text-0-0">Due on 2023-07-05</li>
+                 </ul>
+             </div>
 
-        <div class="group" id="group-0" aria-labelledby="group-name-input-0" data-id="1" data-order="0">
-            <div>
-                <div class="item">
-                    <input type="checkbox" id="group-checkbox-0" title="Toggle Completed" aria-label="Toggle Group 1" tabindex="0" data-id="1">
-                    <input class="label-heading" id="reminders-group-0" type="text" placeholder="Group 1" title="Enter Group Title" aria-label="Group 1">
-                </div>
-                <div>
-                    <button class="margins-plus-button" id="add-item" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="1">+</button>
-                </div>
-            </div>
-            <ul id="item-0" aria-label="List of Reminders in group" data-order="0">
-                <li class="item" aria-labelledby="item-name-input-0-0" data-id="101" data-group="1">
-                    <input type="checkbox" id="item-checkbox-0-0" title="Toggle Completed" aria-label="Toggle Item 1" tabindex="0" data-id="101">
-                    <input class="label-item" id="reminder-item-0-0" type="text" placeholder="Item 1" title="Enter Reminder Description" aria-label="Item 1" data-id="101">
-                    <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="101">!</button>
-                    <input class="date-input" type="date" id="item-date-0-0" name="item-date" title="Set Due Date" value="2023-07-05" aria-describedby="due-date-text-0-0" data-id="101">
-                </li>
-                <li class="label-due-date" id="due-date-text-0-0">Due on 2023-07-05</li>
-            </ul>
-        </div>
+             <div class="group" id="group-1" aria-labelledby="group-name-input-1" data-id="2" data-order="1">
+                 <div>
+                     <div class="item">
+                         <input type="checkbox" id="group-checkbox-1" title="Toggle Completed" aria-label="Toggle Group 2" tabindex="0" data-id="2">
+                         <input class="label-heading" id="reminders-group-1" type="text" placeholder="Group 2" title="Enter Group Title" aria-label="Group 2">
+                     </div>
+                     <div>
+                         <button class="margins-plus-button" id="add-item" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="2">+</button>
+                     </div>
+                 </div>
+                 <ul id="item-1" aria-label="List of Reminders in group" data-order="1">
+                     <li class="item" aria-labelledby="item-name-input-1-0" data-id="201" data-group="2">
+                         <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item 2" tabindex="0" data-id="201">
+                         <input class="label-item" id="reminder-item-1-0" type="text" placeholder="Item 2" title="Enter Reminder Description" aria-label="Item 2" data-id="201">
+                         <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="true" aria-label="Toggle Importance" tabindex="0" data-id="201">!!</button>
+                         <input class="date-input" type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value="2023-07-10" aria-describedby="due-date-text-1-0" data-id="201">
+                     </li>
+                     <li class="label-due-date" id="due-date-text-1-0">Due on 2023-07-10</li>
+                 </ul>
+             </div>
 
-        <div class="group" id="group-1" aria-labelledby="group-name-input-1" data-id="2" data-order="1">
-            <div>
-                <div class="item">
-                    <input type="checkbox" id="group-checkbox-1" title="Toggle Completed" aria-label="Toggle Group 2" tabindex="0" data-id="2">
-                    <input class="label-heading" id="reminders-group-1" type="text" placeholder="Group 2" title="Enter Group Title" aria-label="Group 2">
-                </div>
-                <div>
-                    <button class="margins-plus-button" id="add-item" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="2">+</button>
-                </div>
-            </div>
-            <ul id="item-1" aria-label="List of Reminders in group" data-order="1">
-                <li class="item" aria-labelledby="item-name-input-1-0" data-id="201" data-group="2">
-                    <input type="checkbox" id="item-checkbox-1-0" title="Toggle Completed" aria-label="Toggle Item 2" tabindex="0" data-id="201">
-                    <input class="label-item" id="reminder-item-1-0" type="text" placeholder="Item 2" title="Enter Reminder Description" aria-label="Item 2" data-id="201">
-                    <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="true" aria-label="Toggle Importance" tabindex="0" data-id="201">!!</button>
-                    <input class="date-input" type="date" id="item-date-1-0" name="item-date" title="Set Due Date" value="2023-07-10" aria-describedby="due-date-text-1-0" data-id="201">
-                </li>
-                <li class="label-due-date" id="due-date-text-1-0">Due on 2023-07-10</li>
-            </ul>
-        </div>
-
-
-
-
-
-
+     -->
 
         <script id="group-template" type="text/x-handlebars-template">
             {{#each groups}}
