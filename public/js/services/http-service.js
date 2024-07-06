@@ -27,7 +27,7 @@ class HttpService {
     }
 
     removeAuthToken(token){
-        valueStorage.setItem(tokenKey, undefined);
+        valueStorage.removeItem(tokenKey, undefined);
     }
 
 }

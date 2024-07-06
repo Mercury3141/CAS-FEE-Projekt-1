@@ -11,7 +11,7 @@ const groupRenderer = Handlebars.compile(document.getElementById("group-template
 
 btnAddGroup.addEventListener("click", async event => {
     event.preventDefault();
-    await itemService.createItem(inputPizza.value)
+    await itemService.createItem(inputitem.value)
     renderItems();
 });
 
