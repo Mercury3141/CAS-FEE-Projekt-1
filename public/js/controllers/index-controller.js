@@ -2,10 +2,10 @@ import { itemService } from '../services/item-service.js'
 
 
 const btnAddGroup = document.getElementById("add-group");
-const btnSortImportnant = document.getElementById("sort-important");
+const btnSortImportant = document.getElementById("sort-important");
 const btnSortDate = document.getElementById("sort-date");
 const btnClear = document.getElementById("clear");
-const GroupContainer = document.getElementById("group-container");
+const groupContainer = document.getElementById("group-container");
 
 const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
 
@@ -16,10 +16,10 @@ btnAddGroup.addEventListener("click", async event => {
 });
 
 async function renderItems() {
-    GroupContainer.innerHTML = groupRenderer({orders: await itemService.getItems()});
+    groupContainer.innerHTML = groupRenderer({orders: await itemService.getItems()});
 }
 
-GroupContainer.addEventListener("click", async function (event) {
+groupContainer.addEventListener("click", async function (event) {
     if(event.target.id === "add-group") {
         await itemService.createGroup(event.target.dataset.id);
         await renderItems()
