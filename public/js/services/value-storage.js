@@ -1,3 +1,4 @@
+/*
 class ValueStorage {
     setItem(name, value) {
         if (value) {
@@ -34,3 +35,4 @@ export const valueStorage = new ValueStorage();
 
 
 
+*/

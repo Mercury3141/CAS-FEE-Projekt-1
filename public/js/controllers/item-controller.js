@@ -1,3 +1,4 @@
+/*
 import {itemService} from '../services/item-service.js'
 
 const groupContainer = document.getElementById("group-container");
@@ -15,3 +16,4 @@ groupContainer.addEventListener("click", async event => {
 });
 
 renderItems();
+*/

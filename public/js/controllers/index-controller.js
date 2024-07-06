@@ -1,3 +1,28 @@
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('add-group').addEventListener('click', addGroup);
+});
+
+async function addGroup() {
+    const response = await fetch('/api/groups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({groupName: null})
+    });
+
+    const newGroup = await response.json();
+    renderGroup(newGroup);
+}
+
+function renderGroup(group) {
+    const template = Handlebars.compile(document.getElementById('group-template').innerHTML);
+    const groupContainer = document.getElementById('group-container');
+    groupContainer.innerHTML += template({groups: [group]});
+}
+
+
+/*
 import { itemService } from '../services/item-service.js'
 
 
@@ -25,4 +50,4 @@ groupContainer.addEventListener("click", async function (event) {
     }
 
     //further event functions...
-});
+});*/

@@ -1,3 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+const dbPath = path.join(__dirname, '../data/items.db');
+
+function readDatabase() {
+    const data = fs.readFileSync(dbPath, 'utf8');
+    return JSON.parse(data);
+}
+
+function writeDatabase(data) {
+    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
+}
+
+exports.createGroup = async (groupName) => {
+    const db = readDatabase();
+    const newGroup = { id: Date.now(), groupName: groupName || '', items: [] };
+    db.groups.push(newGroup);
+    writeDatabase(db);
+    return newGroup;
+};
+
+
+
+
+
+
+
+
+
+/*
 import Datastore from 'nedb-promises'
 
 export class Item {
@@ -94,3 +124,4 @@ export class GroupStore {
 }
 
 export const itemStore = new ItemStore();
+*/

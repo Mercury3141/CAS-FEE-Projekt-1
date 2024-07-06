@@ -1,4 +1,23 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const indexRoutes = require('./routes/index-routes');
+const path = require('path');
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', indexRoutes);
+
+module.exports = app;
+
+
+
+
+
+
+/*
+const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
@@ -85,4 +104,4 @@ app.delete('/api/list-groups/:id', (req, res) => {
     });
 });
 
-module.exports = { app };
+module.exports = { app };*/

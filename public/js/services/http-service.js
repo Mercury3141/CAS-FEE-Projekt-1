@@ -1,3 +1,4 @@
+/*
 import { valueStorage } from './value-storage.js'
 
 const tokenKey = "token";
@@ -32,4 +33,4 @@ class HttpService {
 
 }
 
-export const httpService = new HttpService();
+export const httpService = new HttpService();*/

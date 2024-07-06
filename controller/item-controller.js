@@ -1,3 +1,19 @@
+const itemStore = require('../services/item-store');
+
+async function createGroup(req, res) {
+    const newGroup = await itemStore.createGroup(req.body.groupName);
+    res.status(201).json(newGroup);
+}
+
+module.exports = {
+    createGroup
+};
+
+
+
+
+
+/*
 import {itemStore} from '../services/item-store.js'
 import {groupStore} from '../services/group-store.js'
 
@@ -19,7 +35,7 @@ export class ItemController {
     };
 
 
-    getGroups = async (req, res) => {
+    getGrou/!**!/ps = async (req, res) => {
         res.json(await groupStore.getItems(req.params.groupId));
     };
 
@@ -38,3 +54,4 @@ export class ItemController {
 }
 
 export const itemController = new ItemController();
+*/

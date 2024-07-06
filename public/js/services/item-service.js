@@ -1,3 +1,4 @@
+/*
 import { httpService } from './http-service.js'
 
 class ItemService {
@@ -42,4 +43,4 @@ class ItemService {
     }
 }
 
-export const itemService = new ItemService();
+export const itemService = new ItemService();*/
