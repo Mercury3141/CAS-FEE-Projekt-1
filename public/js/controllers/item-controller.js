@@ -1,19 +1,10 @@
-/*
-import {itemService} from '../services/item-service.js'
+const itemService = require('../services/item-service'); // Adjust the path if necessary
 
-const groupContainer = document.getElementById("group-container");
-const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
-
-async function renderItems() {
-    groupContainer.innerHTML = groupRenderer(await itemService.getItems(itemId))
-}
-
-groupContainer.addEventListener("click", async event => {
-    if (event.target.getElementById("clear")) {
-        await itemService.deleteGroup(event.target.dataset.id);
-        renderItems()
-    }
-});
-
-renderItems();
-*/
+module.exports = {
+    createItem: (req, res) => {
+        const newItem = req.body;
+        itemService.createItem(newItem)
+            .then(item => res.status(201).json(item))
+            .catch(err => res.status(500).json({ error: err.message }));
+    },
+};

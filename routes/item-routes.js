@@ -1,29 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const itemController = require('../controller/app-controller');
+const itemController = require('../public/js/controllers/item-controller'); // Adjust the path if necessary
 
-router.post('/groups', itemController.createGroup);
+router.post('/items', itemController.createItem); // Ensure createItem is defined in item-controller
+
+// Example of adding other routes
+// router.get('/items', itemController.getItems);
 
 module.exports = router;
-
-
-
-
-
-/*const express = require('express');
-const router = express.Router();
-const ItemStore = require('../services/item-store');
-
-router.get('/items', (req, res) => {
-    ItemStore.getAllItems((err, items) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.json(items);
-    });
-});
-
-module.exports = router;*/
-
-
-

@@ -1,45 +1,75 @@
-const httpService = require('./http-service');
+const itemStore = require('../../../services/item-store'); // Adjust the path relative to the current file
 
-class ItemService {
-    async getItems() {
-        return httpService.ajax("GET", "/items/");
+module.exports = {
+    createItem: (newItem) => {
+        // Logic to create an item
+        return new Promise((resolve, reject) => {
+            try {
+                const createdItem = itemStore.saveItem(newItem);
+                resolve(createdItem);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    getItems: () => {
+        // Logic to get all items
+        return new Promise((resolve, reject) => {
+            try {
+                const items = itemStore.getItems();
+                resolve(items);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    getItemById: (id) => {
+        // Logic to get a single item by ID
+        return new Promise((resolve, reject) => {
+            try {
+                const item = itemStore.getItemById(id);
+                if (item) {
+                    resolve(item);
+                } else {
+                    reject(new Error('Item not found'));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    updateItem: (id, updatedData) => {
+        // Logic to update an item
+        return new Promise((resolve, reject) => {
+            try {
+                const updatedItem = itemStore.updateItem(id, updatedData);
+                if (updatedItem) {
+                    resolve(updatedItem);
+                } else {
+                    reject(new Error('Item not found'));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
+    },
+
+    deleteItem: (id) => {
+        // Logic to delete an item
+        return new Promise((resolve, reject) => {
+            try {
+                const deleted = itemStore.deleteItem(id);
+                if (deleted) {
+                    resolve();
+                } else {
+                    reject(new Error('Item not found'));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
-
-    async getItem(id) {
-        return httpService.ajax("GET", `/items/${id}`);
-    }
-
-    async createItem() {
-        return httpService.ajax("POST", "/items/");
-    }
-
-    async deleteItem(id) {
-        return httpService.ajax("DELETE", `/items/${id}`);
-    }
-
-    async updateItem(id, itemData) {
-        return httpService.ajax("PUT", `/items/${id}`, itemData);
-    }
-
-    async getGroups() {
-        return httpService.ajax("GET", "/groups/");
-    }
-
-    async getGroup(id) {
-        return httpService.ajax("GET", `/groups/${id}`);
-    }
-
-    async createGroup(groupData) {
-        return await httpService.ajax("POST", "/groups/", groupData);
-    }
-
-    async deleteGroup(id) {
-        return httpService.ajax("DELETE", `/groups/${id}`);
-    }
-
-    async updateGroup(id, groupData) {
-        return httpService.ajax("PUT", `/groups/${id}`, groupData);
-    }
-}
-
-module.exports = new ItemService();
+};
