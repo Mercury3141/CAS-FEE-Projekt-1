@@ -1,45 +1,19 @@
-import httpService from './http-service.js';
+// public/js/services/item-service.js
 
-class ItemService {
-    async getItems() {
-        return httpService.ajax("GET", "/items/");
-    }
+export class ItemService {
+    async addGroup(group) {
+        const response = await fetch('/api/groups', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(group),
+        });
 
-    async getItem(id) {
-        return httpService.ajax("GET", `/items/${id}`);
-    }
+        if (!response.ok) {
+            throw new Error('Failed to add group');
+        }
 
-    async createItem(itemData) {
-        return httpService.ajax("POST", "/items/", itemData);
-    }
-
-    async deleteItem(id) {
-        return httpService.ajax("DELETE", `/items/${id}`);
-    }
-
-    async updateItem(id, itemData) {
-        return httpService.ajax("PUT", `/items/${id}`, itemData);
-    }
-
-    async getGroups() {
-        return httpService.ajax("GET", "/groups/");
-    }
-
-    async getGroup(id) {
-        return httpService.ajax("GET", `/groups/${id}`);
-    }
-
-    async createGroup(groupData) {
-        return await httpService.ajax("POST", "/groups/", groupData);
-    }
-
-    async deleteGroup(id) {
-        return httpService.ajax("DELETE", `/groups/${id}`);
-    }
-
-    async updateGroup(id, groupData) {
-        return httpService.ajax("PUT", `/groups/${id}`, groupData);
+        return await response.json();
     }
 }
-
-export default new ItemService();

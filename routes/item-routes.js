@@ -1,11 +1,10 @@
-import express from 'express';
-const router = express.Router();
-import itemController from '../public/js/controllers/item-controller.js';
+// routes/item-routes.js
 
-router.post('/groups', itemController.createGroup);
-router.get('/groups', itemController.getGroups);
-router.get('/groups/:id', itemController.getGroup);
-router.put('/groups/:id', itemController.updateGroup);
-router.delete('/groups/:id', itemController.deleteGroup);
+import { Router } from 'express';
+import AppController from '../controller/app-controller.js';
+
+const router = Router();
+
+router.post('/api/groups', AppController.createGroup);
 
 export default router;

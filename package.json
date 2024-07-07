@@ -2,7 +2,7 @@
   "name": "00-0-html",
   "version": "1.0.0",
   "description": "Reminder App",
-  "main": "index.html",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",

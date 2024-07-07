@@ -1,57 +1,29 @@
-// item-controller.js
+import { ItemService } from '../services/item-service.js';
 
-import itemService from '../services/item-service.js';
+const btnAddGroup = document.querySelector("#add-group");
+const mainContainer = document.querySelector("#main-container");
 
-class ItemController {
-    async createGroup(req, res) {
-        try {
-            const groupData = req.body;
-            const createdGroup = await itemService.createGroup(groupData);
-            res.status(201).json(createdGroup);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
+const groupRenderer = Handlebars.compile(document.querySelector("#group-template").innerHTML);
+
+btnAddGroup.addEventListener("click", async event => {
+    event.preventDefault();
+    const newGroup = { groupName: 'New Group', items: [] };
+    await ItemService.addGroup(newGroup);
+    renderGroups();
+});
+
+mainContainer.addEventListener("click", async event => {
+    if (event.target.classList.contains("js-delete")) {
+        await ItemService.deleteGroup(event.target.dataset.id);
+        await renderGroups();
     }
+});
 
-    async getGroups(req, res) {
-        try {
-            const groups = await itemService.getGroups();
-            res.status(200).json(groups);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-
-    async getGroup(req, res) {
-        try {
-            const { id } = req.params;
-            const group = await itemService.getGroup(id);
-            res.status(200).json(group);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-
-    async updateGroup(req, res) {
-        try {
-            const { id } = req.params;
-            const groupData = req.body;
-            const updatedGroup = await itemService.updateGroup(id, groupData);
-            res.status(200).json(updatedGroup);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-
-    async deleteGroup(req, res) {
-        try {
-            const { id } = req.params;
-            await itemService.deleteGroup(id);
-            res.status(204).send();
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
+async function renderGroups() {
+    const groups = await ItemService.getGroups();
+    mainContainer.innerHTML = groupRenderer({ groups });
 }
 
-export default new ItemController();
+document.addEventListener('DOMContentLoaded', () => {
+    renderGroups();
+});

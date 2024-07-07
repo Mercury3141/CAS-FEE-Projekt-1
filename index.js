@@ -1,10 +1,17 @@
+// index.js
+
 import express from 'express';
-import { app } from './app.js';
+import itemRoutes from './routes/item-routes.js';
+import bodyParser from 'body-parser';
 
-const port = 3000;
+const app = express();
 
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}/html/index.html`);
+app.use(itemRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
