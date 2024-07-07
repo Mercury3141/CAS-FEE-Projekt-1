@@ -1,35 +1,28 @@
-const items = []; // This is a temporary in-memory storage. Replace with your actual database logic.
+const fs = require('fs');
+const path = require('path');
+
+const filePath = path.join(__dirname, 'groups.json');
+let groups = [];
+
+function loadGroups() {
+    if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf8');
+        groups = JSON.parse(data);
+    }
+}
+
+function saveGroups() {
+    fs.writeFileSync(filePath, JSON.stringify(groups, null, 2), 'utf8');
+}
 
 module.exports = {
-    saveItem: (newItem) => {
-        newItem.id = items.length + 1; // Simple ID assignment. Use proper ID generation in a real app.
-        items.push(newItem);
-        return newItem;
+    saveGroup: (newGroup) => {
+        loadGroups();
+        groups.push(newGroup);
+        saveGroups();
+        return newGroup;
     },
-
-    getItems: () => {
-        return items;
-    },
-
-    getItemById: (id) => {
-        return items.find(item => item.id === id);
-    },
-
-    updateItem: (id, updatedData) => {
-        const index = items.findIndex(item => item.id === id);
-        if (index !== -1) {
-            items[index] = { ...items[index], ...updatedData };
-            return items[index];
-        }
-        return null;
-    },
-
-    deleteItem: (id) => {
-        const index = items.findIndex(item => item.id === id);
-        if (index !== -1) {
-            items.splice(index, 1);
-            return true;
-        }
-        return false;
-    }
+    // Add other functions similarly
 };
+
+loadGroups(); // Initial load when the module is loaded

@@ -1,55 +1,40 @@
-document.getElementById('add-group').addEventListener('click', function() {
-    const mainContainer = document.getElementById('main-container');
-
-    const templateSource = document.getElementById('group-template').innerHTML;
-    const template = Handlebars.compile(templateSource);
-
+document.getElementById('add-group').addEventListener('click', () => {
     const newGroupData = {
-        groups: [{
-            id: Date.now(),
-            order: mainContainer.children.length,
-            groupName: "New Group",
-            checked: false,
-            items: []
-        }]
+        id: Date.now(),
+        order: document.getElementById('main-container').children.length,
+        groupName: "New Group",
+        checked: false,
+        items: []
     };
 
-    const newGroupHTML = template(newGroupData);
-
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = newGroupHTML;
-
-    mainContainer.appendChild(tempDiv.firstElementChild);
+    addGroupToDOM(newGroupData);
+    saveGroup(newGroupData);
 });
 
+function addGroupToDOM(groupData) {
+    const templateSource = document.getElementById('group-template').innerHTML;
+    const template = Handlebars.compile(templateSource);
+    const context = { groups: [groupData] };
+    const groupHTML = template(context);
 
-
-/*
-import { itemService } from '../services/item-service.js'
-
-
-const btnAddGroup = document.getElementById("add-group");
-const btnSortImportant = document.getElementById("sort-important");
-const btnSortDate = document.getElementById("sort-date");
-const btnClear = document.getElementById("clear");
-const groupContainer = document.getElementById("group-container");
-const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
-
-btnAddGroup.addEventListener("click", async event => {
-    event.preventDefault();
-    await itemService.createGroup();
-    await renderItems();
-});
-
-async function renderItems() {
-    groupContainer.innerHTML = groupRenderer({orders: await itemService.getItems()});
+    const mainContainer = document.getElementById('main-container');
+    mainContainer.innerHTML += groupHTML;
 }
 
-groupContainer.addEventListener("click", async function (event) {
-    if(event.target.id === "add-group") {
-        await itemService.createGroup(event.target.dataset.id);
-        await renderItems()
-    }
-
-    //further event functions...
-});*/
+function saveGroup(group) {
+    fetch('/groups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(group),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Optionally update the UI further if necessary
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}

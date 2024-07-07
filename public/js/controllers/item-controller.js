@@ -1,10 +1,11 @@
-const itemService = require('../services/item-service'); // Adjust the path if necessary
+const itemService = require('../../services/item-service');
 
 module.exports = {
-    createItem: (req, res) => {
-        const newItem = req.body;
-        itemService.createItem(newItem)
-            .then(item => res.status(201).json(item))
+    createGroup: (req, res) => {
+        const newGroup = req.body;
+        itemService.createGroup(newGroup)
+            .then(group => res.status(201).json(group))
             .catch(err => res.status(500).json({ error: err.message }));
     },
+    // Add other functions similarly
 };
