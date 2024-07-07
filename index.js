@@ -1,15 +1,11 @@
-import express from 'express';
-import itemRoutes from './routes/item-routes.js';
-import bodyParser from 'body-parser';
+import app from './app.js';
+import http from 'http';
 
-const app = express();
+const port = process.env.PORT || 3000;
+app.set('port', port);
 
-app.use(bodyParser.json());
-app.use(express.static('public'));
+const server = http.createServer(app);
 
-app.use(itemRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });

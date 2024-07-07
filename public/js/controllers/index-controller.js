@@ -1,9 +1,19 @@
-import { addGroup } from './item-controller.js';
+const groupsData = {
+    groups: []
+};
 
-// Ensure DOM is fully loaded
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Add event listener to the "add-group" button
-    document.getElementById('add-group').addEventListener('click', () => {
-        addGroup();
-    });
+// Function to render the view using Handlebars
+function renderGroups() {
+    const source = document.getElementById('group-template').innerHTML;
+    const template = Handlebars.compile(source);
+    const html = template(groupsData);
+    document.getElementById('main-container').innerHTML = html;
+}
+
+// Initial rendering when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderGroups();
 });
+
+// Export the renderGroups function and groupsData object to be used in item-controller.js
+export { renderGroups, groupsData };

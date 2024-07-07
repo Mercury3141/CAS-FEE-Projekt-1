@@ -1,45 +1,24 @@
-// public/js/controllers/item-controller.js
+import { renderGroups, groupsData } from './index-controller.js';
 
-import { ItemService } from '../services/item-service.js';
+function addNewGroup() {
+    // Create a new group object
+    const newGroup = {
+        id: groupsData.groups.length + 1,
+        groupName: 'New Group',
+        items: []
+    };
 
-class ItemController {
-    constructor() {
-        this.itemService = new ItemService();
-        this.btnAddGroup = document.querySelector("#add-group");
-        this.mainContainer = document.querySelector("#main-container");
+    // Add the new group to the groups data
+    groupsData.groups.push(newGroup);
 
-        if (this.btnAddGroup) {
-            this.btnAddGroup.addEventListener("click", async (event) => {
-                event.preventDefault();
-                const newGroup = { groupName: 'New Group', items: [] };
-                await this.itemService.addGroup(newGroup);
-                await this.renderGroups();
-            });
-        } else {
-            console.error('Add Group button not found!');
-        }
-
-        this.mainContainer.addEventListener("click", async (event) => {
-            const target = event.target;
-            if (target && target.classList && target.classList.contains("js-delete")) {
-                const groupId = target.dataset.id;  // Ensure correct variable naming
-                await this.itemService.deleteGroup(groupId);
-                await this.renderGroups();
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await this.renderGroups();
-        });
-    }
-
-    async renderGroups() {
-        const groups = await this.itemService.getGroups();
-        const groupRenderer = Handlebars.compile(document.querySelector("#group-template").innerHTML);
-        this.mainContainer.innerHTML = groupRenderer({ groups });
-    }
+    // Re-render the view
+    renderGroups();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new ItemController();
+    // Event listener for the "Add New Group" button
+    document.getElementById('add-group').addEventListener('click', addNewGroup);
 });
+
+// Export the functions to be used in other modules if needed
+export { addNewGroup };

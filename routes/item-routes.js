@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import AppController from '../controller/app-controller.js';
-
 const router = Router();
 
-router.post('/api/groups', AppController.createGroup);
+// Define item-specific routes here
+router.get('/', (req, res) => {
+    res.send('Item API is working');
+});
 
 export default router;
