@@ -1,36 +1,29 @@
-/*
-import { valueStorage } from './value-storage.js'
-
-const tokenKey = "token";
-
 class HttpService {
-    ajax(method, url, data, headers) {
-        const fetchHeaders = new Headers({'content-type': 'application/json', ...(headers || {})});
-
-        if(valueStorage.getItem(tokenKey)){
-            fetchHeaders.append("authorization", "Bearer "+ valueStorage.getItem(tokenKey))
+    async ajax(method, url, data) {
+        const options = {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        if (data) {
+            options.body = JSON.stringify(data);
         }
 
-        return fetch(url, {
-            method: method,
-            headers: fetchHeaders, body: JSON.stringify(data)
-        }).then(x => {
-            return x.json();
-        });
-    }
+        console.log(`Making ${method} request to ${url} with data:`, data);
 
-    setAuthToken(token){
-        valueStorage.setItem(tokenKey, token);
-    }
+        const response = await fetch(url, options);
 
-    hasAuthToken(){
-        return Boolean(valueStorage.getItem(tokenKey))
-    }
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`HTTP error! status: ${response.status}`, errorText);
+            throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        }
 
-    removeAuthToken(token){
-        valueStorage.removeItem(tokenKey, undefined);
+        const responseData = await response.json();
+        console.log(`Response from ${url}:`, responseData);
+        return responseData;
     }
-
 }
 
-export const httpService = new HttpService();*/
+export default new HttpService();

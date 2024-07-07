@@ -1,4 +1,4 @@
-const httpService = require('./http-service');
+import httpService from './http-service.js';
 
 class ItemService {
     async getItems() {
@@ -9,8 +9,8 @@ class ItemService {
         return httpService.ajax("GET", `/items/${id}`);
     }
 
-    async createItem() {
-        return httpService.ajax("POST", "/items/");
+    async createItem(itemData) {
+        return httpService.ajax("POST", "/items/", itemData);
     }
 
     async deleteItem(id) {
@@ -42,4 +42,4 @@ class ItemService {
     }
 }
 
-module.exports = new ItemService();
+export default new ItemService();

@@ -1,29 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const itemController = require('../controller/app-controller');
+import itemController from '../public/js/controllers/item-controller.js';
 
 router.post('/groups', itemController.createGroup);
+router.get('/groups', itemController.getGroups);
+router.get('/groups/:id', itemController.getGroup);
+router.put('/groups/:id', itemController.updateGroup);
+router.delete('/groups/:id', itemController.deleteGroup);
 
-module.exports = router;
-
-
-
-
-
-/*const express = require('express');
-const router = express.Router();
-const ItemStore = require('../services/item-store');
-
-router.get('/items', (req, res) => {
-    ItemStore.getAllItems((err, items) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.json(items);
-    });
-});
-
-module.exports = router;*/
-
-
-
+export default router;
