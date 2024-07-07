@@ -1,5 +1,4 @@
-/*
-import { httpService } from './http-service.js'
+const httpService = require('./http-service');
 
 class ItemService {
     async getItems() {
@@ -43,4 +42,4 @@ class ItemService {
     }
 }
 
-export const itemService = new ItemService();*/
+module.exports = new ItemService();

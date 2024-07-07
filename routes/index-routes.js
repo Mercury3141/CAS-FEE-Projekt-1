@@ -1,4 +1,20 @@
+// index-routes.js
 const express = require('express');
+const router = express.Router();
+const itemRoutes = require('./item.routes');
+
+router.use('/api/groups', itemRoutes);
+
+module.exports = router;
+
+
+
+
+
+
+
+
+/*const express = require('express');
 const router = express.Router();
 const path = require('path');
 const itemsController = require('../controller/item-controller');
@@ -9,7 +25,7 @@ router.get('/', (req, res) => {
 
 router.post('/api/groups', itemsController.createGroup);
 
-module.exports = router;
+module.exports = router;*/
 
 
 

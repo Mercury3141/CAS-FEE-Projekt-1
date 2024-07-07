@@ -1,8 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const ItemStore = require('../services/item-store');
+const itemService = require('../public/js/services/item-service');
 
-// Item routes
+exports.createGroup = (req, res) => {
+    const groupData = req.body;
+    itemService.createGroup(groupData)
+        .then(group => res.status(201).json(group))
+        .catch(error => res.status(400).json({ error: error.message }));
+};
+
+
+
+
+/*
+
 router.get('/items', (req, res) => {
     ItemStore.getAllItems((err, items) => {
         if (err) {
@@ -84,51 +93,4 @@ router.delete('/groups/:id', (req, res) => {
     });
 });
 
-module.exports = router;
-
-
-
-
-
-/*
-import {itemStore} from '../services/item-store.js'
-import {groupStore} from '../services/group-store.js'
-
-export class ItemController {
-    getItems = async (req, res) => {
-        res.json(await itemStore.all() || []);
-    };
-
-    createItem = async (req, res) => {
-        res.json(await itemStore.add(req.body.name));
-    };
-
-    deleteItem = async (req, res) => {
-        res.json(await itemStore.delete(req.params.id));
-    };
-
-    updateItem = async (req, res) => {
-        res.json(await itemStore.update(req.params.id, req.body.name));
-    };
-
-
-    getGrou/!**!/ps = async (req, res) => {
-        res.json(await groupStore.getItems(req.params.groupId));
-    };
-
-    createGroup = async (req, res) => {
-        res.json(await groupStore.add(req.body.name));
-    };
-
-    deleteGroup = async (req, res) => {
-        const result = await groupStore.delete(req.params.groupId);
-        res.json(result);
-    };
-
-    updateGroup = async (req, res) => {
-        res.json(await groupStore.update(req.params.id, req.body.name));
-    };
-}
-
-export const itemController = new ItemController();
-*/
+module.exports = router;*/
