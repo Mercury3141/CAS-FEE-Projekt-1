@@ -6,9 +6,11 @@ document.getElementById('add-group').addEventListener('click', function() {
 
     const newGroupData = {
         groups: [{
-            id: Date.now(),  // Generate a unique id based on the current timestamp
-            groupName: 'New Group',
-            items: []  // Initially, the new group has no items
+            id: Date.now(),
+            order: mainContainer.children.length,
+            groupName: "New Group",
+            checked: false,
+            items: []
         }]
     };
 
