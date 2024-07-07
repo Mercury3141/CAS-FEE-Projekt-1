@@ -1,25 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('add-group').addEventListener('click', addGroup);
+document.getElementById('add-group').addEventListener('click', function() {
+    const mainContainer = document.getElementById('main-container');
+
+    const templateSource = document.getElementById('group-template').innerHTML;
+    const template = Handlebars.compile(templateSource);
+
+    const newGroupData = {
+        groups: [{
+            id: Date.now(),  // Generate a unique id based on the current timestamp
+            groupName: 'New Group',
+            items: []  // Initially, the new group has no items
+        }]
+    };
+
+    const newGroupHTML = template(newGroupData);
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = newGroupHTML;
+
+    mainContainer.appendChild(tempDiv.firstElementChild);
 });
 
-async function addGroup() {
-    const response = await fetch('/api/groups', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({groupName: null})
-    });
-
-    const newGroup = await response.json();
-    renderGroup(newGroup);
-}
-
-function renderGroup(group) {
-    const template = Handlebars.compile(document.getElementById('group-template').innerHTML);
-    const groupContainer = document.getElementById('group-container');
-    groupContainer.innerHTML += template({groups: [group]});
-}
 
 
 /*
