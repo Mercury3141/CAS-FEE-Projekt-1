@@ -1,15 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const indexRoutes = require('./routes/index-routes');
-const path = require('path');
+const itemRoutes = require('./routes/item-routes');
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', indexRoutes);
+app.use('/api', itemRoutes);
 
-module.exports = app;
+module.exports = { app };
+
 
 
 

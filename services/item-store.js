@@ -1,23 +1,82 @@
-const fs = require('fs');
-const path = require('path');
-const dbPath = path.join(__dirname, '../data/items.db');
+const db = require('./database');
 
-function readDatabase() {
-    const data = fs.readFileSync(dbPath, 'utf8');
-    return JSON.parse(data);
+class ItemStore {
+    static getAllItems(callback) {
+        db.find({ type: 'item' }, (err, docs) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, docs);
+        });
+    }
+
+    static addItem(item, callback) {
+        item.type = 'item';
+        db.insert(item, (err, newDoc) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, newDoc);
+        });
+    }
+
+    static updateItem(id, item, callback) {
+        db.update({ _id: id, type: 'item' }, { $set: item }, {}, (err, numReplaced) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, numReplaced);
+        });
+    }
+
+    static deleteItem(id, callback) {
+        db.remove({ _id: id, type: 'item' }, {}, (err, numRemoved) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, numRemoved);
+        });
+    }
+
+    static getAllGroups(callback) {
+        db.find({ type: 'group' }, (err, docs) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, docs);
+        });
+    }
+
+    static addGroup(group, callback) {
+        group.type = 'group';
+        db.insert(group, (err, newDoc) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, newDoc);
+        });
+    }
+
+    static updateGroup(id, group, callback) {
+        db.update({ _id: id, type: 'group' }, { $set: group }, {}, (err, numReplaced) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, numReplaced);
+        });
+    }
+
+    static deleteGroup(id, callback) {
+        db.remove({ _id: id, type: 'group' }, {}, (err, numRemoved) => {
+            if (err) {
+                return callback(err, null);
+            }
+            callback(null, numRemoved);
+        });
+    }
 }
 
-function writeDatabase(data) {
-    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf8');
-}
-
-exports.createGroup = async (groupName) => {
-    const db = readDatabase();
-    const newGroup = { id: Date.now(), groupName: groupName || '', items: [] };
-    db.groups.push(newGroup);
-    writeDatabase(db);
-    return newGroup;
-};
+module.exports = ItemStore;
 
 
 
