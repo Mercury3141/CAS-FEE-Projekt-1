@@ -1,5 +1,3 @@
-// routes/item-routes.js
-
 import { Router } from 'express';
 import AppController from '../controller/app-controller.js';
 

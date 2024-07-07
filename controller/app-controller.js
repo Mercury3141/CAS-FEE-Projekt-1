@@ -1,5 +1,3 @@
-// controller/app-controller.js
-
 import ItemStore from '../services/item-store.js';
 
 class AppController {
@@ -12,8 +10,6 @@ class AppController {
             res.status(500).json({ error: 'Failed to create group' });
         }
     }
-
-    // Additional methods for update, delete, etc.
 }
 
 export default AppController;

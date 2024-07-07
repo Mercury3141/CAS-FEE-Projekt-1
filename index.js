@@ -1,5 +1,3 @@
-// index.js
-
 import express from 'express';
 import itemRoutes from './routes/item-routes.js';
 import bodyParser from 'body-parser';
