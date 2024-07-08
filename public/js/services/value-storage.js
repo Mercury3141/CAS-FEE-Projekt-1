@@ -12,6 +12,7 @@ class ValueStorage {
         return JSON.parse(localStorage.getItem(name) || null);
     }
 
+/*
     setGroup(groupId, groupData) {
         let groups = this.getItem('groups') || {};
         groups[groupId] = groupData;
@@ -27,8 +28,11 @@ class ValueStorage {
         let groups = this.getItem('groups') || {};
         delete groups[groupId];
         this.setItem('groups', groups);
-    }
+    }*/
 }
+
+
+
 
 export const valueStorage = new ValueStorage();
 

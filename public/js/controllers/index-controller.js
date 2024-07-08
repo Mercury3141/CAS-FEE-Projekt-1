@@ -1,29 +1,37 @@
-import { itemService } from '../services/item-service.js'
+document.addEventListener('DOMContentLoaded', () => {
+    const addGroupButton = document.querySelector("#add-group");
+    const mainContainer = document.querySelector("main.flex-container-scroll");
 
+    const groupTemplateSource = document.querySelector("#group-template").innerHTML;
+    const groupTemplate = Handlebars.compile(groupTemplateSource);
 
-const btnAddGroup = document.getElementById("add-group");
-const btnSortImportant = document.getElementById("sort-important");
-const btnSortDate = document.getElementById("sort-date");
-const btnClear = document.getElementById("clear");
-const groupContainer = document.getElementById("group-container");
+    const createNewGroup = () => {
+        const groups = document.querySelectorAll('.group');
+        const newGroupId = groups.length;
 
-const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
+        const newGroupHTML = groupTemplate({
+            id: newGroupId,
+            order: newGroupId,
+            itemId: newGroupId * 100 + 1
+        });
 
-btnAddGroup.addEventListener("click", async event => {
-    event.preventDefault();
-    await itemService.createItem(inputitem.value)
-    renderItems();
-});
+        mainContainer.insertAdjacentHTML('beforeend', newGroupHTML);
 
-async function renderItems() {
-    groupContainer.innerHTML = groupRenderer({orders: await itemService.getItems()});
-}
+        const newDateInput = document.querySelector(`#item-date-${newGroupId}-0`);
+        const dueDateText = document.querySelector(`#due-date-text-${newGroupId}-0`);
 
-groupContainer.addEventListener("click", async function (event) {
-    if(event.target.id === "add-group") {
-        await itemService.createGroup(event.target.dataset.id);
-        await renderItems()
-    }
+        newDateInput.addEventListener('input', () => {
+            if (newDateInput.value) {
+                dueDateText.style.display = 'block';
+                dueDateText.textContent = `Due on ${newDateInput.value}`;
+            } else {
+                dueDateText.style.display = 'none';
+            }
+        });
+    };
 
-    //further event functions...
+    addGroupButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        createNewGroup();
+    });
 });
