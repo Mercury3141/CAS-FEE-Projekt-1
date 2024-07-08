@@ -1,3 +1,17 @@
+import httpService from './http-service.js';
+
+const itemService = {
+    async createGroup(groupData) {
+        return await httpService.ajax("POST", "/groups/", groupData);
+    }
+};
+
+export default itemService;
+
+
+
+
+/*
 import { httpService } from './http-service.js'
 import {itemStore} from "../../../services/item-store";
 
@@ -43,4 +57,4 @@ class ItemService {
     }
 }
 
-export const itemService = new ItemService();
+export const itemService = new ItemService();*/

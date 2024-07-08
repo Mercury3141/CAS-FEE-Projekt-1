@@ -1,3 +1,40 @@
+const httpService = {
+    async ajax(method, url, data) {
+        const options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        if (data) {
+            options.body = JSON.stringify(data);
+        }
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    }
+};
+
+export default httpService;
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 import { valueStorage } from './value-storage.js'
 
 const tokenKey = "token";
@@ -32,4 +69,4 @@ class HttpService {
 
 }
 
-export const httpService = new HttpService();
+export const httpService = new HttpService();*/
