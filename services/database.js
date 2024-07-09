@@ -1,6 +1,6 @@
+import Datastore from 'nedb';
 import fs from 'fs';
 import path from 'path';
-import Datastore from 'nedb';
 
 // Define the paths to the database files
 const groupsDbPath = path.resolve('./data/groups.db');
