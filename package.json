@@ -83,6 +83,7 @@
     "minimatch": "^3.0.4",
     "minimist": "^1.2.8",
     "ms": "^2.0.0",
+    "nedb": "^1.8.0",
     "nedb-promises": "^6.2.3",
     "negotiator": "^0.6.3",
     "npm-run-path": "^2.0.2",

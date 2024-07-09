@@ -1,17 +1,19 @@
-import {itemService} from '../services/item-service.js'
+export function addItemToGroup(groupId) {
+    const groupElement = document.getElementById(`group-${groupId}`);
+    const itemList = groupElement.querySelector(`#item-list-${groupId}`);
+    const itemId = Date.now(); // Unique ID for the item
 
-const groupContainer = document.getElementById("group-container");
-const groupRenderer = Handlebars.compile(document.getElementById("group-template").innerHTML);
+    const context = {
+        id: itemId,
+        groupId: groupId
+    };
 
-async function renderItems() {
-    groupContainer.innerHTML = groupRenderer(await itemService.getItems(itemId))
+    const itemTemplate = document.getElementById('item-template').innerHTML;
+    const compiledItemTemplate = Handlebars.compile(itemTemplate);
+    const itemHTML = compiledItemTemplate(context);
+
+    itemList.insertAdjacentHTML('beforeend', itemHTML);
+
+    // Here you would typically make a call to your REST API to save the item
+    // e.g., saveItem(context);
 }
-
-groupContainer.addEventListener("click", async event => {
-    if (event.target.getElementById("clear")) {
-        await itemService.deleteGroup(event.target.dataset.id);
-        renderItems()
-    }
-});
-
-renderItems();

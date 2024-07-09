@@ -1,7 +1,7 @@
 import express from 'express';
 
 const router = express.Router();
-import { itemController } from '../controller/item-controller.js';
+import { itemController } from '../controllers/item-controller.js';
 
 
 router.get('/items', itemController.getItems);

@@ -1,18 +1,15 @@
-// public/js/services/group-service.js
+export async function saveGroup(group) {
+    const response = await fetch('/api/groups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(group),
+    });
+    return response.json();
+}
 
-export class GroupService {
-    constructor() {
-        this.groupContainer = document.getElementById('group-list');
-        this.groupTemplate = Handlebars.compile(document.getElementById('group-template').innerHTML);
-        this.groupId = 0;
-    }
-
-    addGroup() {
-        const groupData = {
-            id: this.groupId++,
-            order: this.groupContainer.children.length
-        };
-        const groupHtml = this.groupTemplate(groupData);
-        this.groupContainer.insertAdjacentHTML('beforeend', groupHtml);
-    }
+export async function getGroups() {
+    const response = await fetch('/api/groups');
+    return response.json();
 }
