@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const newGroup = await createNewGroup();
         const savedGroup = await saveGroup(newGroup);
         console.log('Saved Group:', savedGroup);
+        displayGroup(savedGroup);
     });
 
     async function createNewGroup() {
@@ -32,16 +33,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         return context;  // Return the new group context
     }
 
-    // Function to load and display saved groups
     async function loadGroups() {
         const groups = await getGroups();
-        groups.forEach(group => {
-            const groupTemplate = document.getElementById('group-template').innerHTML;
-            const compiledGroupTemplate = Handlebars.compile(groupTemplate);
-            const groupHTML = compiledGroupTemplate(group);
-            const groupList = document.getElementById('group-list');
-            groupList.insertAdjacentHTML('beforeend', groupHTML);
-        });
+        groups.forEach(group => displayGroup(group));
+    }
+
+    function displayGroup(group) {
+        const groupTemplate = document.getElementById('group-template').innerHTML;
+        const compiledGroupTemplate = Handlebars.compile(groupTemplate);
+        const groupHTML = compiledGroupTemplate(group);
+        const groupList = document.getElementById('group-list');
+        groupList.insertAdjacentHTML('beforeend', groupHTML);
     }
 
     // Load existing groups on page load
