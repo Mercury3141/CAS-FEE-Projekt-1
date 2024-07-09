@@ -71,39 +71,21 @@
 
 
         <script id="group-template" type="text/x-handlebars-template">
-            <div class="group" id="group-{{id}}" aria-labelledby="group-name-input-{{id}}" data-id="{{id}}"
-                 data-order="{{order}}">
+            <div class="group" id="group-{{id}}" aria-labelledby="group-name-input-{{id}}" data-id="{{id}}" data-order="{{order}}">
                 <div>
                     <div class="item">
-                        <input type="checkbox" id="group-checkbox-{{id}}" title="Toggle Completed"
-                               aria-label="Toggle New Group" tabindex="0" data-id="{{id}}">
-                        <input class="label-heading" id="reminders-group-{{id}}" type="text" placeholder="New Group"
-                               title="Enter Group Title" aria-label="New Group">
+                        <input type="checkbox" id="group-checkbox-{{id}}" title="Toggle Completed" aria-label="Toggle New Group" tabindex="0" data-id="{{id}}">
+                        <input class="label-heading" id="reminders-group-{{id}}" type="text" placeholder="New Group" title="Enter Group Title" aria-label="New Group">
                     </div>
                     <div>
-                        <button class="margins-plus-button" id="add-item" title="Add New Reminder"
-                                aria-label="Add New Reminder" tabindex="0" data-group="{{id}}">+
-                        </button>
+                        <button class="margins-plus-button" id="add-item" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="{{id}}">+</button>
                     </div>
                 </div>
                 <ul id="item-{{id}}" aria-label="List of Reminders in group" data-order="{{order}}">
-                    <li class="item" aria-labelledby="item-name-input-{{id}}-0" data-id="{{itemId}}"
-                        data-group="{{id}}">
-                        <input type="checkbox" id="item-checkbox-{{id}}-0" title="Toggle Completed"
-                               aria-label="Toggle New Reminder" tabindex="0" data-id="{{itemId}}">
-                        <input class="label-item" id="reminder-item-{{id}}-0" type="text" placeholder="New Reminder"
-                               title="Enter Reminder Description" aria-label="New Reminder" data-id="{{itemId}}">
-                        <button class="margins-left-right" id="toggle-important" title="Toggle Importance"
-                                aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="{{itemId}}">!
-                        </button>
-                        <input class="date-input" type="date" id="item-date-{{id}}-0" name="item-date"
-                               title="Set Due Date" value="" aria-describedby="due-date-text-{{id}}-0"
-                               data-id="{{itemId}}">
-                    </li>
-                    <li class="label-due-date" id="due-date-text-{{id}}-0" style="display: none;">Due on</li>
                 </ul>
             </div>
         </script>
+
 
 
     </main>
