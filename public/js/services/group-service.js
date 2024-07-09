@@ -1,4 +1,4 @@
-import db from '../../services/database.js';
+import db from '../../../services/database.js';  // Adjust the path to the correct location
 
 export function saveGroup(group) {
     return new Promise((resolve, reject) => {

@@ -3,7 +3,7 @@ import { saveGroup, getGroups } from '../public/js/services/group-service.js';
 
 const router = express.Router();
 
-router.post('/groups', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newGroup = await saveGroup(req.body);
         console.log('Group saved:', newGroup);
@@ -14,7 +14,7 @@ router.post('/groups', async (req, res) => {
     }
 });
 
-router.get('/groups', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const groups = await getGroups();
         console.log('Groups retrieved:', groups);
