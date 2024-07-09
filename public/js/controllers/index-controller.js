@@ -2,11 +2,20 @@
 
 import { GroupService } from '../services/group-service.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const addGroupButton = document.getElementById('add-group');
-    const groupService = new GroupService();
+// Declare constants
+const addGroupButton = document.getElementById('add-group');
+const groupService = new GroupService();
 
-    addGroupButton.addEventListener('click', () => {
-        groupService.addGroup();
-    });
+// Define functions
+function addNewGroup() {
+    groupService.addGroup();
+}
+
+function initializeEventListeners() {
+    addGroupButton.addEventListener('click', addNewGroup);
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', () => {
+    initializeEventListeners();
 });
