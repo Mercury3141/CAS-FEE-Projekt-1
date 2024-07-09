@@ -5,7 +5,7 @@ export function saveGroup(group) {
         db.groups.insert(group, (err, newDoc) => {
             if (err) {
                 console.error('Error saving group:', err);
-                reject(err);
+                reject(new Error('Failed to save group. Please check file permissions and paths.'));
             } else {
                 console.log('Group saved:', newDoc);
                 resolve(newDoc);
@@ -19,7 +19,7 @@ export function getGroups() {
         db.groups.find({}, (err, docs) => {
             if (err) {
                 console.error('Error retrieving groups:', err);
-                reject(err);
+                reject(new Error('Failed to retrieve groups. Please check file permissions and paths.'));
             } else {
                 console.log('Groups retrieved:', docs);
                 resolve(docs);
