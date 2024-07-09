@@ -1,5 +1,5 @@
 import { addItemToGroup } from './item-controller.js';
-import { saveGroup } from '../services/group-service.js';
+import { saveGroup, getGroups } from '../services/group-service.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const addGroupButton = document.getElementById('add-group');
@@ -31,4 +31,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         return context;  // Return the new group context
     }
+
+    // Function to load and display saved groups
+    async function loadGroups() {
+        const groups = await getGroups();
+        groups.forEach(group => {
+            const groupTemplate = document.getElementById('group-template').innerHTML;
+            const compiledGroupTemplate = Handlebars.compile(groupTemplate);
+            const groupHTML = compiledGroupTemplate(group);
+            const groupList = document.getElementById('group-list');
+            groupList.insertAdjacentHTML('beforeend', groupHTML);
+        });
+    }
+
+    // Load existing groups on page load
+    loadGroups();
 });

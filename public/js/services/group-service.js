@@ -1,15 +1,29 @@
-export async function saveGroup(group) {
-    const response = await fetch('/api/groups', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(group),
+import db from '../../services/database.js';
+
+export function saveGroup(group) {
+    return new Promise((resolve, reject) => {
+        db.groups.insert(group, (err, newDoc) => {
+            if (err) {
+                console.error('Error saving group:', err);
+                reject(err);
+            } else {
+                console.log('Group saved:', newDoc);
+                resolve(newDoc);
+            }
+        });
     });
-    return response.json();
 }
 
-export async function getGroups() {
-    const response = await fetch('/api/groups');
-    return response.json();
+export function getGroups() {
+    return new Promise((resolve, reject) => {
+        db.groups.find({}, (err, docs) => {
+            if (err) {
+                console.error('Error retrieving groups:', err);
+                reject(err);
+            } else {
+                console.log('Groups retrieved:', docs);
+                resolve(docs);
+            }
+        });
+    });
 }
