@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    const renderGroup = (groupData) => {
+    const renderGroup = async (groupData) => {
         // Use the compiled Handlebars template to generate HTML
         const newGroupHTML = groupTemplate(groupData);
         mainContainer.insertAdjacentHTML('beforeend', newGroupHTML);
@@ -30,16 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 dueDateText.style.display = 'none';
             }
         });
+
+        // Simulate an asynchronous operation (e.g., fetching data from an API)
+        await new Promise(resolve => setTimeout(resolve, 100));  // Example async operation
     };
 
-    const createAndRenderGroup = () => {
+    const createAndRenderGroup = async () => {
         const groupsCount = document.querySelectorAll('.group').length;
         const newGroupData = createGroupData(groupsCount);
-        renderGroup(newGroupData);
+        await renderGroup(newGroupData);
     };
 
-    addGroupButton.addEventListener('click', (event) => {
+    addGroupButton.addEventListener('click', async (event) => {
         event.preventDefault();
-        createAndRenderGroup();
+        await createAndRenderGroup();
     });
 });
