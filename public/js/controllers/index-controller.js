@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addGroupButton = document.querySelector("#add-group");
     const mainContainer = document.querySelector("main.flex-container-scroll");
 
+    // Compile the Handlebars template
     const groupTemplateSource = document.querySelector("#group-template").innerHTML;
     const groupTemplate = Handlebars.compile(groupTemplateSource);
 
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const groups = document.querySelectorAll('.group');
         const newGroupId = groups.length;
 
+        // Use the compiled Handlebars template to generate HTML
         const newGroupHTML = groupTemplate({
             id: newGroupId,
             order: newGroupId,
