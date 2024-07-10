@@ -92,6 +92,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // Handling the sorting button click
+    sortImportantButton.addEventListener('click', () => {
+        if (!sortImportantButton.classList.contains('color-text-inactive')) {
+            sortImportantButton.classList.toggle('color-important');
+        }
+    });
+
     // Initial checks
     updateClearButtonColor();
     updateSortImportantButton();
