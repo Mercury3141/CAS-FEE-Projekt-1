@@ -64,6 +64,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateClearButtonColor();
     });
 
+    // Handling importance toggling for items
+    groupContainer.addEventListener('click', async (event) => {
+        if (event.target.matches('#toggle-important')) {
+            const button = event.target;
+            const itemId = button.closest('.item').getAttribute('data-id');
+            const isImportant = button.classList.toggle('color-important');
+
+            button.textContent = isImportant ? '!!' : '!';
+
+            const item = {
+                id: parseInt(itemId),
+                important: isImportant
+            };
+            await itemService.updateItem(itemId, item);
+        }
+    });
+
     // Initial check
     updateClearButtonColor();
 
