@@ -1,33 +1,17 @@
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import bodyParser from 'body-parser';
 import groupRoutes from './routes/group-routes.js';
-import indexRoutes from './routes/index-routes.js';
 import itemRoutes from './routes/item-routes.js';
 
-// Initialize Express app
 const app = express();
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// Set the static files location
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
 // Use routes
-app.use('/api/groups', groupRoutes);
-app.use('/api/items', itemRoutes);
-app.use('/', indexRoutes);
-
-// Fallback route for handling 404
-app.use((req, res) => {
-    res.status(404).send('404: Not Found');
-});
+app.use('/api', groupRoutes);
+app.use('/api', itemRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

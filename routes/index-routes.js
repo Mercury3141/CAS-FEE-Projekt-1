@@ -1,13 +1,9 @@
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import groupController from '../controller/group-controller.js';
 
 const router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/html/index.html'));
-});
+// Use the group controller for group-related routes
+router.use('/', groupController);
 
 export default router;
