@@ -20,7 +20,7 @@ router.post('/groups/:groupId/items', async (req, res) => {
     try {
         const groupId = req.params.groupId;
         const item = req.body;
-        item.groupId = parseInt(groupId);
+        item.groupId = groupId;
         await itemStore.addItem(item);
         res.status(201).json(item);
     } catch (error) {

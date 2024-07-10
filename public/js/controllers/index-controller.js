@@ -11,14 +11,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
 
-    // Function to check if any checkbox is checked or if any input field is empty
+    // Function to check if any checkbox is checked or if any input field is empty and deletable
     function updateClearButtonColor() {
         const anyChecked = groupContainer.querySelector('.group input[type="checkbox"]:checked') ||
             groupContainer.querySelector('.item input[type="checkbox"]:checked');
-        const anyEmptyInput = Array.from(groupContainer.querySelectorAll('.group input[type="text"], .item input[type="text"]'))
-            .some(input => input.value.trim() === '');
 
-        if (anyChecked || anyEmptyInput) {
+        const anyEmptyDeletableInput = Array.from(groupContainer.querySelectorAll('.group')).some(group => {
+            const groupHeaderInput = group.querySelector('.label-heading');
+            const hasCustomHeader = groupHeaderInput && groupHeaderInput.value.trim() !== '';
+            const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
+                .some(input => input.value.trim() !== '');
+
+            // A group is deletable if the header is empty and it has no non-empty items
+            const isDeletableGroup = !hasCustomHeader && !hasNonEmptyItem;
+
+            return isDeletableGroup ||
+                Array.from(group.querySelectorAll('.item input[type="text"]')).some(input => input.value.trim() === '');
+        });
+
+        if (anyChecked || anyEmptyDeletableInput) {
             clearButton.classList.add('color-caution');
             clearButton.disabled = false;
         } else {
