@@ -176,7 +176,8 @@ button:active {
     margin-right: 0.2em;
 }
 
-.strikethrough {
+input[type="checkbox"]:checked + .label-heading,
+input[type="checkbox"]:checked + .label-item {
     text-decoration: line-through;
 }
 
