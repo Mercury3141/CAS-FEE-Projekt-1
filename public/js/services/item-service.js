@@ -1,29 +1,27 @@
-import db from '../../../services/database.js';  // Adjust the path to the correct location
+export class ItemService {
+    constructor() {
+        this.items = [];
+        this.nextId = 1;
+    }
 
-export function saveItem(item) {
-    return new Promise((resolve, reject) => {
-        db.items.insert(item, (err, newDoc) => {
-            if (err) {
-                console.error('Error saving item:', err);
-                reject(err);
-            } else {
-                console.log('Item saved:', newDoc);
-                resolve(newDoc);
-            }
-        });
-    });
-}
+    async getItemsByGroupId(groupId) {
+        return this.items.filter(item => item.groupId === groupId);
+    }
 
-export function getItems() {
-    return new Promise((resolve, reject) => {
-        db.items.find({}, (err, docs) => {
-            if (err) {
-                console.error('Error retrieving items:', err);
-                reject(err);
-            } else {
-                console.log('Items retrieved:', docs);
-                resolve(docs);
-            }
-        });
-    });
+    async createItem(groupId) {
+        const newItem = { id: this.nextId++, groupId: groupId, description: 'New Item' };
+        this.items.push(newItem);
+        return newItem;
+    }
+
+    async deleteItem(itemId) {
+        this.items = this.items.filter(item => item.id !== itemId);
+    }
+
+    async updateItem(itemId, updatedItem) {
+        const itemIndex = this.items.findIndex(item => item.id === itemId);
+        if (itemIndex !== -1) {
+            this.items[itemIndex] = { ...this.items[itemIndex], ...updatedItem };
+        }
+    }
 }
