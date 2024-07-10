@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const groupHTML = renderGroup(newGroup);
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
         updateClearButtonColor(); // Check button state after adding a new group
+        initializeGroupSortable(); // Re-initialize Sortable for the new group
     });
 
     // Handling item adding within a group
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const itemHTML = renderItem(newItem, groupId);
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
             updateClearButtonColor(); // Check button state after adding a new item
+            initializeItemSortable(); // Re-initialize Sortable for the new item
         }
     });
 
@@ -191,4 +193,56 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateClearButtonColor();
         }
     });
+
+    // Initialize Sortable.js for groups
+    new Sortable(groupContainer, {
+        animation: 150,
+        handle: '.item-group',
+        onEnd: async (event) => {
+            const movedGroupId = event.item.getAttribute('data-id');
+            const newOrder = Array.from(groupContainer.children).map((child, index) => ({
+                id: child.getAttribute('data-id'),
+                order: index
+            }));
+            await updateGroupOrder(newOrder);
+        }
+    });
+
+    // Initialize Sortable.js for items within each group
+    function initializeGroupSortable() {
+        document.querySelectorAll('.group').forEach(group => {
+            const itemList = group.querySelector('ul');
+            new Sortable(itemList, {
+                animation: 150,
+                group: 'shared',
+                onEnd: async (event) => {
+                    const movedItemId = event.item.getAttribute('data-id');
+                    const targetGroupId = event.to.closest('.group').getAttribute('data-id');
+                    const newOrder = Array.from(event.to.children).map((child, index) => ({
+                        id: child.getAttribute('data-id'),
+                        order: index,
+                        groupId: parseInt(targetGroupId)
+                    }));
+                    await updateItemGroupAndOrder(newOrder);
+                }
+            });
+        });
+    }
+
+    // Update group order in the database
+    async function updateGroupOrder(newOrder) {
+        for (let group of newOrder) {
+            await groupService.updateGroup(group.id, { order: group.order });
+        }
+    }
+
+    // Update item group and order in the database
+    async function updateItemGroupAndOrder(newOrder) {
+        for (let item of newOrder) {
+            await itemService.updateItem(item.id, { order: item.order, groupId: item.groupId });
+        }
+    }
+
+    // Initialize Sortable.js for existing groups and items
+    initializeGroupSortable();
 });
