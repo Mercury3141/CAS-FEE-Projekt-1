@@ -48,6 +48,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Function to filter items by importance
+    function filterImportantItems() {
+        const showOnlyImportant = sortImportantButton.classList.contains('color-important');
+        document.querySelectorAll('.group').forEach(group => {
+            group.querySelectorAll('.item').forEach(item => {
+                const isImportant = item.querySelector('#toggle-important').classList.contains('color-important');
+                if (showOnlyImportant) {
+                    item.style.display = isImportant ? 'flex' : 'none';
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
+        });
+    }
+
     // Add event listeners to all checkboxes and input fields
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
@@ -89,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
             await itemService.updateItem(itemId, item);
             updateSortImportantButton();
+            filterImportantItems(); // Filter items after toggling importance
         }
     });
 
@@ -99,6 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.group').forEach(group => {
                 group.classList.toggle('outline-important');
             });
+            filterImportantItems(); // Filter items when toggling the toolbar button
         }
     });
 
@@ -232,6 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateClearButtonColor();
         updateSortImportantButton();
+        filterImportantItems(); // Filter items after clearing
     });
 
     // Toggle all reminder items within a group when the group header checkbox is toggled
