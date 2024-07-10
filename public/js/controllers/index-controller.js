@@ -66,6 +66,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
     });
 
+    // Handling item adding within a group
+    groupContainer.addEventListener('click', async (event) => {
+        if (event.target.matches('.add-item')) {
+            const groupId = event.target.getAttribute('data-group');
+            const newItem = await itemService.createItem(groupId);
+            const itemHTML = renderItem(newItem, groupId);
+            document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
+        }
+    });
+
     // Handling sorting by importance
     sortImportantButton.addEventListener('click', () => {
         console.log('Sort by importance button clicked');
