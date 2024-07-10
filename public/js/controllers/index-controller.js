@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
         updateClearButtonColor(); // Check button state after adding a new group
         initializeGroupSortable(); // Re-initialize Sortable for the new group
+        initializeItemSortable(); // Re-initialize Sortable for the new items
     });
 
     // Handling item adding within a group
@@ -240,6 +241,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Initialize Sortable.js for items within each group
+    function initializeItemSortable() {
+        document.querySelectorAll('.group ul').forEach(itemList => {
+            new Sortable(itemList, {
+                animation: 150,
+                group: 'shared',
+                onEnd: async (event) => {
+                    const movedItemId = event.item.getAttribute('data-id');
+                    const targetGroupId = event.to.closest('.group').getAttribute('data-id');
+                    const newOrder = Array.from(event.to.children).map((child, index) => ({
+                        id: child.getAttribute('data-id'),
+                        order: index,
+                        groupId: parseInt(targetGroupId)
+                    }));
+                    await updateItemGroupAndOrder(newOrder);
+                }
+            });
+        });
+    }
+
     // Update group order in the database
     async function updateGroupOrder(newOrder) {
         for (let group of newOrder) {
@@ -256,4 +277,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize Sortable.js for existing groups and items
     initializeGroupSortable();
+    initializeItemSortable();
 });
