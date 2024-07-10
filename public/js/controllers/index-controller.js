@@ -34,10 +34,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    groupContainer.addEventListener('input', (event) => {
-        if (event.target.matches('.group input[type="text"]') || event.target.matches('.item input[type="text"]')) {
-            updateClearButtonColor();
+    groupContainer.addEventListener('input', async (event) => {
+        if (event.target.matches('.group input[type="text"]')) {
+            const groupId = event.target.closest('.group').getAttribute('data-id');
+            const group = {
+                id: parseInt(groupId),
+                name: event.target.value
+            };
+            await groupService.updateGroup(groupId, group);
+        } else if (event.target.matches('.item input[type="text"]')) {
+            const itemId = event.target.closest('.item').getAttribute('data-id');
+            const item = {
+                id: parseInt(itemId),
+                description: event.target.value
+            };
+            await itemService.updateItem(itemId, item);
         }
+        updateClearButtonColor();
     });
 
     // Initial check
@@ -108,10 +121,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (const checkbox of checkedGroups) {
             const group = checkbox.closest('.group');
             const groupId = group.getAttribute('data-id');
+            const groupHeaderInput = group.querySelector('.label-heading');
             const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
                 .some(input => input.value.trim() !== '');
 
-            if (!hasNonEmptyItem) {
+            // Retain group if it has non-empty items or the group header has text
+            if (!hasNonEmptyItem && groupHeaderInput.value.trim() === '') {
                 await groupService.deleteGroup(groupId);
                 await itemService.deleteItemsByGroupId(groupId);
                 group.remove();
@@ -127,12 +142,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.remove();
         }
 
-        // Deleting empty items within groups
+        // Deleting empty items within groups, but never deleting groups with custom inputed headers
         const groups = groupContainer.querySelectorAll('.group');
         for (const group of groups) {
             const groupId = group.getAttribute('data-id');
             const items = group.querySelectorAll('.item');
             let hasNonEmptyItem = false;
+            let hasCustomHeader = false;
+            const groupHeaderInput = group.querySelector('.label-heading');
+            if (groupHeaderInput && groupHeaderInput.value.trim() !== '') {
+                hasCustomHeader = true;
+            }
             for (const item of items) {
                 const input = item.querySelector('input[type="text"]');
                 if (input && input.value.trim() === '') {
@@ -143,8 +163,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     hasNonEmptyItem = true;
                 }
             }
-            // Retain group header if there are non-empty items left
-            if (hasNonEmptyItem) {
+            // Retain group header if there are non-empty items left or if it has a custom header
+            if (hasNonEmptyItem || hasCustomHeader) {
                 const itemGroup = group.querySelector('.item-group');
                 if (itemGroup) {
                     const itemGroupCheckbox = itemGroup.querySelector('input[type="checkbox"]');

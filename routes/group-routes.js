@@ -1,9 +1,9 @@
 import express from 'express';
-import { createGroup, fetchGroups } from '../controllers/group-controller.js';
+import groupController from '../controller/group-controller.js';
 
 const router = express.Router();
 
-router.post('/', createGroup);
-router.get('/', fetchGroups);
+// Use the group controller for group-related routes
+router.use('/', groupController);
 
 export default router;
