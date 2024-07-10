@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sortDateButton = document.getElementById('sort-date');
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
-    const toolbarButtons = [addGroupButton, sortDateButton, clearButton]; // All other buttons except sortImportantButton
+    const toolbarButtons = [addGroupButton, sortImportantButton, clearButton]; // All other buttons except sortDateButton
 
     function categorizeDueDate(dueDate) {
         const today = new Date();
@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateItemDueDate(itemId, dueDate);
+        updateSortDateButton(); // Update the sort date button after modifying due date
     }
 
     async function updateItemDueDate(itemId, dueDate) {
@@ -75,6 +76,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             sortImportantButton.classList.remove('color-text-inactive');
         } else {
             sortImportantButton.classList.add('color-text-inactive');
+        }
+    }
+
+    // Function to check if any reminder item has a due date
+    function updateSortDateButton() {
+        const anyDueDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
+        if (anyDueDate) {
+            sortDateButton.classList.remove('color-text-inactive');
+        } else {
+            sortDateButton.classList.add('color-text-inactive');
         }
     }
 
@@ -169,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Handling the sorting button click
+    // Handling the sorting button click for importance
     sortImportantButton.addEventListener('click', () => {
         if (!sortImportantButton.classList.contains('color-text-inactive')) {
             sortImportantButton.classList.toggle('color-important');
@@ -184,6 +195,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initial checks
     updateClearButtonColor();
     updateSortImportantButton();
+    updateSortDateButton();
 
     // Function to render a group
     function renderGroup(group) {
@@ -232,6 +244,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateClearButtonColor(); // Check button state after adding a new item
             initializeItemSortable(); // Re-initialize Sortable for the new item
             updateSortImportantButton(); // Check button state after adding a new item
+            updateSortDateButton(); // Check button state after adding a new item
         }
     });
 
@@ -275,7 +288,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.remove();
         }
 
-        // Deleting empty items within groups, but never deleting groups with custom inputted headers
+        // Deleting empty items within groups, but never deleting groups with custom inputed headers
         const groups = groupContainer.querySelectorAll('.group');
         for (const group of groups) {
             const groupId = group.getAttribute('data-id');
@@ -311,6 +324,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateClearButtonColor();
         updateSortImportantButton();
+        updateSortDateButton(); // Update the sort date button after clearing
         filterImportantItems(); // Filter items after clearing
     });
 
@@ -400,4 +414,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeGroupSortable();
     initializeItemSortable();
 });
-
