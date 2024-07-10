@@ -11,20 +11,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
 
-    // Function to check if any checkbox is checked
+    // Function to check if any checkbox is checked or if any input field is empty
     function updateClearButtonColor() {
         const anyChecked = groupContainer.querySelector('.group input[type="checkbox"]:checked') ||
             groupContainer.querySelector('.item input[type="checkbox"]:checked');
-        if (anyChecked) {
+        const anyEmptyInput = Array.from(groupContainer.querySelectorAll('.group input[type="text"], .item input[type="text"]'))
+            .some(input => input.value.trim() === '');
+
+        if (anyChecked || anyEmptyInput) {
             clearButton.classList.add('color-caution');
+            clearButton.disabled = false;
         } else {
             clearButton.classList.remove('color-caution');
+            clearButton.disabled = true;
         }
     }
 
-    // Add event listeners to all checkboxes
+    // Add event listeners to all checkboxes and input fields
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
+            updateClearButtonColor();
+        }
+    });
+
+    groupContainer.addEventListener('input', (event) => {
+        if (event.target.matches('.group input[type="text"]') || event.target.matches('.item input[type="text"]')) {
             updateClearButtonColor();
         }
     });
@@ -64,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const newGroup = await groupService.createGroup();
         const groupHTML = renderGroup(newGroup);
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
+        updateClearButtonColor(); // Check button state after adding a new group
     });
 
     // Handling item adding within a group
@@ -73,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const newItem = await itemService.createItem(groupId);
             const itemHTML = renderItem(newItem, groupId);
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
+            updateClearButtonColor(); // Check button state after adding a new item
         }
     });
 
@@ -107,6 +120,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             const itemId = item.getAttribute('data-id');
             await itemService.deleteItem(itemId);
             item.remove();
+        }
+
+        // Deleting empty groups and items
+        const emptyInputs = groupContainer.querySelectorAll('.group input[type="text"], .item input[type="text"]');
+        for (const input of emptyInputs) {
+            if (input.value.trim() === '') {
+                const item = input.closest('.item');
+                const group = input.closest('.group');
+                if (item) {
+                    const itemId = item.getAttribute('data-id');
+                    await itemService.deleteItem(itemId);
+                    item.remove();
+                }
+                if (group) {
+                    const groupId = group.getAttribute('data-id');
+                    await groupService.deleteGroup(groupId);
+                    await itemService.deleteItemsByGroupId(groupId);
+                    group.remove();
+                }
+            }
         }
 
         updateClearButtonColor();
