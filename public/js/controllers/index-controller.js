@@ -12,6 +12,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     const groupContainer = document.getElementById('group-container');
     const toolbarButtons = [addGroupButton, sortDateButton, clearButton]; // All other buttons except sortImportantButton
 
+    function categorizeDueDate(dueDate) {
+        const today = new Date();
+        const date = new Date(dueDate);
+        const oneDay = 24 * 60 * 60 * 1000;
+        const dayDifference = Math.floor((date - today) / oneDay);
+
+        if (dayDifference < -1) {
+            return 'In the past';
+        } else if (dayDifference === -1) {
+            return 'Yesterday';
+        } else if (dayDifference === 0) {
+            return 'Today';
+        } else if (dayDifference === 1) {
+            return 'Tomorrow';
+        } else if (dayDifference < 7) {
+            return 'This week';
+        } else if (date.getMonth() === today.getMonth()) {
+            return 'This month';
+        } else {
+            return 'Upcoming';
+        }
+    }
+
+    // Function to update the due date label based on the categorized due date
+    function updateDueDateLabel(inputElement) {
+        const dueDate = inputElement.value;
+        const itemId = inputElement.closest('.item').getAttribute('data-id');
+        const groupId = inputElement.closest('.item').getAttribute('data-group');
+        const dueDateElement = document.getElementById(`due-date-text-${groupId}-${itemId}`);
+        const dueDateCategory = categorizeDueDate(dueDate);
+
+        if (dueDate) {
+            if (dueDateElement) {
+                dueDateElement.textContent = dueDateCategory;
+            } else {
+                const dueDateLabel = document.createElement('div');
+                dueDateLabel.className = 'label-due-date';
+                dueDateLabel.id = `due-date-text-${groupId}-${itemId}`;
+                dueDateLabel.textContent = dueDateCategory;
+                inputElement.closest('.item').insertAdjacentElement('afterend', dueDateLabel);
+            }
+        } else if (dueDateElement) {
+            dueDateElement.remove();
+        }
+
+        updateItemDueDate(itemId, dueDate);
+    }
+
+    async function updateItemDueDate(itemId, dueDate) {
+        const item = {
+            id: parseInt(itemId),
+            dueDate: dueDate
+        };
+        await itemService.updateItem(itemId, item);
+    }
+
     // Function to check if any reminder item is marked as important
     function updateSortImportantButton() {
         const anyImportant = groupContainer.querySelector('.item button.color-important');
@@ -90,34 +146,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
             updateClearButtonColor();
         } else if (event.target.matches('.item input[type="date"]')) {
-            const itemId = event.target.closest('.item').getAttribute('data-id');
-            const groupId = event.target.closest('.item').getAttribute('data-group');
-            const dueDateText = event.target.value;
-            const dueDateElement = document.getElementById(`due-date-text-${groupId}-${itemId}`);
-            if (dueDateText) {
-                if (dueDateElement) {
-                    dueDateElement.textContent = dueDateText;
-                } else {
-                    const dueDateLabel = document.createElement('li');
-                    dueDateLabel.className = 'label-due-date';
-                    dueDateLabel.id = `due-date-text-${groupId}-${itemId}`;
-                    dueDateLabel.textContent = dueDateText;
-                    event.target.closest('.item').insertAdjacentElement('afterend', dueDateLabel);
-                }
-            } else if (dueDateElement) {
-                dueDateElement.remove();
-            }
-            updateItemDueDate(itemId, dueDateText);
+            updateDueDateLabel(event.target);
         }
     });
-
-    async function updateItemDueDate(itemId, dueDateText) {
-        const item = {
-            id: parseInt(itemId),
-            dueDate: dueDateText
-        };
-        await itemService.updateItem(itemId, item);
-    }
 
     // Handling importance toggling for items
     groupContainer.addEventListener('click', async (event) => {
@@ -244,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.remove();
         }
 
-        // Deleting empty items within groups, but never deleting groups with custom inputed headers
+        // Deleting empty items within groups, but never deleting groups with custom inputted headers
         const groups = groupContainer.querySelectorAll('.group');
         for (const group of groups) {
             const groupId = group.getAttribute('data-id');
@@ -369,3 +400,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeGroupSortable();
     initializeItemSortable();
 });
+
