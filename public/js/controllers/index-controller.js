@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
 
+    // Function to check if any reminder item is marked as important
+    function updateSortImportantButton() {
+        const anyImportant = groupContainer.querySelector('.item button.color-important');
+        if (anyImportant) {
+            sortImportantButton.classList.remove('color-text-inactive');
+        } else {
+            sortImportantButton.classList.add('color-text-inactive');
+        }
+    }
+
     // Function to check if any checkbox is checked or if any input field is empty and deletable
     function updateClearButtonColor() {
         const anyChecked = groupContainer.querySelector('.group input[type="checkbox"]:checked') ||
@@ -78,11 +88,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 important: isImportant
             };
             await itemService.updateItem(itemId, item);
+            updateSortImportantButton();
         }
     });
 
-    // Initial check
+    // Initial checks
     updateClearButtonColor();
+    updateSortImportantButton();
 
     // Function to render a group
     function renderGroup(group) {
@@ -130,6 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
             updateClearButtonColor(); // Check button state after adding a new item
             initializeItemSortable(); // Re-initialize Sortable for the new item
+            updateSortImportantButton(); // Check button state after adding a new item
         }
     });
 
@@ -208,6 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateClearButtonColor();
+        updateSortImportantButton();
     });
 
     // Toggle all reminder items within a group when the group header checkbox is toggled
