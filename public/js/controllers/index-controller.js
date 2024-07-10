@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
         updateClearButtonColor(); // Check button state after adding a new group
         initializeGroupSortable(); // Re-initialize Sortable for the new group
+        initializeSortableGroups(); // Re-initialize Sortable for groups
     });
 
     // Handling item adding within a group
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const itemHTML = renderItem(newItem, groupId);
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
             updateClearButtonColor(); // Check button state after adding a new item
-            initializeItemSortable(); // Re-initialize Sortable for the new item
+            initializeGroupSortable(); // Re-initialize Sortable for the new item
         }
     });
 
@@ -195,18 +196,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Initialize Sortable.js for groups
-    new Sortable(groupContainer, {
-        animation: 150,
-        handle: '.item-group',
-        onEnd: async (event) => {
-            const movedGroupId = event.item.getAttribute('data-id');
-            const newOrder = Array.from(groupContainer.children).map((child, index) => ({
-                id: child.getAttribute('data-id'),
-                order: index
-            }));
-            await updateGroupOrder(newOrder);
-        }
-    });
+    function initializeSortableGroups() {
+        new Sortable(groupContainer, {
+            animation: 150,
+            handle: '.item-group', // Handle for dragging groups
+            draggable: '.group', // Specifies that the entire group is draggable
+            onEnd: async (event) => {
+                const movedGroupId = event.item.getAttribute('data-id');
+                const newOrder = Array.from(groupContainer.children).map((child, index) => ({
+                    id: child.getAttribute('data-id'),
+                    order: index
+                }));
+                await updateGroupOrder(newOrder);
+            }
+        });
+    }
 
     // Initialize Sortable.js for items within each group
     function initializeGroupSortable() {
@@ -244,5 +248,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Initialize Sortable.js for existing groups and items
+    initializeSortableGroups();
     initializeGroupSortable();
 });
