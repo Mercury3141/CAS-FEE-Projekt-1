@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sortDateButton = document.getElementById('sort-date');
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
+    const toolbarButtons = [addGroupButton, sortDateButton, clearButton]; // All other buttons except sortImportantButton
 
     // Function to check if any reminder item is marked as important
     function updateSortImportantButton() {
@@ -70,6 +71,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Function to update toolbar button states
+    function updateToolbarButtons() {
+        const showOnlyImportant = sortImportantButton.classList.contains('color-important');
+        toolbarButtons.forEach(button => {
+            if (showOnlyImportant) {
+                button.classList.add('color-text-inactive');
+                button.disabled = true;
+            } else {
+                button.classList.remove('color-text-inactive');
+                button.disabled = false;
+            }
+        });
+    }
+
     // Add event listeners to all checkboxes and input fields
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
@@ -123,6 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 group.classList.toggle('outline-important');
             });
             filterImportantItems(); // Filter items when toggling the toolbar button
+            updateToolbarButtons(); // Update other toolbar buttons
         }
     });
 
