@@ -52,14 +52,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     function filterImportantItems() {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
         document.querySelectorAll('.group').forEach(group => {
+            let hasImportantItem = false;
             group.querySelectorAll('.item').forEach(item => {
                 const isImportant = item.querySelector('#toggle-important').classList.contains('color-important');
                 if (showOnlyImportant) {
-                    item.style.display = isImportant ? 'flex' : 'none';
+                    if (isImportant) {
+                        item.style.display = 'flex';
+                        hasImportantItem = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
                 } else {
                     item.style.display = 'flex';
                 }
             });
+            group.style.display = hasImportantItem || !showOnlyImportant ? 'flex' : 'none';
         });
     }
 
