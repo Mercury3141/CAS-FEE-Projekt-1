@@ -89,27 +89,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
             updateClearButtonColor();
+        } else if (event.target.matches('.item input[type="date"]')) {
+            const itemId = event.target.closest('.item').getAttribute('data-id');
+            const groupId = event.target.closest('.item').getAttribute('data-group');
+            const dueDateText = event.target.value;
+            const dueDateElement = document.getElementById(`due-date-text-${groupId}-${itemId}`);
+            if (dueDateText) {
+                if (dueDateElement) {
+                    dueDateElement.textContent = dueDateText;
+                } else {
+                    const dueDateLabel = document.createElement('li');
+                    dueDateLabel.className = 'label-due-date';
+                    dueDateLabel.id = `due-date-text-${groupId}-${itemId}`;
+                    dueDateLabel.textContent = dueDateText;
+                    event.target.closest('.item').insertAdjacentElement('afterend', dueDateLabel);
+                }
+            } else if (dueDateElement) {
+                dueDateElement.remove();
+            }
+            updateItemDueDate(itemId, dueDateText);
         }
     });
 
-    groupContainer.addEventListener('input', async (event) => {
-        if (event.target.matches('.group input[type="text"]')) {
-            const groupId = event.target.closest('.group').getAttribute('data-id');
-            const group = {
-                id: parseInt(groupId),
-                name: event.target.value
-            };
-            await groupService.updateGroup(groupId, group);
-        } else if (event.target.matches('.item input[type="text"]')) {
-            const itemId = event.target.closest('.item').getAttribute('data-id');
-            const item = {
-                id: parseInt(itemId),
-                description: event.target.value
-            };
-            await itemService.updateItem(itemId, item);
-        }
-        updateClearButtonColor();
-    });
+    async function updateItemDueDate(itemId, dueDateText) {
+        const item = {
+            id: parseInt(itemId),
+            dueDate: dueDateText
+        };
+        await itemService.updateItem(itemId, item);
+    }
 
     // Handling importance toggling for items
     groupContainer.addEventListener('click', async (event) => {

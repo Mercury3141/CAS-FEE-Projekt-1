@@ -43,7 +43,11 @@
                 <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="{{id}}">!</button>
                 <input class="date-input" type="date" id="item-date-{{groupId}}-{{id}}" name="item-date" title="Set Due Date" value="" aria-describedby="due-date-text-{{groupId}}-{{id}}" data-id="{{id}}">
             </li>
+            {{#if dueDateText}}
+                <div class="label-due-date" id="due-date-text-{{groupId}}-{{id}}">{{dueDateText}}</div>
+            {{/if}}
         </script>
+
     </main>
 </div>
 </body>
