@@ -178,4 +178,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateClearButtonColor();
     });
+
+    // Toggle all reminder items within a group when the group header checkbox is toggled
+    groupContainer.addEventListener('change', (event) => {
+        if (event.target.matches('.item-group input[type="checkbox"]')) {
+            const group = event.target.closest('.group');
+            const isChecked = event.target.checked;
+            const items = group.querySelectorAll('.item input[type="checkbox"]');
+            items.forEach(itemCheckbox => {
+                itemCheckbox.checked = isChecked;
+            });
+            updateClearButtonColor();
+        }
+    });
 });
