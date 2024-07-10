@@ -96,6 +96,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     sortImportantButton.addEventListener('click', () => {
         if (!sortImportantButton.classList.contains('color-text-inactive')) {
             sortImportantButton.classList.toggle('color-important');
+            document.querySelectorAll('.group').forEach(group => {
+                group.classList.toggle('outline-important');
+            });
         }
     });
 

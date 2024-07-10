@@ -46,7 +46,11 @@
 }
 
 .outline-selection {
-    outline: 1em solid var(--color-selection);
+    outline: 0.11em solid var(--color-selection);
+}
+
+.outline-important {
+    outline: 0.1em solid var(--color-important);
 }
 
 body,
