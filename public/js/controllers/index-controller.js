@@ -104,13 +104,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Clear button clicked');
 
         // Deleting checked groups
-        const checkedGroups = groupContainer.querySelectorAll('.group > div > .item > input[type="checkbox"]:checked');
+        const checkedGroups = groupContainer.querySelectorAll('.item-group input[type="checkbox"]:checked');
         for (const checkbox of checkedGroups) {
             const group = checkbox.closest('.group');
             const groupId = group.getAttribute('data-id');
-            await groupService.deleteGroup(groupId);
-            await itemService.deleteItemsByGroupId(groupId);
-            group.remove();
+            const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
+                .some(input => input.value.trim() !== '');
+
+            if (!hasNonEmptyItem) {
+                await groupService.deleteGroup(groupId);
+                await itemService.deleteItemsByGroupId(groupId);
+                group.remove();
+            }
         }
 
         // Deleting checked individual items
@@ -122,23 +127,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.remove();
         }
 
-        // Deleting empty groups and items
-        const emptyInputs = groupContainer.querySelectorAll('.group input[type="text"], .item input[type="text"]');
-        for (const input of emptyInputs) {
-            if (input.value.trim() === '') {
-                const item = input.closest('.item');
-                const group = input.closest('.group');
-                if (item) {
+        // Deleting empty items within groups
+        const groups = groupContainer.querySelectorAll('.group');
+        for (const group of groups) {
+            const groupId = group.getAttribute('data-id');
+            const items = group.querySelectorAll('.item');
+            let hasNonEmptyItem = false;
+            for (const item of items) {
+                const input = item.querySelector('input[type="text"]');
+                if (input && input.value.trim() === '') {
                     const itemId = item.getAttribute('data-id');
                     await itemService.deleteItem(itemId);
                     item.remove();
+                } else {
+                    hasNonEmptyItem = true;
                 }
-                if (group) {
-                    const groupId = group.getAttribute('data-id');
-                    await groupService.deleteGroup(groupId);
-                    await itemService.deleteItemsByGroupId(groupId);
-                    group.remove();
+            }
+            // Retain group header if there are non-empty items left
+            if (hasNonEmptyItem) {
+                const itemGroup = group.querySelector('.item-group');
+                if (itemGroup) {
+                    const itemGroupCheckbox = itemGroup.querySelector('input[type="checkbox"]');
+                    itemGroupCheckbox.checked = false; // Uncheck the header checkbox if it's checked
                 }
+            } else {
+                await groupService.deleteGroup(groupId);
+                group.remove();
             }
         }
 

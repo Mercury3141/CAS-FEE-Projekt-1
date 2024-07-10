@@ -95,6 +95,13 @@ html {
     background-color: var(--color-background-group);
 }
 
+.item-group {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+}
+
 .item {
     display: flex;
     flex: 1;
