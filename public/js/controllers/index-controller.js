@@ -89,27 +89,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Handling clear button functionality
     clearButton.addEventListener('click', async () => {
         console.log('Clear button clicked');
-        const checkedGroups = groupContainer.querySelectorAll('.group input[type="checkbox"]:checked');
+
+        // Deleting checked groups
+        const checkedGroups = groupContainer.querySelectorAll('.group > div > .item > input[type="checkbox"]:checked');
         for (const checkbox of checkedGroups) {
-            const groupId = checkbox.closest('.group').getAttribute('data-id');
+            const group = checkbox.closest('.group');
+            const groupId = group.getAttribute('data-id');
             await groupService.deleteGroup(groupId);
             await itemService.deleteItemsByGroupId(groupId);
-            checkbox.closest('.group').remove();
+            group.remove();
         }
 
-        const checkedItems = groupContainer.querySelectorAll('.item input[type="checkbox"]:checked');
-        for (const item of checkedItems) {
-            const parentGroup = item.closest('.group');
-            const parentItem = item.closest('.item');
-            if (parentItem) {
-                parentItem.remove();
-            }
-            if (parentGroup && parentGroup.querySelectorAll('.item').length === 0) {
-                const groupId = parentGroup.getAttribute('data-id');
-                await groupService.deleteGroup(groupId);
-                parentGroup.remove();
-            }
+        // Deleting checked individual items
+        const checkedItems = groupContainer.querySelectorAll('.item > input[type="checkbox"]:checked');
+        for (const checkbox of checkedItems) {
+            const item = checkbox.closest('.item');
+            const itemId = item.getAttribute('data-id');
+            await itemService.deleteItem(itemId);
+            item.remove();
         }
+
         updateClearButtonColor();
     });
 });
