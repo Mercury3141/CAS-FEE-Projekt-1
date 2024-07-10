@@ -1,29 +1,26 @@
-import db from './database.js';
+import { promises as fs } from 'fs';
 
-export function saveGroup(group) {
-    return new Promise((resolve, reject) => {
-        db.groups.insert(group, (err, newDoc) => {
-            if (err) {
-                console.error('Error saving group:', err);
-                reject(new Error('Failed to save group.'));
-            } else {
-                console.log('Group saved:', newDoc);
-                resolve(newDoc);
-            }
-        });
-    });
-}
+const groupsFilePath = './data/groups.db';
 
-export function getGroups() {
-    return new Promise((resolve, reject) => {
-        db.groups.find({}, (err, docs) => {
-            if (err) {
-                console.error('Error retrieving groups:', err);
-                reject(new Error('Failed to retrieve groups.'));
-            } else {
-                console.log('Groups retrieved:', docs);
-                resolve(docs);
-            }
-        });
-    });
+export class GroupStore {
+    async getAllGroups() {
+        const data = await fs.readFile(groupsFilePath, 'utf-8');
+        return JSON.parse(data);
+    }
+
+    async saveGroups(groups) {
+        await fs.writeFile(groupsFilePath, JSON.stringify(groups, null, 2), 'utf-8');
+    }
+
+    async addGroup(group) {
+        const groups = await this.getAllGroups();
+        groups.push(group);
+        await this.saveGroups(groups);
+    }
+
+    async deleteGroup(groupId) {
+        let groups = await this.getAllGroups();
+        groups = groups.filter(group => group.id !== groupId);
+        await this.saveGroups(groups);
+    }
 }
