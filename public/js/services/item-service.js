@@ -18,6 +18,10 @@ export class ItemService {
         this.items = this.items.filter(item => item.id !== itemId);
     }
 
+    async deleteItemsByGroupId(groupId) {
+        this.items = this.items.filter(item => item.groupId !== groupId);
+    }
+
     async updateItem(itemId, updatedItem) {
         const itemIndex = this.items.findIndex(item => item.id === itemId);
         if (itemIndex !== -1) {
