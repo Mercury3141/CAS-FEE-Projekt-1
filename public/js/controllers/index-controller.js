@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (anyChecked || anyEmptyDeletableInput) {
-            clearButton.classList.add('color-caution');
+            clearButton.classList.remove('color-text-inactive');
             clearButton.disabled = false;
         } else {
-            clearButton.classList.remove('color-caution');
+            clearButton.classList.add('color-text-inactive');
             clearButton.disabled = true;
         }
     }
