@@ -39,6 +39,7 @@
 
 .color-selection {
     color: var(--color-selection);
+    background-color: var(--color-background-group);
 }
 
 .color-important {

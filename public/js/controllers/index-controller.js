@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             sortDateButton.classList.add('color-text-inactive');
             sortDateButton.disabled = true; // Disable the button
+            sortDateButton.classList.remove('color-selection'); // Remove selection class if no dates are present
         }
     }
 
@@ -144,6 +145,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
             group.style.display = hasImportantItem || !showOnlyImportant ? 'flex' : 'none';
+        });
+    }
+
+    // Function to filter items by due date
+    function filterDateItems() {
+        const showDateItems = sortDateButton.classList.contains('color-selection');
+        document.querySelectorAll('.group').forEach(group => {
+            group.querySelectorAll('.item').forEach(item => {
+                const hasDate = item.querySelector('input[type="date"]').value;
+                if (showDateItems) {
+                    if (hasDate) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
         });
     }
 
@@ -197,7 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Handling the sorting button click
+    // Handling the sorting button click for importance
     sortImportantButton.addEventListener('click', () => {
         if (!sortImportantButton.classList.contains('color-text-inactive')) {
             sortImportantButton.classList.toggle('color-important');
@@ -206,6 +226,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             filterImportantItems(); // Filter items when toggling the toolbar button
             updateToolbarButtons(); // Update other toolbar buttons
+        }
+    });
+
+    // Handling the sorting button click for date
+    sortDateButton.addEventListener('click', () => {
+        if (!sortDateButton.classList.contains('color-text-inactive')) {
+            sortDateButton.classList.toggle('color-selection');
+            filterDateItems(); // Filter items when toggling the toolbar button
         }
     });
 
@@ -343,6 +371,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateSortImportantButton();
         updateSortDateButton();
         filterImportantItems(); // Filter items after clearing
+        filterDateItems(); // Filter items after clearing
     });
 
     // Toggle all reminder items within a group when the group header checkbox is toggled
