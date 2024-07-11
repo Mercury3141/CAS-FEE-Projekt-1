@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sortDateButton = document.getElementById('sort-date');
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
-    const toolbarButtons = [addGroupButton, sortDateButton, clearButton]; // All other buttons except sortImportantButton
+    const toolbarButtons = [addGroupButton, sortImportantButton, clearButton]; // All other buttons except sortDateButton
 
     function categorizeDueDate(dueDate) {
         const today = new Date();
@@ -170,8 +170,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Function to update toolbar button states
     function updateToolbarButtons() {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
+        const showDateItems = sortDateButton.classList.contains('color-selection');
         toolbarButtons.forEach(button => {
-            if (showOnlyImportant) {
+            if (showOnlyImportant || showDateItems) {
                 button.classList.add('color-text-inactive');
                 button.disabled = true;
             } else {
@@ -234,6 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!sortDateButton.classList.contains('color-text-inactive')) {
             sortDateButton.classList.toggle('color-selection');
             filterDateItems(); // Filter items when toggling the toolbar button
+            updateToolbarButtons(); // Update other toolbar buttons
         }
     });
 
@@ -241,6 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateClearButtonColor();
     updateSortImportantButton();
     updateSortDateButton();
+    updateToolbarButtons();
 
     // Function to render a group
     function renderGroup(group) {
