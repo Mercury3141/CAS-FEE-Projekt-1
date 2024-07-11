@@ -1,31 +1,28 @@
 import express from 'express';
-import { GroupStore } from '../services/group-store.js';
+import {GroupStore} from '../services/group-store.js';
 
 const router = express.Router();
 const groupStore = new GroupStore();
 
-// Get all groups
 router.get('/groups', async (req, res) => {
     try {
         const groups = await groupStore.getAllGroups();
         res.status(200).json(groups);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
-// Add a new group
 router.post('/groups', async (req, res) => {
     try {
         const group = req.body;
         await groupStore.addGroup(group);
         res.status(201).json(group);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
-// Update a group
 router.put('/groups/:groupId', async (req, res) => {
     try {
         const groupId = req.params.groupId;
@@ -33,18 +30,17 @@ router.put('/groups/:groupId', async (req, res) => {
         await groupStore.updateGroup(groupId, updatedGroup);
         res.status(200).json(updatedGroup);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
-// Delete a group
 router.delete('/groups/:groupId', async (req, res) => {
     try {
         const groupId = req.params.groupId;
         await groupStore.deleteGroup(groupId);
         res.status(204).end();
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 

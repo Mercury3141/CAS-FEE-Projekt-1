@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs';
+import {promises as fs} from 'fs';
 
 const itemsFilePath = './data/items.db';
 
@@ -28,7 +28,7 @@ export class ItemStore {
         const items = await this.getAllItems();
         const itemIndex = items.findIndex(item => item.id === itemId);
         if (itemIndex !== -1) {
-            items[itemIndex] = { ...items[itemIndex], ...updatedItem };
+            items[itemIndex] = {...items[itemIndex], ...updatedItem};
             await this.saveItems(items);
         }
     }

@@ -1,5 +1,5 @@
-import { addItemToGroup } from './item-controller.js';
-import { saveGroup, getGroups } from '../services/group-service.js';
+import {addItemToGroup} from './item-controller.js';
+import {getGroups, saveGroup} from '../services/group-service.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const addGroupButton = document.getElementById('add-group');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const addItemButton = document.getElementById(`add-item-${groupId}`);
         addItemButton.addEventListener('click', () => addItemToGroup(groupId));
 
-        return context;  // Return the new group context
+        return context;
     }
 
     async function loadGroups() {
@@ -46,6 +46,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         groupList.insertAdjacentHTML('beforeend', groupHTML);
     }
 
-    // Load existing groups on page load
     loadGroups();
 });

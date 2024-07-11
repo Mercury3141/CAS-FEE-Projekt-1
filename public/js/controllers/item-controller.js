@@ -1,7 +1,7 @@
 export function addItemToGroup(groupId) {
     const groupElement = document.getElementById(`group-${groupId}`);
     const itemList = groupElement.querySelector(`#item-list-${groupId}`);
-    const itemId = Date.now(); // Unique ID for the item
+    const itemId = Date.now();
 
     const context = {
         id: itemId,
@@ -13,7 +13,4 @@ export function addItemToGroup(groupId) {
     const itemHTML = compiledItemTemplate(context);
 
     itemList.insertAdjacentHTML('beforeend', itemHTML);
-
-    // Here you would typically make a call to your REST API to save the item
-    // e.g., saveItem(context);
 }

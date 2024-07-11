@@ -9,7 +9,7 @@ export class ItemService {
     }
 
     async createItem(groupId) {
-        const newItem = { id: this.nextId++, groupId: groupId, description: 'New Item' };
+        const newItem = {id: this.nextId++, groupId: groupId, description: 'New Item'};
         this.items.push(newItem);
         return newItem;
     }
@@ -25,7 +25,7 @@ export class ItemService {
     async updateItem(itemId, updatedItem) {
         const itemIndex = this.items.findIndex(item => item.id === itemId);
         if (itemIndex !== -1) {
-            this.items[itemIndex] = { ...this.items[itemIndex], ...updatedItem };
+            this.items[itemIndex] = {...this.items[itemIndex], ...updatedItem};
         }
     }
 }

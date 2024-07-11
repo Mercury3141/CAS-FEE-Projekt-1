@@ -2,17 +2,14 @@ import Datastore from 'nedb';
 import fs from 'fs';
 import path from 'path';
 
-// Define the paths to the database files
 const groupsDbPath = path.resolve('./data/groups.db');
 const itemsDbPath = path.resolve('./data/items.db');
 
-// Check if the database directory exists, create if not
 const dataDir = path.resolve('./data');
 if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir);
 }
 
-// Check file permissions
 function checkFilePermissions(filePath) {
     try {
         fs.accessSync(filePath, fs.constants.R_OK | fs.constants.W_OK);
@@ -22,13 +19,11 @@ function checkFilePermissions(filePath) {
     }
 }
 
-// Perform permission checks
 checkFilePermissions(groupsDbPath);
 checkFilePermissions(itemsDbPath);
 
-// Initialize the databases
 const db = {};
-db.groups = new Datastore({ filename: groupsDbPath, autoload: true });
-db.items = new Datastore({ filename: itemsDbPath, autoload: true });
+db.groups = new Datastore({filename: groupsDbPath, autoload: true});
+db.items = new Datastore({filename: itemsDbPath, autoload: true});
 
 export default db;

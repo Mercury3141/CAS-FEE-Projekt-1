@@ -1,5 +1,5 @@
-import { GroupService } from '../services/group-service.js';
-import { ItemService } from '../services/item-service.js';
+import {GroupService} from '../services/group-service.js';
+import {ItemService} from '../services/item-service.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const groupService = new GroupService();
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sortDateButton = document.getElementById('sort-date');
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
-    const toolbarButtons = [addGroupButton, clearButton]; // All other buttons except sortImportantButton and sortDateButton
+    const toolbarButtons = [addGroupButton, clearButton];
 
     function categorizeDueDate(dueDate) {
         const today = new Date();
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to update the due date label based on the categorized due date
     function updateDueDateLabel(inputElement) {
         const dueDate = inputElement.value;
         const itemId = inputElement.closest('.item').getAttribute('data-id');
@@ -69,33 +68,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         await itemService.updateItem(itemId, item);
     }
 
-    // Function to check if any reminder item is marked as important
     function updateSortButtons() {
         const anyImportant = groupContainer.querySelector('.item button.color-important');
         const anyDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
 
         if (anyImportant) {
             sortImportantButton.classList.remove('color-text-inactive');
-            sortImportantButton.disabled = false; // Enable the button
+            sortImportantButton.disabled = false;
         } else {
             sortImportantButton.classList.add('color-text-inactive');
-            sortImportantButton.disabled = true; // Disable the button
-            sortImportantButton.classList.remove('color-important'); // Remove selection class if no important items are present
+            sortImportantButton.disabled = true;
+            sortImportantButton.classList.remove('color-important');
         }
 
         if (anyDate) {
             sortDateButton.classList.remove('color-text-inactive');
-            sortDateButton.disabled = false; // Enable the button
+            sortDateButton.disabled = false;
         } else {
             sortDateButton.classList.add('color-text-inactive');
-            sortDateButton.disabled = true; // Disable the button
-            sortDateButton.classList.remove('color-selection'); // Remove selection class if no dates are present
+            sortDateButton.disabled = true;
+            sortDateButton.classList.remove('color-selection');
         }
 
         updateToolbarButtons();
     }
 
-    // Function to check if any checkbox is checked or if any input field is empty and deletable
     function updateClearButtonColor() {
         const anyChecked = groupContainer.querySelector('.group input[type="checkbox"]:checked') ||
             groupContainer.querySelector('.item input[type="checkbox"]:checked');
@@ -106,7 +103,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
                 .some(input => input.value.trim() !== '');
 
-            // A group is deletable if the header is empty and it has no non-empty items
             const isDeletableGroup = !hasCustomHeader && !hasNonEmptyItem;
 
             return isDeletableGroup ||
@@ -122,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Function to filter items by importance
     function filterImportantItems() {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
         document.querySelectorAll('.group').forEach(group => {
@@ -155,7 +150,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Function to filter items by due date
     function filterDateItems() {
         const showDateItems = sortDateButton.classList.contains('color-selection');
         document.querySelectorAll('.group').forEach(group => {
@@ -174,7 +168,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Function to update toolbar button states
     function updateToolbarButtons() {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
         const showDateItems = sortDateButton.classList.contains('color-selection');
@@ -188,7 +181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // Disable the other filter button if one is active
         if (showOnlyImportant) {
             sortDateButton.classList.add('color-text-inactive');
             sortDateButton.disabled = true;
@@ -211,17 +203,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         return Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
     }
 
-    // Add event listeners to all checkboxes and input fields
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
             updateClearButtonColor();
         } else if (event.target.matches('.item input[type="date"]')) {
             updateDueDateLabel(event.target);
-            updateSortButtons(); // Update the sort buttons state when a date input changes
+            updateSortButtons();
         }
     });
 
-    // Handling importance toggling for items
     groupContainer.addEventListener('click', async (event) => {
         if (event.target.matches('#toggle-important')) {
             const button = event.target;
@@ -236,55 +226,48 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
             await itemService.updateItem(itemId, item);
             updateSortButtons();
-            filterImportantItems(); // Filter items after toggling importance
+            filterImportantItems();
 
-            // Check and update toolbar button states if no important items left
             if (!groupContainer.querySelector('.item button.color-important')) {
                 sortImportantButton.classList.remove('color-important');
-                filterImportantItems(); // Re-filter items after toggling the toolbar button
-                updateToolbarButtons(); // Update other toolbar buttons
+                filterImportantItems();
+                updateToolbarButtons();
             }
         }
     });
 
-    // Handling the sorting button click for importance
     sortImportantButton.addEventListener('click', () => {
         if (!sortImportantButton.classList.contains('color-text-inactive')) {
             sortImportantButton.classList.toggle('color-important');
-            filterImportantItems(); // Filter items when toggling the toolbar button
-            updateToolbarButtons(); // Update other toolbar buttons
+            filterImportantItems();
+            updateToolbarButtons();
         }
     });
 
-    // Handling the sorting button click for date
     sortDateButton.addEventListener('click', () => {
         if (!sortDateButton.classList.contains('color-text-inactive')) {
             sortDateButton.classList.toggle('color-selection');
-            filterDateItems(); // Filter items when toggling the toolbar button
-            updateToolbarButtons(); // Update other toolbar buttons
+            filterDateItems();
+            updateToolbarButtons();
         }
     });
 
-    // Initial checks
     updateClearButtonColor();
     updateSortButtons();
     updateToolbarButtons();
 
-    // Function to render a group
     function renderGroup(group) {
         const template = document.getElementById('group-template').innerHTML;
         const compiledTemplate = Handlebars.compile(template);
         return compiledTemplate(group);
     }
 
-    // Function to render an item
     function renderItem(item, groupId) {
         const template = document.getElementById('item-template').innerHTML;
         const compiledTemplate = Handlebars.compile(template);
-        return compiledTemplate({ ...item, groupId });
+        return compiledTemplate({...item, groupId});
     }
 
-    // Load groups and items
     const groups = await groupService.getAllGroups();
     for (const group of groups) {
         const groupHTML = renderGroup(group);
@@ -297,44 +280,38 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Handling group adding
     addGroupButton.addEventListener('click', async () => {
         const newGroup = await groupService.createGroup();
         const groupHTML = renderGroup(newGroup);
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
-        updateClearButtonColor(); // Check button state after adding a new group
-        initializeGroupSortable(); // Re-initialize Sortable for the new group
-        initializeItemSortable(); // Re-initialize Sortable for the new items
+        updateClearButtonColor();
+        initializeGroupSortable();
+        initializeItemSortable();
     });
 
-    // Handling item adding within a group
     groupContainer.addEventListener('click', async (event) => {
         if (event.target.matches('.add-item')) {
             const groupId = event.target.getAttribute('data-group');
             const newItem = await itemService.createItem(groupId);
             const itemHTML = renderItem(newItem, groupId);
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
-            updateClearButtonColor(); // Check button state after adding a new item
-            initializeItemSortable(); // Re-initialize Sortable for the new item
-            updateSortButtons(); // Check button state after adding a new item
+            updateClearButtonColor();
+            initializeItemSortable();
+            updateSortButtons();
         }
     });
 
-    // Handling sorting by importance
     sortImportantButton.addEventListener('click', () => {
         console.log('Sort by importance button clicked');
     });
 
-    // Handling sorting by date
     sortDateButton.addEventListener('click', () => {
         console.log('Sort by date button clicked');
     });
 
-    // Handling clear button functionality
     clearButton.addEventListener('click', async () => {
         console.log('Clear button clicked');
 
-        // Deleting checked groups
         const checkedGroups = groupContainer.querySelectorAll('.item-group input[type="checkbox"]:checked');
         for (const checkbox of checkedGroups) {
             const group = checkbox.closest('.group');
@@ -343,7 +320,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
                 .some(input => input.value.trim() !== '');
 
-            // Retain group if it has non-empty items or the group header has text
             if (!hasNonEmptyItem && groupHeaderInput.value.trim() === '') {
                 await groupService.deleteGroup(groupId);
                 await itemService.deleteItemsByGroupId(groupId);
@@ -351,7 +327,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Deleting checked individual items
         const checkedItems = groupContainer.querySelectorAll('.item > input[type="checkbox"]:checked');
         for (const checkbox of checkedItems) {
             const item = checkbox.closest('.item');
@@ -364,7 +339,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.remove();
         }
 
-        // Deleting empty items within groups, but never deleting groups with custom inputted headers
         const groups = groupContainer.querySelectorAll('.group');
         for (const group of groups) {
             const groupId = group.getAttribute('data-id');
@@ -389,7 +363,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     hasNonEmptyItem = true;
                 }
             }
-            // Retain group header if there are non-empty items left or if it has a custom header
+
             if (hasNonEmptyItem || hasCustomHeader) {
                 const itemGroup = group.querySelector('.item-group');
                 if (itemGroup) {
@@ -404,11 +378,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateClearButtonColor();
         updateSortButtons();
-        filterImportantItems(); // Filter items after clearing
-        filterDateItems(); // Filter items after clearing
+        filterImportantItems();
+        filterDateItems();
     });
 
-    // Toggle all reminder items within a group when the group header checkbox is toggled
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.item-group input[type="checkbox"]')) {
             const group = event.target.closest('.group');
@@ -421,7 +394,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Initialize Sortable.js for groups
     new Sortable(groupContainer, {
         animation: 150,
         handle: '.item-group',
@@ -435,7 +407,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Initialize Sortable.js for items within each group
     function initializeGroupSortable() {
         document.querySelectorAll('.group').forEach(group => {
             const itemList = group.querySelector('ul');
@@ -456,7 +427,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Initialize Sortable.js for items within each group
     function initializeItemSortable() {
         document.querySelectorAll('.group ul').forEach(itemList => {
             new Sortable(itemList, {
@@ -476,21 +446,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Update group order in the database
     async function updateGroupOrder(newOrder) {
         for (let group of newOrder) {
-            await groupService.updateGroup(group.id, { order: group.order });
+            await groupService.updateGroup(group.id, {order: group.order});
         }
     }
 
-    // Update item group and order in the database
     async function updateItemGroupAndOrder(newOrder) {
         for (let item of newOrder) {
-            await itemService.updateItem(item.id, { order: item.order, groupId: item.groupId });
+            await itemService.updateItem(item.id, {order: item.order, groupId: item.groupId});
         }
     }
 
-    // Initialize Sortable.js for existing groups and items
     initializeGroupSortable();
     initializeItemSortable();
 });
