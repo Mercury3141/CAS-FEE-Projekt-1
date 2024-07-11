@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const dayDifference = Math.floor((date - today) / oneDay);
 
         if (dayDifference < -1) {
-            return 'In the past';
+            return 'In the Past';
         } else if (dayDifference === -1) {
             return 'Yesterday';
         } else if (dayDifference === 0) {
@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (dayDifference === 1) {
             return 'Tomorrow';
         } else if (dayDifference < 7) {
-            return 'This week';
+            return 'This Week';
         } else if (date.getMonth() === today.getMonth()) {
-            return 'This month';
+            return 'This Month';
         } else {
             return 'Upcoming';
         }
@@ -73,8 +73,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const anyImportant = groupContainer.querySelector('.item button.color-important');
         if (anyImportant) {
             sortImportantButton.classList.remove('color-text-inactive');
+            sortImportantButton.disabled = false; // Enable the button
         } else {
             sortImportantButton.classList.add('color-text-inactive');
+            sortImportantButton.disabled = true; // Disable the button
+
+            // Remove all outline-important classes when no important items are left
+            document.querySelectorAll('.outline-important').forEach(element => {
+                element.classList.remove('outline-important');
+            });
         }
     }
 
@@ -166,6 +173,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             await itemService.updateItem(itemId, item);
             updateSortImportantButton();
             filterImportantItems(); // Filter items after toggling importance
+
+            // Check and update toolbar button states if no important items left
+            if (!groupContainer.querySelector('.item button.color-important')) {
+                sortImportantButton.classList.remove('color-important');
+                filterImportantItems(); // Re-filter items after toggling the toolbar button
+                updateToolbarButtons(); // Update other toolbar buttons
+            }
         }
     });
 
@@ -400,4 +414,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeGroupSortable();
     initializeItemSortable();
 });
-

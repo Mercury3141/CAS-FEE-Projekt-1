@@ -39,6 +39,7 @@
 
 .color-important {
     color: var(--color-important);
+    background-color: var(--color-background-group);
 }
 
 .color-caution {
@@ -47,6 +48,7 @@
 
 .outline-selection {
     outline: 0.11em solid var(--color-selection);
+    background-color: var(--color-background-group);
 }
 
 .outline-important {
