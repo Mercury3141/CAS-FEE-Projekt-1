@@ -356,6 +356,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (const checkbox of checkedItems) {
             const item = checkbox.closest('.item');
             const itemId = item.getAttribute('data-id');
+            const dueDateElement = document.getElementById(`due-date-text-${item.getAttribute('data-group')}-${itemId}`);
+            if (dueDateElement) {
+                dueDateElement.remove();
+            }
             await itemService.deleteItem(itemId);
             item.remove();
         }
@@ -375,6 +379,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const input = item.querySelector('input[type="text"]');
                 if (input && input.value.trim() === '') {
                     const itemId = item.getAttribute('data-id');
+                    const dueDateElement = document.getElementById(`due-date-text-${groupId}-${itemId}`);
+                    if (dueDateElement) {
+                        dueDateElement.remove();
+                    }
                     await itemService.deleteItem(itemId);
                     item.remove();
                 } else {
