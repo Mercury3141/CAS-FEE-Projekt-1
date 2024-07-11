@@ -176,6 +176,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 button.disabled = false;
             }
         });
+
+        // Disable the other filter button if one is active
+        if (showOnlyImportant) {
+            sortDateButton.classList.add('color-text-inactive');
+            sortDateButton.disabled = true;
+        } else if (showDateItems) {
+            sortImportantButton.classList.add('color-text-inactive');
+            sortImportantButton.disabled = true;
+        } else {
+            sortImportantButton.classList.remove('color-text-inactive');
+            sortImportantButton.disabled = !anyImportantItemsPresent();
+            sortDateButton.classList.remove('color-text-inactive');
+            sortDateButton.disabled = !anyDateItemsPresent();
+        }
+    }
+
+    function anyImportantItemsPresent() {
+        return !!groupContainer.querySelector('.item button.color-important');
+    }
+
+    function anyDateItemsPresent() {
+        return Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
     }
 
     // Add event listeners to all checkboxes and input fields
