@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateItemDueDate(itemId, dueDate);
+        updateSortDateButton();
     }
 
     async function updateItemDueDate(itemId, dueDate) {
@@ -82,6 +83,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.outline-important').forEach(element => {
                 element.classList.remove('outline-important');
             });
+        }
+    }
+
+    // Function to check if any reminder item has a user-inputted date
+    function updateSortDateButton() {
+        const anyDate = groupContainer.querySelector('.item input[type="date"]:not(:placeholder-shown)');
+        if (anyDate) {
+            sortDateButton.classList.add('color-selection');
+        } else {
+            sortDateButton.classList.remove('color-selection');
         }
     }
 
@@ -154,6 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateClearButtonColor();
         } else if (event.target.matches('.item input[type="date"]')) {
             updateDueDateLabel(event.target);
+            updateSortDateButton(); // Update the sort date button state when a date input changes
         }
     });
 
@@ -198,6 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initial checks
     updateClearButtonColor();
     updateSortImportantButton();
+    updateSortDateButton();
 
     // Function to render a group
     function renderGroup(group) {
@@ -325,6 +338,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateClearButtonColor();
         updateSortImportantButton();
+        updateSortDateButton();
         filterImportantItems(); // Filter items after clearing
     });
 

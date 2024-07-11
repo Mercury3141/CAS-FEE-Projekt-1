@@ -37,6 +37,10 @@
     color: var(--color-text-inactive);
 }
 
+.color-selection {
+    color: var(--color-selection);
+}
+
 .color-important {
     color: var(--color-important);
     background-color: var(--color-background-group);
