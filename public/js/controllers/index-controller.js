@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sortDateButton = document.getElementById('sort-date');
     const clearButton = document.getElementById('clear');
     const groupContainer = document.getElementById('group-container');
-    const toolbarButtons = [addGroupButton, sortImportantButton, clearButton]; // All other buttons except sortDateButton
+    const toolbarButtons = [addGroupButton, clearButton]; // All other buttons except sortImportantButton and sortDateButton
 
     function categorizeDueDate(dueDate) {
         const today = new Date();
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateItemDueDate(itemId, dueDate);
-        updateSortDateButton();
+        updateSortButtons();
     }
 
     async function updateItemDueDate(itemId, dueDate) {
@@ -70,25 +70,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Function to check if any reminder item is marked as important
-    function updateSortImportantButton() {
+    function updateSortButtons() {
         const anyImportant = groupContainer.querySelector('.item button.color-important');
+        const anyDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
+
         if (anyImportant) {
             sortImportantButton.classList.remove('color-text-inactive');
             sortImportantButton.disabled = false; // Enable the button
         } else {
             sortImportantButton.classList.add('color-text-inactive');
             sortImportantButton.disabled = true; // Disable the button
-
-            // Remove all outline-important classes when no important items are left
-            document.querySelectorAll('.outline-important').forEach(element => {
-                element.classList.remove('outline-important');
-            });
+            sortImportantButton.classList.remove('color-important'); // Remove selection class if no important items are present
         }
-    }
 
-    // Function to check if any reminder item has a user-inputted date
-    function updateSortDateButton() {
-        const anyDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
         if (anyDate) {
             sortDateButton.classList.remove('color-text-inactive');
             sortDateButton.disabled = false; // Enable the button
@@ -97,6 +91,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             sortDateButton.disabled = true; // Disable the button
             sortDateButton.classList.remove('color-selection'); // Remove selection class if no dates are present
         }
+
+        updateToolbarButtons();
     }
 
     // Function to check if any checkbox is checked or if any input field is empty and deletable
@@ -188,7 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateClearButtonColor();
         } else if (event.target.matches('.item input[type="date"]')) {
             updateDueDateLabel(event.target);
-            updateSortDateButton(); // Update the sort date button state when a date input changes
+            updateSortButtons(); // Update the sort buttons state when a date input changes
         }
     });
 
@@ -206,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 important: isImportant
             };
             await itemService.updateItem(itemId, item);
-            updateSortImportantButton();
+            updateSortButtons();
             filterImportantItems(); // Filter items after toggling importance
 
             // Check and update toolbar button states if no important items left
@@ -241,8 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initial checks
     updateClearButtonColor();
-    updateSortImportantButton();
-    updateSortDateButton();
+    updateSortButtons();
     updateToolbarButtons();
 
     // Function to render a group
@@ -291,8 +286,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
             updateClearButtonColor(); // Check button state after adding a new item
             initializeItemSortable(); // Re-initialize Sortable for the new item
-            updateSortImportantButton(); // Check button state after adding a new item
-            updateSortDateButton(); // Check button state after adding a new item
+            updateSortButtons(); // Check button state after adding a new item
         }
     });
 
@@ -371,8 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateClearButtonColor();
-        updateSortImportantButton();
-        updateSortDateButton();
+        updateSortButtons();
         filterImportantItems(); // Filter items after clearing
         filterDateItems(); // Filter items after clearing
     });
