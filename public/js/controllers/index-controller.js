@@ -88,11 +88,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Function to check if any reminder item has a user-inputted date
     function updateSortDateButton() {
-        const anyDate = groupContainer.querySelector('.item input[type="date"]:not(:placeholder-shown)');
+        const anyDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
         if (anyDate) {
-            sortDateButton.classList.add('color-selection');
+            sortDateButton.classList.remove('color-text-inactive');
+            sortDateButton.disabled = false; // Enable the button
         } else {
-            sortDateButton.classList.remove('color-selection');
+            sortDateButton.classList.add('color-text-inactive');
+            sortDateButton.disabled = true; // Disable the button
         }
     }
 
@@ -259,6 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateClearButtonColor(); // Check button state after adding a new item
             initializeItemSortable(); // Re-initialize Sortable for the new item
             updateSortImportantButton(); // Check button state after adding a new item
+            updateSortDateButton(); // Check button state after adding a new item
         }
     });
 
