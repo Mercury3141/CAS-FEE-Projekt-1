@@ -140,7 +140,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     item.style.display = 'flex';
                 }
             });
-            group.style.display = hasImportantItem || !showOnlyImportant ? 'flex' : 'none';
+            if (showOnlyImportant) {
+                if (hasImportantItem) {
+                    group.classList.add('outline-important');
+                    group.style.display = 'flex';
+                } else {
+                    group.classList.remove('outline-important');
+                    group.style.display = 'none';
+                }
+            } else {
+                group.classList.remove('outline-important');
+                group.style.display = 'flex';
+            }
         });
     }
 
@@ -240,9 +251,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     sortImportantButton.addEventListener('click', () => {
         if (!sortImportantButton.classList.contains('color-text-inactive')) {
             sortImportantButton.classList.toggle('color-important');
-            document.querySelectorAll('.group').forEach(group => {
-                group.classList.toggle('outline-important');
-            });
             filterImportantItems(); // Filter items when toggling the toolbar button
             updateToolbarButtons(); // Update other toolbar buttons
         }
