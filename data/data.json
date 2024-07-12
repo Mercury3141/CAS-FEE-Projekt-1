@@ -11,6 +11,12 @@
       "order": 2,
       "checked": false,
       "textContent": "Test Group"
+    },
+    {
+      "order": 1,
+      "checked": false,
+      "textContent": "New Group",
+      "id": 1720820651363
     }
   ],
   "items": [

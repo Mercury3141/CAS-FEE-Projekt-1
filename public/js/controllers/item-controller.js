@@ -1,41 +1,45 @@
-import ItemStore from '../../services/item-store.js'; // Correct the path
+import itemService from '../services/item-service.js';
 
 class ItemController {
-    async getItems(req, res) {
-        try {
-            const items = await ItemStore.getItemsByGroupId(req.params.groupId);
-            res.json(items);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
+    constructor(groupId, items) {
+        this.groupId = groupId;
+        this.items = items;
+        this.init();
+    }
+
+    async init() {
+        this.renderItems(this.items);
+        const addItemButton = document.getElementById(`add-item-${this.groupId}`);
+        if (addItemButton) {
+            addItemButton.addEventListener('click', () => this.addItem());
+        } else {
+            console.error(`Element with ID add-item-${this.groupId} not found`);
         }
     }
 
-    async createItem(req, res) {
+    async addItem() {
         try {
-            const newItem = await ItemStore.createItem(req.params.groupId, req.body);
-            res.json(newItem);
+            const newItem = await itemService.createItem(this.groupId, { textContent: 'New Item' });
+            this.renderItem(newItem);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error adding item:', error);
         }
     }
 
-    async updateItem(req, res) {
-        try {
-            const updatedItem = await ItemStore.updateItem(req.params.groupId, req.params.itemId, req.body);
-            res.json(updatedItem);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+    renderItems(items) {
+        const filteredItems = items.filter(item => item.groupId === this.groupId);
+        const template = document.getElementById('item-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
+        const itemList = document.getElementById(`item-list-${this.groupId}`);
+        itemList.innerHTML = filteredItems.map(item => compiledTemplate(item)).join('');
     }
 
-    async deleteItem(req, res) {
-        try {
-            await ItemStore.deleteItem(req.params.groupId, req.params.itemId);
-            res.status(204).send();
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+    renderItem(item) {
+        const template = document.getElementById('item-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
+        const itemList = document.getElementById(`item-list-${this.groupId}`);
+        itemList.innerHTML += compiledTemplate(item);
     }
 }
 
-export const itemController = new ItemController();
+export default ItemController;

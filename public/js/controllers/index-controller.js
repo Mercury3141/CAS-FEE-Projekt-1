@@ -17,8 +17,8 @@ class IndexController {
 
     async loadGroups() {
         try {
-            const groups = await groupService.getGroups();
-            this.renderGroups(groups);
+            const data = await groupService.getGroups();
+            this.renderGroups(data.groups, data.items);
         } catch (error) {
             console.error('Error loading groups:', error);
         }
@@ -37,12 +37,12 @@ class IndexController {
         }
     }
 
-    renderGroups(groups) {
+    renderGroups(groups, items) {
         const template = document.getElementById('group-template').innerHTML;
         const compiledTemplate = Handlebars.compile(template);
         const groupList = document.getElementById('group-list');
         groupList.innerHTML = groups.map(group => compiledTemplate(group)).join('');
-        groups.forEach(group => this.initializeItemController(group.id));
+        groups.forEach(group => this.initializeItemController(group.id, items));
     }
 
     renderGroup(group) {
@@ -53,8 +53,8 @@ class IndexController {
         this.initializeItemController(group.id);
     }
 
-    initializeItemController(groupId) {
-        new ItemController(groupId);
+    initializeItemController(groupId, items) {
+        new ItemController(groupId, items);
     }
 }
 
