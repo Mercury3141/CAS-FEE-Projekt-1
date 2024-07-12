@@ -1,27 +1,27 @@
-export class GroupService {
+const GroupStore = require('../stores/group-store.js');
+
+class GroupService {
     constructor() {
-        this.groups = [];
-        this.nextId = 1;
+        this.groupStore = new GroupStore();
     }
 
     async getAllGroups() {
-        return this.groups;
+        return await this.groupStore.getAllGroups();
     }
 
-    async createGroup() {
-        const newGroup = { id: this.nextId++, name: 'New Group', items: [] };
-        this.groups.push(newGroup);
+    async createGroup(name) {
+        const newGroup = { id: Date.now().toString(), name, items: [] };
+        await this.groupStore.addGroup(newGroup);
         return newGroup;
     }
 
     async deleteGroup(groupId) {
-        this.groups = this.groups.filter(group => group.id !== groupId);
+        await this.groupStore.deleteGroup(groupId);
     }
 
     async updateGroup(groupId, updatedGroup) {
-        const groupIndex = this.groups.findIndex(group => group.id === groupId);
-        if (groupIndex !== -1) {
-            this.groups[groupIndex] = { ...this.groups[groupIndex], ...updatedGroup };
-        }
+        await this.groupStore.updateGroup(groupId, updatedGroup);
     }
 }
+
+module.exports = GroupService;

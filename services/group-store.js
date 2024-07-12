@@ -1,26 +1,41 @@
-import {promises as fs} from 'fs';
+const { groupsDB } = require('./database');
 
-const groupsFilePath = './data/groups.db';
-
-export class GroupStore {
+class GroupStore {
     async getAllGroups() {
-        const data = await fs.readFile(groupsFilePath, 'utf-8');
-        return JSON.parse(data);
-    }
-
-    async saveGroups(groups) {
-        await fs.writeFile(groupsFilePath, JSON.stringify(groups, null, 2), 'utf-8');
+        return new Promise((resolve, reject) => {
+            groupsDB.find({}, (err, docs) => {
+                if (err) reject(err);
+                else resolve(docs);
+            });
+        });
     }
 
     async addGroup(group) {
-        const groups = await this.getAllGroups();
-        groups.push(group);
-        await this.saveGroups(groups);
+        return new Promise((resolve, reject) => {
+            groupsDB.insert(group, (err, newDoc) => {
+                if (err) reject(err);
+                else resolve(newDoc);
+            });
+        });
     }
 
     async deleteGroup(groupId) {
-        let groups = await this.getAllGroups();
-        groups = groups.filter(group => group.id !== groupId);
-        await this.saveGroups(groups);
+        return new Promise((resolve, reject) => {
+            groupsDB.remove({ _id: groupId }, {}, (err, numRemoved) => {
+                if (err) reject(err);
+                else resolve(numRemoved);
+            });
+        });
+    }
+
+    async updateGroup(groupId, updatedGroup) {
+        return new Promise((resolve, reject) => {
+            groupsDB.update({ _id: groupId }, { $set: updatedGroup }, {}, (err, numUpdated) => {
+                if (err) reject(err);
+                else resolve(numUpdated);
+            });
+        });
     }
 }
+
+module.exports = GroupStore;

@@ -1,47 +1,42 @@
-import express from 'express';
-import {GroupStore} from '../services/group-store.js';
+const GroupService = require('../services/group-service.js');
+const groupService = new GroupService();
 
-const router = express.Router();
-const groupStore = new GroupStore();
-
-router.get('/groups', async (req, res) => {
+exports.getAllGroups = async (req, res) => {
     try {
-        const groups = await groupStore.getAllGroups();
-        res.status(200).json(groups);
+        const groups = await groupService.getAllGroups();
+        res.json(groups);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
+};
 
-router.post('/groups', async (req, res) => {
+exports.createGroup = async (req, res) => {
     try {
-        const group = req.body;
-        await groupStore.addGroup(group);
-        res.status(201).json(group);
+        const { name } = req.body;
+        const newGroup = await groupService.createGroup(name);
+        res.status(201).json(newGroup);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
+};
 
-router.put('/groups/:groupId', async (req, res) => {
+exports.deleteGroup = async (req, res) => {
     try {
-        const groupId = req.params.groupId;
+        const { id } = req.params;
+        await groupService.deleteGroup(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+exports.updateGroup = async (req, res) => {
+    try {
+        const { id } = req.params;
         const updatedGroup = req.body;
-        await groupStore.updateGroup(groupId, updatedGroup);
-        res.status(200).json(updatedGroup);
+        await groupService.updateGroup(id, updatedGroup);
+        res.status(200).send();
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
-
-router.delete('/groups/:groupId', async (req, res) => {
-    try {
-        const groupId = req.params.groupId;
-        await groupStore.deleteGroup(groupId);
-        res.status(204).end();
-    } catch (error) {
-        res.status(500).json({error: error.message});
-    }
-});
-
-export default router;
+};

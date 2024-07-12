@@ -1,10 +1,6 @@
-import {GroupService} from '../services/group-service.js';
-import {ItemService} from '../services/item-service.js';
+import { fetchData } from '../services/http-service.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const groupService = new GroupService();
-    const itemService = new ItemService();
-
     const addGroupButton = document.getElementById('add-group');
     const sortImportantButton = document.getElementById('sort-important');
     const sortDateButton = document.getElementById('sort-date');
@@ -12,7 +8,131 @@ document.addEventListener('DOMContentLoaded', async () => {
     const groupContainer = document.getElementById('group-container');
     const toolbarButtons = [addGroupButton, clearButton];
 
-    function categorizeDueDate(dueDate) {
+    const loadGroups = async () => {
+        try {
+            const groups = await fetchData('/api/groups');
+            for (const group of groups) {
+                const groupHTML = renderGroup(group);
+                document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
+
+                const items = await fetchData(`/api/groups/${group._id}/items`);
+                for (const item of items) {
+                    const itemHTML = renderItem(item, group._id);
+                    document.getElementById(`item-list-${group._id}`).insertAdjacentHTML('beforeend', itemHTML);
+                }
+            }
+            initializeGroupSortable();
+            initializeItemSortable();
+        } catch (error) {
+            console.error('Error loading groups:', error);
+        }
+    };
+
+    const createGroup = async (name) => {
+        try {
+            const response = await fetch('/api/groups', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name })
+            });
+            if (response.ok) {
+                const newGroup = await response.json();
+                const groupHTML = renderGroup(newGroup);
+                document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
+                initializeGroupSortable();
+            } else {
+                console.error('Error creating group:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error creating group:', error);
+        }
+    };
+
+    const updateGroup = async (id, updatedGroup) => {
+        try {
+            const response = await fetch(`/api/groups/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedGroup)
+            });
+            if (!response.ok) {
+                console.error('Error updating group:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error updating group:', error);
+        }
+    };
+
+    const deleteGroup = async (id) => {
+        try {
+            const response = await fetch(`/api/groups/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                console.error('Error deleting group:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting group:', error);
+        }
+    };
+
+    const createItem = async (groupId, description) => {
+        try {
+            const response = await fetch(`/api/groups/${groupId}/items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ description })
+            });
+            if (response.ok) {
+                const newItem = await response.json();
+                const itemHTML = renderItem(newItem, groupId);
+                document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
+                initializeItemSortable();
+            } else {
+                console.error('Error creating item:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error creating item:', error);
+        }
+    };
+
+    const updateItem = async (id, updatedItem) => {
+        try {
+            const response = await fetch(`/api/items/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedItem)
+            });
+            if (!response.ok) {
+                console.error('Error updating item:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error updating item:', error);
+        }
+    };
+
+    const deleteItem = async (id) => {
+        try {
+            const response = await fetch(`/api/items/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                console.error('Error deleting item:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    };
+
+    const categorizeDueDate = (dueDate) => {
         const today = new Date();
         const date = new Date(dueDate);
         const oneDay = 24 * 60 * 60 * 1000;
@@ -33,9 +153,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             return 'Upcoming';
         }
-    }
+    };
 
-    function updateDueDateLabel(inputElement) {
+    const updateDueDateLabel = (inputElement) => {
         const dueDate = inputElement.value;
         const itemId = inputElement.closest('.item').getAttribute('data-id');
         const groupId = inputElement.closest('.item').getAttribute('data-group');
@@ -58,17 +178,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateItemDueDate(itemId, dueDate);
         updateSortButtons();
-    }
+    };
 
-    async function updateItemDueDate(itemId, dueDate) {
+    const updateItemDueDate = async (itemId, dueDate) => {
         const item = {
             id: parseInt(itemId),
             dueDate: dueDate
         };
-        await itemService.updateItem(itemId, item);
-    }
+        await updateItem(itemId, item);
+    };
 
-    function updateSortButtons() {
+    const updateSortButtons = () => {
         const anyImportant = groupContainer.querySelector('.item button.color-important');
         const anyDate = Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
 
@@ -91,9 +211,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         updateToolbarButtons();
-    }
+    };
 
-    function updateClearButtonColor() {
+    const updateClearButtonColor = () => {
         const anyChecked = groupContainer.querySelector('.group input[type="checkbox"]:checked') ||
             groupContainer.querySelector('.item input[type="checkbox"]:checked');
 
@@ -116,9 +236,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearButton.classList.add('color-text-inactive');
             clearButton.disabled = true;
         }
-    }
+    };
 
-    function filterImportantItems() {
+    const filterImportantItems = () => {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
         document.querySelectorAll('.group').forEach(group => {
             let hasImportantItem = false;
@@ -148,9 +268,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 group.style.display = 'flex';
             }
         });
-    }
+    };
 
-    function filterDateItems() {
+    const filterDateItems = () => {
         const showDateItems = sortDateButton.classList.contains('color-selection');
         document.querySelectorAll('.group').forEach(group => {
             group.querySelectorAll('.item').forEach(item => {
@@ -166,9 +286,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
         });
-    }
+    };
 
-    function updateToolbarButtons() {
+    const updateToolbarButtons = () => {
         const showOnlyImportant = sortImportantButton.classList.contains('color-important');
         const showDateItems = sortDateButton.classList.contains('color-selection');
         toolbarButtons.forEach(button => {
@@ -193,15 +313,125 @@ document.addEventListener('DOMContentLoaded', async () => {
             sortDateButton.classList.remove('color-text-inactive');
             sortDateButton.disabled = !anyDateItemsPresent();
         }
-    }
+    };
 
-    function anyImportantItemsPresent() {
+    const anyImportantItemsPresent = () => {
         return !!groupContainer.querySelector('.item button.color-important');
-    }
+    };
 
-    function anyDateItemsPresent() {
+    const anyDateItemsPresent = () => {
         return Array.from(groupContainer.querySelectorAll('.item input[type="date"]')).some(input => input.value);
-    }
+    };
+
+    const renderGroup = (group) => {
+        const template = document.getElementById('group-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
+        return compiledTemplate(group);
+    };
+
+    const renderItem = (item, groupId) => {
+        const template = document.getElementById('item-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
+        return compiledTemplate({ ...item, groupId });
+    };
+
+    addGroupButton.addEventListener('click', async () => {
+        const groupName = prompt('Enter group name:');
+        if (groupName) {
+            await createGroup(groupName);
+            loadGroups();
+        }
+    });
+
+    groupContainer.addEventListener('click', async (event) => {
+        if (event.target.matches('.add-item')) {
+            const groupId = event.target.getAttribute('data-group');
+            const newItem = await createItem(groupId, 'New Item');
+            const itemHTML = renderItem(newItem, groupId);
+            document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
+            updateClearButtonColor();
+            initializeItemSortable();
+            updateSortButtons();
+        }
+    });
+
+    sortImportantButton.addEventListener('click', () => {
+        if (!sortImportantButton.classList.contains('color-text-inactive')) {
+            sortImportantButton.classList.toggle('color-important');
+            filterImportantItems();
+            updateToolbarButtons();
+        }
+    });
+
+    sortDateButton.addEventListener('click', () => {
+        if (!sortDateButton.classList.contains('color-text-inactive')) {
+            sortDateButton.classList.toggle('color-selection');
+            filterDateItems();
+            updateToolbarButtons();
+        }
+    });
+
+    clearButton.addEventListener('click', async () => {
+        const checkedGroups = groupContainer.querySelectorAll('.item-group input[type="checkbox"]:checked');
+        for (const checkbox of checkedGroups) {
+            const group = checkbox.closest('.group');
+            const groupId = group.getAttribute('data-id');
+            const groupHeaderInput = group.querySelector('.label-heading');
+            const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
+                .some(input => input.value.trim() !== '');
+
+            if (!hasNonEmptyItem && groupHeaderInput.value.trim() === '') {
+                await deleteGroup(groupId);
+                group.remove();
+            }
+        }
+
+        const checkedItems = groupContainer.querySelectorAll('.item > input[type="checkbox"]:checked');
+        for (const checkbox of checkedItems) {
+            const item = checkbox.closest('.item');
+            const itemId = item.getAttribute('data-id');
+            await deleteItem(itemId);
+            item.remove();
+        }
+
+        const groups = groupContainer.querySelectorAll('.group');
+        for (const group of groups) {
+            const groupId = group.getAttribute('data-id');
+            const items = group.querySelectorAll('.item');
+            let hasNonEmptyItem = false;
+            let hasCustomHeader = false;
+            const groupHeaderInput = group.querySelector('.label-heading');
+            if (groupHeaderInput && groupHeaderInput.value.trim() !== '') {
+                hasCustomHeader = true;
+            }
+            for (const item of items) {
+                const input = item.querySelector('input[type="text"]');
+                if (input && input.value.trim() === '') {
+                    const itemId = item.getAttribute('data-id');
+                    await deleteItem(itemId);
+                    item.remove();
+                } else {
+                    hasNonEmptyItem = true;
+                }
+            }
+
+            if (hasNonEmptyItem || hasCustomHeader) {
+                const itemGroup = group.querySelector('.item-group');
+                if (itemGroup) {
+                    const itemGroupCheckbox = itemGroup.querySelector('input[type="checkbox"]');
+                    itemGroupCheckbox.checked = false; // Uncheck the header checkbox if it's checked
+                }
+            } else {
+                await deleteGroup(groupId);
+                group.remove();
+            }
+        }
+
+        updateClearButtonColor();
+        updateSortButtons();
+        filterImportantItems();
+        filterDateItems();
+    });
 
     groupContainer.addEventListener('change', (event) => {
         if (event.target.matches('.group input[type="checkbox"]') || event.target.matches('.item input[type="checkbox"]')) {
@@ -224,7 +454,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 id: parseInt(itemId),
                 important: isImportant
             };
-            await itemService.updateItem(itemId, item);
+            await updateItem(itemId, item);
             updateSortButtons();
             filterImportantItems();
 
@@ -233,164 +463,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 filterImportantItems();
                 updateToolbarButtons();
             }
-        }
-    });
-
-    sortImportantButton.addEventListener('click', () => {
-        if (!sortImportantButton.classList.contains('color-text-inactive')) {
-            sortImportantButton.classList.toggle('color-important');
-            filterImportantItems();
-            updateToolbarButtons();
-        }
-    });
-
-    sortDateButton.addEventListener('click', () => {
-        if (!sortDateButton.classList.contains('color-text-inactive')) {
-            sortDateButton.classList.toggle('color-selection');
-            filterDateItems();
-            updateToolbarButtons();
-        }
-    });
-
-    updateClearButtonColor();
-    updateSortButtons();
-    updateToolbarButtons();
-
-    function renderGroup(group) {
-        const template = document.getElementById('group-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        return compiledTemplate(group);
-    }
-
-    function renderItem(item, groupId) {
-        const template = document.getElementById('item-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        return compiledTemplate({...item, groupId});
-    }
-
-    const groups = await groupService.getAllGroups();
-    for (const group of groups) {
-        const groupHTML = renderGroup(group);
-        document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
-
-        const items = await itemService.getItemsByGroupId(group.id);
-        for (const item of items) {
-            const itemHTML = renderItem(item, group.id);
-            document.getElementById(`item-list-${group.id}`).insertAdjacentHTML('beforeend', itemHTML);
-        }
-    }
-
-    addGroupButton.addEventListener('click', async () => {
-        const newGroup = await groupService.createGroup();
-        const groupHTML = renderGroup(newGroup);
-        document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
-        updateClearButtonColor();
-        initializeGroupSortable();
-        initializeItemSortable();
-    });
-
-    groupContainer.addEventListener('click', async (event) => {
-        if (event.target.matches('.add-item')) {
-            const groupId = event.target.getAttribute('data-group');
-            const newItem = await itemService.createItem(groupId);
-            const itemHTML = renderItem(newItem, groupId);
-            document.getElementById(`item-list-${groupId}`).insertAdjacentHTML('beforeend', itemHTML);
-            updateClearButtonColor();
-            initializeItemSortable();
-            updateSortButtons();
-        }
-    });
-
-    sortImportantButton.addEventListener('click', () => {
-        console.log('Sort by importance button clicked');
-    });
-
-    sortDateButton.addEventListener('click', () => {
-        console.log('Sort by date button clicked');
-    });
-
-    clearButton.addEventListener('click', async () => {
-        console.log('Clear button clicked');
-
-        const checkedGroups = groupContainer.querySelectorAll('.item-group input[type="checkbox"]:checked');
-        for (const checkbox of checkedGroups) {
-            const group = checkbox.closest('.group');
-            const groupId = group.getAttribute('data-id');
-            const groupHeaderInput = group.querySelector('.label-heading');
-            const hasNonEmptyItem = Array.from(group.querySelectorAll('.item input[type="text"]'))
-                .some(input => input.value.trim() !== '');
-
-            if (!hasNonEmptyItem && groupHeaderInput.value.trim() === '') {
-                await groupService.deleteGroup(groupId);
-                await itemService.deleteItemsByGroupId(groupId);
-                group.remove();
-            }
-        }
-
-        const checkedItems = groupContainer.querySelectorAll('.item > input[type="checkbox"]:checked');
-        for (const checkbox of checkedItems) {
-            const item = checkbox.closest('.item');
-            const itemId = item.getAttribute('data-id');
-            const dueDateElement = document.getElementById(`due-date-text-${item.getAttribute('data-group')}-${itemId}`);
-            if (dueDateElement) {
-                dueDateElement.remove();
-            }
-            await itemService.deleteItem(itemId);
-            item.remove();
-        }
-
-        const groups = groupContainer.querySelectorAll('.group');
-        for (const group of groups) {
-            const groupId = group.getAttribute('data-id');
-            const items = group.querySelectorAll('.item');
-            let hasNonEmptyItem = false;
-            let hasCustomHeader = false;
-            const groupHeaderInput = group.querySelector('.label-heading');
-            if (groupHeaderInput && groupHeaderInput.value.trim() !== '') {
-                hasCustomHeader = true;
-            }
-            for (const item of items) {
-                const input = item.querySelector('input[type="text"]');
-                if (input && input.value.trim() === '') {
-                    const itemId = item.getAttribute('data-id');
-                    const dueDateElement = document.getElementById(`due-date-text-${groupId}-${itemId}`);
-                    if (dueDateElement) {
-                        dueDateElement.remove();
-                    }
-                    await itemService.deleteItem(itemId);
-                    item.remove();
-                } else {
-                    hasNonEmptyItem = true;
-                }
-            }
-
-            if (hasNonEmptyItem || hasCustomHeader) {
-                const itemGroup = group.querySelector('.item-group');
-                if (itemGroup) {
-                    const itemGroupCheckbox = itemGroup.querySelector('input[type="checkbox"]');
-                    itemGroupCheckbox.checked = false; // Uncheck the header checkbox if it's checked
-                }
-            } else {
-                await groupService.deleteGroup(groupId);
-                group.remove();
-            }
-        }
-
-        updateClearButtonColor();
-        updateSortButtons();
-        filterImportantItems();
-        filterDateItems();
-    });
-
-    groupContainer.addEventListener('change', (event) => {
-        if (event.target.matches('.item-group input[type="checkbox"]')) {
-            const group = event.target.closest('.group');
-            const isChecked = event.target.checked;
-            const items = group.querySelectorAll('.item input[type="checkbox"]');
-            items.forEach(itemCheckbox => {
-                itemCheckbox.checked = isChecked;
-            });
-            updateClearButtonColor();
         }
     });
 
@@ -407,7 +479,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    function initializeGroupSortable() {
+    const initializeGroupSortable = () => {
         document.querySelectorAll('.group').forEach(group => {
             const itemList = group.querySelector('ul');
             new Sortable(itemList, {
@@ -425,9 +497,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
         });
-    }
+    };
 
-    function initializeItemSortable() {
+    const initializeItemSortable = () => {
         document.querySelectorAll('.group ul').forEach(itemList => {
             new Sortable(itemList, {
                 animation: 150,
@@ -444,20 +516,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
         });
-    }
+    };
 
-    async function updateGroupOrder(newOrder) {
+    const updateGroupOrder = async (newOrder) => {
         for (let group of newOrder) {
-            await groupService.updateGroup(group.id, {order: group.order});
+            await updateGroup(group.id, { order: group.order });
         }
-    }
+    };
 
-    async function updateItemGroupAndOrder(newOrder) {
+    const updateItemGroupAndOrder = async (newOrder) => {
         for (let item of newOrder) {
-            await itemService.updateItem(item.id, {order: item.order, groupId: item.groupId});
+            await updateItem(item.id, { order: item.order, groupId: item.groupId });
         }
-    }
+    };
 
-    initializeGroupSortable();
-    initializeItemSortable();
+    loadGroups();
 });

@@ -1,50 +1,54 @@
-import express from 'express';
-import {ItemStore} from '../services/item-store.js';
+const ItemService = require('../services/item-service.js');
+const itemService = new ItemService();
 
-const router = express.Router();
-const itemStore = new ItemStore();
-
-router.get('/groups/:groupId/items', async (req, res) => {
+exports.getItemsByGroupId = async (req, res) => {
     try {
-        const groupId = req.params.groupId;
-        const items = await itemStore.getItemsByGroupId(groupId);
-        res.status(200).json(items);
+        const { groupId } = req.params;
+        const items = await itemService.getItemsByGroupId(groupId);
+        res.json(items);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
+};
 
-router.post('/groups/:groupId/items', async (req, res) => {
+exports.createItem = async (req, res) => {
     try {
-        const groupId = req.params.groupId;
-        const item = req.body;
-        item.groupId = groupId;
-        await itemStore.addItem(item);
-        res.status(201).json(item);
+        const { groupId } = req.params;
+        const { description } = req.body;
+        const newItem = await itemService.createItem(groupId, description);
+        res.status(201).json(newItem);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
+};
 
-router.put('/items/:itemId', async (req, res) => {
+exports.deleteItem = async (req, res) => {
     try {
-        const itemId = req.params.itemId;
+        const { id } = req.params;
+        await itemService.deleteItem(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+exports.updateItem = async (req, res) => {
+    try {
+        const { id } = req.params;
         const updatedItem = req.body;
-        await itemStore.updateItem(itemId, updatedItem);
-        res.status(200).json(updatedItem);
+        await itemService.updateItem(id, updatedItem);
+        res.status(200).send();
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
+};
 
-router.delete('/items/:itemId', async (req, res) => {
+exports.deleteItemsByGroupId = async (req, res) => {
     try {
-        const itemId = req.params.itemId;
-        await itemStore.deleteItem(itemId);
-        res.status(204).end();
+        const { groupId } = req.params;
+        await itemService.deleteItemsByGroupId(groupId);
+        res.status(204).send();
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).send(error.message);
     }
-});
-
-export default router;
+};

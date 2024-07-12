@@ -1,31 +1,31 @@
-export class ItemService {
+const ItemStore = require('../stores/item-store.js');
+
+class ItemService {
     constructor() {
-        this.items = [];
-        this.nextId = 1;
+        this.itemStore = new ItemStore();
     }
 
     async getItemsByGroupId(groupId) {
-        return this.items.filter(item => item.groupId === groupId);
+        return await this.itemStore.getItemsByGroupId(groupId);
     }
 
-    async createItem(groupId) {
-        const newItem = {id: this.nextId++, groupId: groupId, description: 'New Item'};
-        this.items.push(newItem);
+    async createItem(groupId, description) {
+        const newItem = { id: Date.now().toString(), groupId, description, dueDate: '', important: false };
+        await this.itemStore.addItem(newItem);
         return newItem;
     }
 
     async deleteItem(itemId) {
-        this.items = this.items.filter(item => item.id !== itemId);
-    }
-
-    async deleteItemsByGroupId(groupId) {
-        this.items = this.items.filter(item => item.groupId !== groupId);
+        await this.itemStore.deleteItem(itemId);
     }
 
     async updateItem(itemId, updatedItem) {
-        const itemIndex = this.items.findIndex(item => item.id === itemId);
-        if (itemIndex !== -1) {
-            this.items[itemIndex] = {...this.items[itemIndex], ...updatedItem};
-        }
+        await this.itemStore.updateItem(itemId, updatedItem);
+    }
+
+    async deleteItemsByGroupId(groupId) {
+        await this.itemStore.deleteItemsByGroupId(groupId);
     }
 }
+
+module.exports = ItemService;

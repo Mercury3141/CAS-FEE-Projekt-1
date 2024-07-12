@@ -1,10 +1,13 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import groupRoutes from './routes/group-routes.js';
-import itemRoutes from './routes/item-routes.js';
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const groupRoutes = require('./routes/group-routes');
+const itemRoutes = require('./routes/item-routes');
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', groupRoutes);
 app.use('/api', itemRoutes);
