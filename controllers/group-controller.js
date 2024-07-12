@@ -1,4 +1,4 @@
-const GroupStore = require('../services/group-store.js');
+import GroupStore from '../services/group-store.js'; // Corrected path
 
 class GroupController {
     async getGroups(req, res) {
@@ -38,4 +38,4 @@ class GroupController {
     }
 }
 
-module.exports = new GroupController();
+export const groupController = new GroupController();

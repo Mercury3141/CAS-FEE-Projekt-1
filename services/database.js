@@ -1,29 +1,29 @@
-import Datastore from 'nedb';
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const groupsDbPath = path.resolve('./data/groups.db');
-const itemsDbPath = path.resolve('./data/items.db');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dataFilePath = path.join(__dirname, '../data/data.json');
 
-const dataDir = path.resolve('./data');
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir);
-}
+class Database {
+    async readData() {
+        try {
+            const data = await fs.readFile(dataFilePath, 'utf8');
+            return JSON.parse(data);
+        } catch (error) {
+            console.error('Error reading data file:', error);
+            return { groups: [], items: [] };
+        }
+    }
 
-function checkFilePermissions(filePath) {
-    try {
-        fs.accessSync(filePath, fs.constants.R_OK | fs.constants.W_OK);
-        console.log(`${filePath} is readable and writable.`);
-    } catch (err) {
-        console.error(`${filePath} is not accessible.`, err);
+    async writeData(data) {
+        try {
+            await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
+        } catch (error) {
+            console.error('Error writing data file:', error);
+        }
     }
 }
 
-checkFilePermissions(groupsDbPath);
-checkFilePermissions(itemsDbPath);
-
-const db = {};
-db.groups = new Datastore({filename: groupsDbPath, autoload: true});
-db.items = new Datastore({filename: itemsDbPath, autoload: true});
-
-export default db;
+export default new Database();

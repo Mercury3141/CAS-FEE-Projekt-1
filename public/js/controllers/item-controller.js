@@ -1,52 +1,41 @@
-import itemService from '../services/item-service.js';
+import ItemStore from '../../services/item-store.js'; // Correct the path
 
 class ItemController {
-    constructor(groupId) {
-        this.groupId = groupId;
-        this.init();
-    }
-
-    async init() {
-        await this.loadItems();
-        const addItemButton = document.getElementById(`add-item-${this.groupId}`);
-        if (addItemButton) {
-            addItemButton.addEventListener('click', () => this.addItem());
-        } else {
-            console.error(`Element with ID add-item-${this.groupId} not found`);
-        }
-    }
-
-    async loadItems() {
+    async getItems(req, res) {
         try {
-            const items = await itemService.getItems(this.groupId);
-            this.renderItems(items);
+            const items = await ItemStore.getItemsByGroupId(req.params.groupId);
+            res.json(items);
         } catch (error) {
-            console.error('Error loading items:', error);
+            res.status(500).json({ error: error.message });
         }
     }
 
-    async addItem() {
+    async createItem(req, res) {
         try {
-            const newItem = await itemService.createItem(this.groupId, { description: 'New Item' });
-            this.renderItem(newItem);
+            const newItem = await ItemStore.createItem(req.params.groupId, req.body);
+            res.json(newItem);
         } catch (error) {
-            console.error('Error adding item:', error);
+            res.status(500).json({ error: error.message });
         }
     }
 
-    renderItems(items) {
-        const template = document.getElementById('item-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        const itemList = document.getElementById(`item-list-${this.groupId}`);
-        itemList.innerHTML = items.map(item => compiledTemplate(item)).join('');
+    async updateItem(req, res) {
+        try {
+            const updatedItem = await ItemStore.updateItem(req.params.groupId, req.params.itemId, req.body);
+            res.json(updatedItem);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
-    renderItem(item) {
-        const template = document.getElementById('item-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        const itemList = document.getElementById(`item-list-${this.groupId}`);
-        itemList.innerHTML += compiledTemplate(item);
+    async deleteItem(req, res) {
+        try {
+            await ItemStore.deleteItem(req.params.groupId, req.params.itemId);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 }
 
-export default ItemController;
+export const itemController = new ItemController();

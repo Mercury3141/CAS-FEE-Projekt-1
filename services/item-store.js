@@ -1,41 +1,36 @@
-import {promises as fs} from 'fs';
+import Database from './database.js';
 
-const itemsFilePath = './data/items.db';
-
-export class ItemStore {
+class ItemStore {
     async getItemsByGroupId(groupId) {
-        const data = await fs.readFile(itemsFilePath, 'utf-8');
-        const items = JSON.parse(data);
-        return items.filter(item => item.groupId === groupId);
+        const data = await Database.readData();
+        return data.items.filter(item => item.groupId === groupId);
     }
 
-    async getAllItems() {
-        const data = await fs.readFile(itemsFilePath, 'utf-8');
-        return JSON.parse(data);
+    async createItem(groupId, item) {
+        const data = await Database.readData();
+        item.id = Date.now(); // Simple unique ID generation
+        item.groupId = groupId;
+        data.items.push(item);
+        await Database.writeData(data);
+        return item;
     }
 
-    async saveItems(items) {
-        await fs.writeFile(itemsFilePath, JSON.stringify(items, null, 2), 'utf-8');
-    }
-
-    async addItem(item) {
-        const items = await this.getAllItems();
-        items.push(item);
-        await this.saveItems(items);
-    }
-
-    async updateItem(itemId, updatedItem) {
-        const items = await this.getAllItems();
-        const itemIndex = items.findIndex(item => item.id === itemId);
+    async updateItem(groupId, itemId, updatedItem) {
+        const data = await Database.readData();
+        const itemIndex = data.items.findIndex(item => item.id === itemId && item.groupId === groupId);
         if (itemIndex !== -1) {
-            items[itemIndex] = {...items[itemIndex], ...updatedItem};
-            await this.saveItems(items);
+            data.items[itemIndex] = { ...data.items[itemIndex], ...updatedItem };
+            await Database.writeData(data);
+            return data.items[itemIndex];
         }
+        throw new Error('Item not found');
     }
 
-    async deleteItem(itemId) {
-        let items = await this.getAllItems();
-        items = items.filter(item => item.id !== itemId);
-        await this.saveItems(items);
+    async deleteItem(groupId, itemId) {
+        const data = await Database.readData();
+        data.items = data.items.filter(item => item.id !== itemId || item.groupId !== groupId);
+        await Database.writeData(data);
     }
 }
+
+export default new ItemStore();
