@@ -1,40 +1,40 @@
-import groupService from '../services/group-service.js';
-import ItemController from './item-controller.js';
+import GroupStore from '../services/group-store.js';
 
 class GroupController {
-    constructor() {
-        this.init();
+    async getGroups(req, res) {
+        try {
+            const groups = await GroupStore.getAllGroups();
+            res.json(groups);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
-    async init() {
-        await this.loadGroups();
-        document.getElementById('add-group').addEventListener('click', () => this.addGroup());
+    async createGroup(req, res) {
+        try {
+            const newGroup = await GroupStore.addGroup(req.body);
+            res.json(newGroup);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
-    async loadGroups() {
-        const groups = await groupService.getGroups();
-        this.renderGroups(groups);
+    async updateGroup(req, res) {
+        try {
+            const updatedGroup = await GroupStore.updateGroup(req.params.id, req.body);
+            res.json(updatedGroup);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
-    async addGroup() {
-        const newGroup = await groupService.createGroup({ name: 'New Group' });
-        this.renderGroup(newGroup);
-    }
-
-    renderGroups(groups) {
-        const template = document.getElementById('group-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        const groupList = document.getElementById('group-list');
-        groupList.innerHTML = groups.map(group => compiledTemplate(group)).join('');
-        groups.forEach(group => new ItemController(group.id));
-    }
-
-    renderGroup(group) {
-        const template = document.getElementById('group-template').innerHTML;
-        const compiledTemplate = Handlebars.compile(template);
-        const groupList = document.getElementById('group-list');
-        groupList.innerHTML += compiledTemplate(group);
-        new ItemController(group.id);
+    async deleteGroup(req, res) {
+        try {
+            await GroupStore.deleteGroup(req.params.id);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 }
 

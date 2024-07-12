@@ -5,6 +5,12 @@
       "order": 1,
       "checked": false,
       "textContent": "Group 1"
+    },
+    {
+      "id": 2,
+      "order": 2,
+      "checked": false,
+      "textContent": "Test Group"
     }
   ],
   "items": [
@@ -16,6 +22,15 @@
       "textContent": "Item 1",
       "important": false,
       "dueDate": null
+    },
+    {
+      "id": 2,
+      "groupId": 2,
+      "order": 1,
+      "checked": false,
+      "textContent": "Test Item",
+      "important": true,
+      "dueDate": "2024-07-15"
     }
   ]
 }

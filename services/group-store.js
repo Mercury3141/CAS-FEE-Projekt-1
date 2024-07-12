@@ -1,6 +1,7 @@
-const fs = require('fs-extra');
-const path = require('path');
-const dataFilePath = path.join(__dirname, '../data/data.json');
+import fs from 'fs-extra';
+import path from 'path';
+
+const dataFilePath = path.join(path.dirname(import.meta.url), '../data/data.json');
 
 class GroupStore {
     async readData() {
@@ -52,4 +53,4 @@ class GroupStore {
     }
 }
 
-module.exports = new GroupStore();
+export default new GroupStore();

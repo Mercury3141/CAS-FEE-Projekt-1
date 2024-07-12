@@ -1,12 +1,12 @@
-const express = require('express');
-const itemController = require('../controllers/item-controller.js');
+import express from 'express';
+import ItemController from '../controllers/item-controller.js';
 
 const router = express.Router();
 
 // Define routes for item operations within a group
-router.get('/groups/:groupId/items', itemController.getItems);
-router.post('/groups/:groupId/items', itemController.createItem);
-router.put('/groups/:groupId/items/:itemId', itemController.updateItem);
-router.delete('/groups/:groupId/items/:itemId', itemController.deleteItem);
+router.get('/groups/:groupId/items', (req, res) => ItemController.getItems(req, res));
+router.post('/groups/:groupId/items', (req, res) => ItemController.createItem(req, res));
+router.put('/groups/:groupId/items/:itemId', (req, res) => ItemController.updateItem(req, res));
+router.delete('/groups/:groupId/items/:itemId', (req, res) => ItemController.deleteItem(req, res));
 
-module.exports = router;
+export default router;
