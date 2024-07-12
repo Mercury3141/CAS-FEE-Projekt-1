@@ -1,27 +1,21 @@
-export class GroupService {
-    constructor() {
-        this.groups = [];
-        this.nextId = 1;
+import httpService from './http-service.js';
+
+class GroupService {
+    async getGroups() {
+        return await httpService.get('/api/groups');
     }
 
-    async getAllGroups() {
-        return this.groups;
+    async createGroup(data) {
+        return await httpService.post('/api/groups', data);
     }
 
-    async createGroup() {
-        const newGroup = { id: this.nextId++, name: 'New Group', items: [] };
-        this.groups.push(newGroup);
-        return newGroup;
+    async updateGroup(id, data) {
+        return await httpService.put(`/api/groups/${id}`, data);
     }
 
-    async deleteGroup(groupId) {
-        this.groups = this.groups.filter(group => group.id !== groupId);
-    }
-
-    async updateGroup(groupId, updatedGroup) {
-        const groupIndex = this.groups.findIndex(group => group.id === groupId);
-        if (groupIndex !== -1) {
-            this.groups[groupIndex] = { ...this.groups[groupIndex], ...updatedGroup };
-        }
+    async deleteGroup(id) {
+        return await httpService.delete(`/api/groups/${id}`);
     }
 }
+
+export default new GroupService();

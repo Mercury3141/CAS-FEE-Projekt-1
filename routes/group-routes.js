@@ -1,8 +1,12 @@
-import express from 'express';
-import groupController from '../controller/group-controller.js';
+const express = require('express');
+const groupController = require('../controllers/group-controller.js');
 
 const router = express.Router();
 
-router.use('/', groupController);
+// Define routes for group operations
+router.get('/groups', groupController.getGroups);
+router.post('/groups', groupController.createGroup);
+router.put('/groups/:id', groupController.updateGroup);
+router.delete('/groups/:id', groupController.deleteGroup);
 
-export default router;
+module.exports = router;

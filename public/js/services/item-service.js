@@ -1,31 +1,21 @@
-export class ItemService {
-    constructor() {
-        this.items = [];
-        this.nextId = 1;
+import httpService from './http-service.js';
+
+class ItemService {
+    async getItems(groupId) {
+        return httpService.get(`/api/groups/${groupId}/items`);
     }
 
-    async getItemsByGroupId(groupId) {
-        return this.items.filter(item => item.groupId === groupId);
+    async createItem(groupId, data) {
+        return httpService.post(`/api/groups/${groupId}/items`, data);
     }
 
-    async createItem(groupId) {
-        const newItem = {id: this.nextId++, groupId: groupId, description: 'New Item'};
-        this.items.push(newItem);
-        return newItem;
+    async updateItem(groupId, itemId, data) {
+        return httpService.put(`/api/groups/${groupId}/items/${itemId}`, data);
     }
 
-    async deleteItem(itemId) {
-        this.items = this.items.filter(item => item.id !== itemId);
-    }
-
-    async deleteItemsByGroupId(groupId) {
-        this.items = this.items.filter(item => item.groupId !== groupId);
-    }
-
-    async updateItem(itemId, updatedItem) {
-        const itemIndex = this.items.findIndex(item => item.id === itemId);
-        if (itemIndex !== -1) {
-            this.items[itemIndex] = {...this.items[itemIndex], ...updatedItem};
-        }
+    async deleteItem(groupId, itemId) {
+        return httpService.delete(`/api/groups/${groupId}/items/${itemId}`);
     }
 }
+
+export default new ItemService();

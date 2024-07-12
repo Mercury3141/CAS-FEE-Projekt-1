@@ -15,48 +15,32 @@
     <header>
         <nav class="flex-container-fixed" aria-label="Toolbar">
             <button id="add-group" title="Add New Group" aria-label="Add New Reminder Group" tabindex="0">+</button>
-            <button id="sort-important" title="Sort by Important" aria-label="Toggle filter by importance" tabindex="0">
-                !!
-            </button>
+            <button id="sort-important" title="Sort by Important" aria-label="Toggle filter by importance" tabindex="0">!!</button>
             <button id="sort-date" title="Sort by Date" aria-label="Toggle sort by date" tabindex="0">d</button>
-            <button id="clear" title="Delete Checked and Empty" aria-label="Delete checked and empty elements"
-                    tabindex="0">x
-            </button>
+            <button id="clear" title="Delete Checked and Empty" aria-label="Delete checked and empty elements" tabindex="0">x</button>
         </nav>
     </header>
     <main class="flex-container-scroll" id="group-list">
         <script id="group-template" type="text/x-handlebars-template">
-            <div class="group" id="group-{{id}}" aria-labelledby="group-name-input-{{id}}" data-id="{{id}}"
-                 data-order="{{order}}">
+            <div class="group" id="group-{{id}}" aria-labelledby="group-name-input-{{id}}" data-id="{{id}}" data-order="{{order}}">
                 <div>
                     <div class="item-group">
-                        <input type="checkbox" id="group-checkbox-{{id}}" title="Toggle Completed"
-                               aria-label="Toggle New Group" tabindex="0" data-id="{{id}}">
-                        <input class="label-heading" id="reminders-group-{{id}}" type="text" placeholder="New Group"
-                               title="Enter Group Title" aria-label="New Group">
+                        <input type="checkbox" id="group-checkbox-{{id}}" title="Toggle Completed" aria-label="Toggle New Group" tabindex="0" data-id="{{id}}">
+                        <input class="label-heading" id="reminders-group-{{id}}" type="text" placeholder="New Group" title="Enter Group Title" aria-label="New Group">
                     </div>
                     <div>
-                        <button class="margins-plus-button add-item" id="add-item-{{id}}" title="Add New Reminder"
-                                aria-label="Add New Reminder" tabindex="0" data-group="{{id}}">+
-                        </button>
+                        <button class="margins-plus-button add-item" id="add-item-{{id}}" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="{{id}}">+</button>
                     </div>
                 </div>
                 <ul id="item-list-{{id}}" aria-label="List of Reminders in group" data-order="{{order}}"></ul>
             </div>
         </script>
         <script id="item-template" type="text/x-handlebars-template">
-            <li class="item" aria-labelledby="item-name-input-{{groupId}}-{{id}}" data-id="{{id}}"
-                data-group="{{groupId}}" draggable="true">
-                <input type="checkbox" id="item-checkbox-{{groupId}}-{{id}}" title="Toggle Completed"
-                       aria-label="Toggle New Reminder" tabindex="0" data-id="{{id}}">
-                <input class="label-item" id="reminder-item-{{groupId}}-{{id}}" type="text" placeholder="New Reminder"
-                       title="Enter Reminder Description" aria-label="New Reminder" data-id="{{id}}">
-                <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false"
-                        aria-label="Toggle Importance" tabindex="0" data-id="{{id}}">!
-                </button>
-                <input class="date-input" type="date" id="item-date-{{groupId}}-{{id}}" name="item-date"
-                       title="Set Due Date" value="{{dueDate}}" aria-describedby="due-date-text-{{groupId}}-{{id}}"
-                       data-id="{{id}}">
+            <li class="item" aria-labelledby="item-name-input-{{groupId}}-{{id}}" data-id="{{id}}" data-group="{{groupId}}" draggable="true">
+                <input type="checkbox" id="item-checkbox-{{groupId}}-{{id}}" title="Toggle Completed" aria-label="Toggle New Reminder" tabindex="0" data-id="{{id}}">
+                <input class="label-item" id="reminder-item-{{groupId}}-{{id}}" type="text" placeholder="New Reminder" title="Enter Reminder Description" aria-label="New Reminder" data-id="{{id}}">
+                <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="{{id}}">!</button>
+                <input class="date-input" type="date" id="item-date-{{groupId}}-{{id}}" name="item-date" title="Set Due Date" value="{{dueDate}}" aria-describedby="due-date-text-{{groupId}}-{{id}}" data-id="{{id}}">
             </li>
             <div class="label-due-date" id="due-date-text-{{groupId}}-{{id}}">{{dueDateText}}</div>
         </script>
