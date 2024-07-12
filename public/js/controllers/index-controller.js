@@ -154,27 +154,48 @@ document.addEventListener('DOMContentLoaded', async () => {
         const showDateItems = sortDateButton.classList.contains('color-selection');
         document.querySelectorAll('.group').forEach(group => {
             let hasDateItem = false;
-            group.querySelectorAll('.item').forEach(item => {
+            const itemsArray = Array.from(group.querySelectorAll('.item')).map(item => {
+                const dueDateElement = document.getElementById(`due-date-text-${item.getAttribute('data-group')}-${item.getAttribute('data-id')}`);
+                return { item, dueDateElement };
+            });
+            itemsArray.forEach(({ item, dueDateElement }) => {
                 const hasDate = item.querySelector('input[type="date"]').value;
                 if (showDateItems) {
                     if (hasDate) {
                         item.style.display = 'flex';
+                        if (dueDateElement) dueDateElement.style.display = 'block';
                         hasDateItem = true;
                     } else {
                         item.style.display = 'none';
+                        if (dueDateElement) dueDateElement.style.display = 'none';
                     }
                 } else {
                     item.style.display = 'flex';
+                    if (dueDateElement) dueDateElement.style.display = 'block';
                 }
             });
             if (showDateItems) {
                 if (hasDateItem) {
                     group.classList.add('outline-selection');
+                    group.style.display = 'flex';
+                    // Sort the items within the group by date
+                    itemsArray.sort((a, b) => {
+                        const dateA = new Date(a.item.querySelector('input[type="date"]').value);
+                        const dateB = new Date(b.item.querySelector('input[type="date"]').value);
+                        return dateA - dateB; // Sorts ascending
+                    });
+                    const itemList = group.querySelector('ul');
+                    itemsArray.forEach(({ item, dueDateElement }) => {
+                        itemList.appendChild(item); // Append sorted items back to the list
+                        if (dueDateElement) itemList.appendChild(dueDateElement); // Append due date label back to the list
+                    });
                 } else {
                     group.classList.remove('outline-selection');
+                    group.style.display = 'none';
                 }
             } else {
                 group.classList.remove('outline-selection');
+                group.style.display = 'flex';
             }
         });
     }
