@@ -1,5 +1,5 @@
-import {GroupService} from '../services/group-service.js';
-import {ItemService} from '../services/item-service.js';
+import { GroupService } from '../services/group-service.js';
+import { ItemService } from '../services/item-service.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const groupService = new GroupService();
@@ -153,11 +153,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     function filterDateItems() {
         const showDateItems = sortDateButton.classList.contains('color-selection');
         document.querySelectorAll('.group').forEach(group => {
+            let hasDateItem = false;
             group.querySelectorAll('.item').forEach(item => {
                 const hasDate = item.querySelector('input[type="date"]').value;
                 if (showDateItems) {
                     if (hasDate) {
                         item.style.display = 'flex';
+                        hasDateItem = true;
                     } else {
                         item.style.display = 'none';
                     }
@@ -165,6 +167,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     item.style.display = 'flex';
                 }
             });
+            if (showDateItems) {
+                if (hasDateItem) {
+                    group.classList.add('outline-selection');
+                } else {
+                    group.classList.remove('outline-selection');
+                }
+            } else {
+                group.classList.remove('outline-selection');
+            }
         });
     }
 
@@ -265,7 +276,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderItem(item, groupId) {
         const template = document.getElementById('item-template').innerHTML;
         const compiledTemplate = Handlebars.compile(template);
-        return compiledTemplate({...item, groupId});
+        return compiledTemplate({ ...item, groupId });
     }
 
     const groups = await groupService.getAllGroups();
@@ -299,14 +310,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             initializeItemSortable();
             updateSortButtons();
         }
-    });
-
-    sortImportantButton.addEventListener('click', () => {
-        console.log('Sort by importance button clicked');
-    });
-
-    sortDateButton.addEventListener('click', () => {
-        console.log('Sort by date button clicked');
     });
 
     clearButton.addEventListener('click', async () => {
@@ -448,13 +451,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function updateGroupOrder(newOrder) {
         for (let group of newOrder) {
-            await groupService.updateGroup(group.id, {order: group.order});
+            await groupService.updateGroup(group.id, { order: group.order });
         }
     }
 
     async function updateItemGroupAndOrder(newOrder) {
         for (let item of newOrder) {
-            await itemService.updateItem(item.id, {order: item.order, groupId: item.groupId});
+            await itemService.updateItem(item.id, { order: item.order, groupId: item.groupId });
         }
     }
 
