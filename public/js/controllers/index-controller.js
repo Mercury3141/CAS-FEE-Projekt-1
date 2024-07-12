@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const groupContainer = document.getElementById('group-container');
     const toolbarButtons = [addGroupButton, clearButton];
 
+    let originalOrder = {}; // To store the original order of items
+
     function categorizeDueDate(dueDate) {
         const today = new Date();
         const date = new Date(dueDate);
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             let hasDateItem = false;
             const itemsArray = Array.from(group.querySelectorAll('.item')).map(item => {
                 const dueDateElement = document.getElementById(`due-date-text-${item.getAttribute('data-group')}-${item.getAttribute('data-id')}`);
-                return { item, dueDateElement };
+                return { item, dueDateElement, originalOrder: parseInt(item.dataset.originalOrder) };
             });
             itemsArray.forEach(({ item, dueDateElement }) => {
                 const hasDate = item.querySelector('input[type="date"]').value;
@@ -194,6 +196,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     group.style.display = 'none';
                 }
             } else {
+                // Restore the original order
+                itemsArray.sort((a, b) => a.originalOrder - b.originalOrder);
+                const itemList = group.querySelector('ul');
+                itemsArray.forEach(({ item, dueDateElement }) => {
+                    itemList.appendChild(item); // Append items back to the list in original order
+                    if (dueDateElement) itemList.appendChild(dueDateElement); // Append due date label back to the list
+                });
                 group.classList.remove('outline-selection');
                 group.style.display = 'flex';
             }
@@ -306,10 +315,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('group-list').insertAdjacentHTML('beforeend', groupHTML);
 
         const items = await itemService.getItemsByGroupId(group.id);
-        for (const item of items) {
+        items.forEach((item, index) => {
             const itemHTML = renderItem(item, group.id);
             document.getElementById(`item-list-${group.id}`).insertAdjacentHTML('beforeend', itemHTML);
-        }
+            document.querySelector(`.item[data-id="${item.id}"]`).dataset.originalOrder = index; // Store original order
+        });
+
+        originalOrder[group.id] = items.map((item, index) => ({ id: item.id, order: index })); // Save original order
     }
 
     addGroupButton.addEventListener('click', async () => {
@@ -446,6 +458,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         groupId: parseInt(targetGroupId)
                     }));
                     await updateItemGroupAndOrder(newOrder);
+
+                    // Update original order
+                    const groupId = event.to.closest('.group').getAttribute('data-id');
+                    originalOrder[groupId] = newOrder;
                 }
             });
         });
@@ -465,6 +481,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                         groupId: parseInt(targetGroupId)
                     }));
                     await updateItemGroupAndOrder(newOrder);
+
+                    // Update original order
+                    originalOrder[targetGroupId] = newOrder;
                 }
             });
         });
