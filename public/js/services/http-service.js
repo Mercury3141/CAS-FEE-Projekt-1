@@ -1,6 +1,9 @@
 class HttpService {
     async get(url) {
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     }
 
@@ -12,6 +15,9 @@ class HttpService {
             },
             body: JSON.stringify(data)
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     }
 
@@ -23,6 +29,9 @@ class HttpService {
             },
             body: JSON.stringify(data)
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     }
 
@@ -30,6 +39,9 @@ class HttpService {
         const response = await fetch(url, {
             method: 'DELETE'
         });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.ok;
     }
 }

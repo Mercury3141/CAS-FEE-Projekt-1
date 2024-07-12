@@ -1,50 +1,41 @@
-import {addItemToGroup} from './item-controller.js';
-import {getGroups, saveGroup} from '../services/group-service.js';
+import groupService from '../services/group-service.js';
+import ItemController from './item-controller.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const addGroupButton = document.getElementById('add-group');
+class GroupController {
+    constructor() {
+        this.init();
+    }
 
-    addGroupButton.addEventListener('click', async () => {
-        const newGroup = await createNewGroup();
-        const savedGroup = await saveGroup(newGroup);
-        console.log('Saved Group:', savedGroup);
-        displayGroup(savedGroup);
-    });
+    async init() {
+        await this.loadGroups();
+        document.getElementById('add-group').addEventListener('click', () => this.addGroup());
+    }
 
-    async function createNewGroup() {
-        const groupId = Date.now(); // Unique ID for the group
-        const order = document.querySelectorAll('.group').length;
+    async loadGroups() {
+        const groups = await groupService.getGroups();
+        this.renderGroups(groups);
+    }
 
-        const context = {
-            id: groupId,
-            order: order
-        };
+    async addGroup() {
+        const newGroup = await groupService.createGroup({ name: 'New Group' });
+        this.renderGroup(newGroup);
+    }
 
-        const groupTemplate = document.getElementById('group-template').innerHTML;
-        const compiledGroupTemplate = Handlebars.compile(groupTemplate);
-        const groupHTML = compiledGroupTemplate(context);
-
+    renderGroups(groups) {
+        const template = document.getElementById('group-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
         const groupList = document.getElementById('group-list');
-        groupList.insertAdjacentHTML('beforeend', groupHTML);
-
-        const addItemButton = document.getElementById(`add-item-${groupId}`);
-        addItemButton.addEventListener('click', () => addItemToGroup(groupId));
-
-        return context;
+        groupList.innerHTML = groups.map(group => compiledTemplate(group)).join('');
+        groups.forEach(group => new ItemController(group.id));
     }
 
-    async function loadGroups() {
-        const groups = await getGroups();
-        groups.forEach(group => displayGroup(group));
-    }
-
-    function displayGroup(group) {
-        const groupTemplate = document.getElementById('group-template').innerHTML;
-        const compiledGroupTemplate = Handlebars.compile(groupTemplate);
-        const groupHTML = compiledGroupTemplate(group);
+    renderGroup(group) {
+        const template = document.getElementById('group-template').innerHTML;
+        const compiledTemplate = Handlebars.compile(template);
         const groupList = document.getElementById('group-list');
-        groupList.insertAdjacentHTML('beforeend', groupHTML);
+        groupList.innerHTML += compiledTemplate(group);
+        new ItemController(group.id);
     }
+}
 
-    loadGroups();
-});
+export default new GroupController();

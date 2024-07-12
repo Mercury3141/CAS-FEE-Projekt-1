@@ -1,11 +1,9 @@
-const GroupModel = require('../models/group-model.js');
-const groupModel = new GroupModel();
+const GroupStore = require('../services/group-store.js');
 
 class GroupController {
     async getGroups(req, res) {
         try {
-            const groups = await groupModel.getAllGroups();
-            console.log('Sending groups:', groups);  // Add this line for debugging
+            const groups = await GroupStore.getAllGroups();
             res.json(groups);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -14,7 +12,7 @@ class GroupController {
 
     async createGroup(req, res) {
         try {
-            const newGroup = await groupModel.createGroup(req.body);
+            const newGroup = await GroupStore.addGroup(req.body);
             res.json(newGroup);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -23,7 +21,7 @@ class GroupController {
 
     async updateGroup(req, res) {
         try {
-            const updatedGroup = await groupModel.updateGroup(req.params.id, req.body);
+            const updatedGroup = await GroupStore.updateGroup(req.params.id, req.body);
             res.json(updatedGroup);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -32,7 +30,7 @@ class GroupController {
 
     async deleteGroup(req, res) {
         try {
-            await groupModel.deleteGroup(req.params.id);
+            await GroupStore.deleteGroup(req.params.id);
             res.status(204).send();
         } catch (error) {
             res.status(500).json({ error: error.message });

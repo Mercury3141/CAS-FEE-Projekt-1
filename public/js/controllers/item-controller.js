@@ -17,13 +17,21 @@ class ItemController {
     }
 
     async loadItems() {
-        const items = await itemService.getItems(this.groupId);
-        this.renderItems(items);
+        try {
+            const items = await itemService.getItems(this.groupId);
+            this.renderItems(items);
+        } catch (error) {
+            console.error('Error loading items:', error);
+        }
     }
 
     async addItem() {
-        const newItem = await itemService.createItem(this.groupId, { description: 'New Item' });
-        this.renderItem(newItem);
+        try {
+            const newItem = await itemService.createItem(this.groupId, { description: 'New Item' });
+            this.renderItem(newItem);
+        } catch (error) {
+            console.error('Error adding item:', error);
+        }
     }
 
     renderItems(items) {

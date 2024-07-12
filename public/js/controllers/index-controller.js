@@ -6,19 +6,31 @@ class IndexController {
         this.init();
     }
 
-    init() {
-        this.loadGroups();
-        document.getElementById('add-group').addEventListener('click', () => this.addGroup());
+    async init() {
+        try {
+            await this.loadGroups();
+            document.getElementById('add-group').addEventListener('click', () => this.addGroup());
+        } catch (error) {
+            console.error('Error initializing IndexController:', error);
+        }
     }
 
     async loadGroups() {
-        const groups = await groupService.getGroups();
-        this.renderGroups(groups);
+        try {
+            const groups = await groupService.getGroups();
+            this.renderGroups(groups);
+        } catch (error) {
+            console.error('Error loading groups:', error);
+        }
     }
 
     async addGroup() {
-        const newGroup = await groupService.createGroup({ name: 'New Group' });
-        this.renderGroup(newGroup);
+        try {
+            const newGroup = await groupService.createGroup({ name: 'New Group' });
+            this.renderGroup(newGroup);
+        } catch (error) {
+            console.error('Error adding group:', error);
+        }
     }
 
     renderGroups(groups) {
@@ -26,7 +38,7 @@ class IndexController {
         const compiledTemplate = Handlebars.compile(template);
         const groupList = document.getElementById('group-list');
         groupList.innerHTML = groups.map(group => compiledTemplate(group)).join('');
-        groups.forEach(group => new ItemController(group.id));
+        groups.forEach(group => this.initializeItemController(group.id));
     }
 
     renderGroup(group) {
@@ -34,11 +46,16 @@ class IndexController {
         const compiledTemplate = Handlebars.compile(template);
         const groupList = document.getElementById('group-list');
         groupList.innerHTML += compiledTemplate(group);
-        new ItemController(group.id);
+        this.initializeItemController(group.id);
+    }
+
+    initializeItemController(groupId) {
+        new ItemController(groupId);
     }
 }
 
-export default new IndexController();
+export default IndexController;
+
 
 
 

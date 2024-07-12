@@ -1,5 +1,6 @@
 const express = require('express');
-const groupController = require('../controllers/group-controller.js');
+const GroupController = require('../controllers/group-controller.js');
+const groupController = new GroupController();
 
 const router = express.Router();
 
