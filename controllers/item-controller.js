@@ -1,4 +1,4 @@
-import ItemStore from '../services/item-store.js'; // Ensure correct path
+import ItemStore from '../services/item-store.js'; // Ensure the correct path
 
 class ItemController {
     async getItems(req, res) {

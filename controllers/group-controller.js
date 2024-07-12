@@ -1,4 +1,4 @@
-import GroupStore from '../services/group-store.js'; // Corrected path
+import GroupStore from '../services/group-store.js';
 
 class GroupController {
     async getGroups(req, res) {

@@ -26,7 +26,11 @@ class IndexController {
 
     async addGroup() {
         try {
-            const newGroup = await groupService.createGroup({ name: 'New Group' });
+            const newGroup = await groupService.createGroup({
+                order: Date.now(),
+                checked: false,
+                textContent: 'New Group'
+            });
             this.renderGroup(newGroup);
         } catch (error) {
             console.error('Error adding group:', error);
