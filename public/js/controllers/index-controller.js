@@ -100,7 +100,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function loadData() {
         fetch('/api/groups')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log("Loaded Data:", data);
                 data.groups = data.groups || [];
@@ -112,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error loading data:', error);
             });
     }
+
 
     function renderGroups(groups) {
         groupList.innerHTML = ''; // Clear existing content

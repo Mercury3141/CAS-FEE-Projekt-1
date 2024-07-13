@@ -5,8 +5,9 @@ const groupRoutes = require('./routes/group-routes');
 const itemRoutes = require('./routes/item-routes');
 
 app.use(bodyParser.json());
-app.use('/api', groupRoutes);
-app.use('/api', itemRoutes);
+
+app.use('/api/groups', groupRoutes);
+app.use('/api/items', itemRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
