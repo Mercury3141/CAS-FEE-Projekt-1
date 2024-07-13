@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const groupsFilePath = path.join(__dirname, '../data/groups.db');
+const dataFilePath = path.join(__dirname, '../data/groups.db');
 
-function saveGroupsData(groupsData) {
+function saveData(data) {
     return new Promise((resolve, reject) => {
-        fs.writeFile(groupsFilePath, JSON.stringify(groupsData, null, 2), (err) => {
+        fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), (err) => {
             if (err) {
                 return reject(err);
             }
@@ -13,6 +13,27 @@ function saveGroupsData(groupsData) {
     });
 }
 
+function loadData() {
+    return new Promise((resolve, reject) => {
+        fs.readFile(dataFilePath, 'utf8', (err, data) => {
+            if (err) {
+                if (err.code === 'ENOENT') {
+                    resolve({ groups: [], items: [] });
+                } else {
+                    reject(err);
+                }
+            } else {
+                const parsedData = JSON.parse(data);
+                resolve({
+                    groups: parsedData.groups || [],
+                    items: parsedData.items || []
+                });
+            }
+        });
+    });
+}
+
 module.exports = {
-    saveGroupsData
+    saveData,
+    loadData
 };
