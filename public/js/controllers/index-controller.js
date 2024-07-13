@@ -7,26 +7,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addGroupButton.addEventListener('click', function() {
         const newGroupId = `group-${groupIdCounter++}`;
-        const newGroupHtml = groupTemplate({ id: newGroupId });
+        const order = groupIdCounter; // Assuming order is the sequence of creation
+        const newGroupHtml = groupTemplate({ id: newGroupId, order: order });
         groupList.innerHTML += newGroupHtml;
 
-        saveGroupId(newGroupId);
+        const groupElement = document.getElementById(`group-${newGroupId}`);
+        saveGroupData(groupElement);
     });
 
-    function saveGroupId(groupId) {
+    function saveGroupData(groupElement) {
+        const groupId = groupElement.dataset.id;
+        const order = groupElement.dataset.order;
+        const checkboxState = document.getElementById(`group-checkbox-${groupId}`).checked;
+        const groupTitle = document.getElementById(`reminders-group-${groupId}`).value;
+
+        const groupData = {
+            id: groupId,
+            order: order,
+            checkboxState: checkboxState,
+            groupTitle: groupTitle
+        };
+
         fetch('/api/groups', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: groupId })
+            body: JSON.stringify(groupData)
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Group ID saved:', data);
+                console.log('Group data saved:', data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+
+    // Optionally, you could add event listeners to save data when the checkbox or text input changes
+    groupList.addEventListener('change', function(event) {
+        const target = event.target;
+        if (target.classList.contains('label-heading') || target.type === 'checkbox') {
+            const groupElement = target.closest('.group');
+            saveGroupData(groupElement);
+        }
+    });
 });

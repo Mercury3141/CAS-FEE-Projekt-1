@@ -3,9 +3,9 @@ const router = express.Router();
 const groupStore = require('../services/group-store');
 
 router.post('/groups', (req, res) => {
-    const groupId = req.body.id;
-    groupStore.saveGroupId(groupId)
-        .then(() => res.json({ success: true, id: groupId }))
+    const groupData = req.body;
+    groupStore.saveGroupData(groupData)
+        .then(() => res.json({ success: true, groupData: groupData }))
         .catch(err => res.status(500).json({ success: false, error: err.message }));
 });
 
