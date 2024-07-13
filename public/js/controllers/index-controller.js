@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addGroupButton.addEventListener('click', function() {
         const newGroupId = groupIdCounter++;
-        const order = document.querySelectorAll('.group').length + 1; // Order is the sequence of creation
+        const order = document.querySelectorAll('.group').length + 1;
         const newGroupHtml = groupTemplate({ id: newGroupId, order: order });
         groupList.innerHTML += newGroupHtml;
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const groups = document.querySelectorAll('.group');
         groups.forEach((groupElement, index) => {
             const groupId = groupElement.dataset.id;
-            const order = index + 1; // Order based on position in the list
+            const order = index + 1;
             const checkboxState = document.getElementById(`group-checkbox-${groupId}`).checked;
             const groupTitle = document.getElementById(`reminders-group-${groupId}`).value;
 
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     checked: itemCheckboxState,
                     textContent: itemTitle,
                     important: itemImportant,
-                    dueDate: itemDueDate
+                    dueDate: itemDueDate || null
                 });
             });
         });
@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Load data from the server when the page loads
     function loadData() {
         fetch('/api/groups')
             .then(response => response.json())
