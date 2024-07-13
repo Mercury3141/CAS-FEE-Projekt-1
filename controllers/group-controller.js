@@ -1,4 +1,5 @@
-const groupStore = require('../services/group-store');
+const groupStore = require('../services/group-store'); // Correct the path to services
+const bodyParser = require('body-parser');
 
 exports.getAllGroups = (req, res) => {
     groupStore.loadData()
