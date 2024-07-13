@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addGroupButton.addEventListener('click', function() {
         const newGroupId = groupIdCounter++;
         const order = document.querySelectorAll('.group').length + 1;
-        const newGroupHtml = groupTemplate({ id: newGroupId, order: order });
+        const newGroupHtml = groupTemplate({ id: newGroupId, order: order, checked: false, textContent: "New Group" });
         groupList.innerHTML += newGroupHtml;
 
         saveAllData();
@@ -21,7 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target.classList.contains('add-item')) {
             const groupId = event.target.dataset.group;
             const newItemId = itemIdCounter++;
-            const newItemHtml = itemTemplate({ id: newItemId, groupId: groupId });
+            const newItemHtml = itemTemplate({
+                id: newItemId,
+                groupId: groupId,
+                order: document.querySelectorAll(`#item-list-${groupId} .item`).length + 1,
+                checked: false,
+                textContent: "New Item",
+                important: false,
+                dueDate: null
+            });
             document.getElementById(`item-list-${groupId}`).innerHTML += newItemHtml;
 
             saveAllData();
@@ -39,7 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const groupId = groupElement.dataset.id;
             const order = index + 1;
             const checkboxState = document.getElementById(`group-checkbox-${groupId}`).checked;
-            const groupTitle = document.getElementById(`reminders-group-${groupId}`).value;
+            const groupTitle = document.getElementById(`reminders-group-${groupId}`).value || "Untitled Group";
+
+            // Debugging statement to track group data completeness
+            console.log("Group Data", { groupId, order, checkboxState, groupTitle });
 
             data.groups.push({
                 id: groupId,
@@ -52,9 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
             items.forEach((itemElement, itemIndex) => {
                 const itemId = itemElement.dataset.id;
                 const itemCheckboxState = document.getElementById(`item-checkbox-${groupId}-${itemId}`).checked;
-                const itemTitle = document.getElementById(`reminder-item-${groupId}-${itemId}`).value;
+                const itemTitle = document.getElementById(`reminder-item-${groupId}-${itemId}`).value || "Untitled Item";
                 const itemDueDate = document.getElementById(`item-date-${groupId}-${itemId}`).value;
                 const itemImportant = document.getElementById(`toggle-important-${groupId}-${itemId}`).getAttribute('aria-pressed') === 'true';
+
+                // Debugging statement to track item data completeness
+                console.log("Item Data", { itemId, groupId, itemCheckboxState, itemTitle, itemDueDate, itemImportant });
 
                 data.items.push({
                     id: itemId,
@@ -88,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('/api/groups')
             .then(response => response.json())
             .then(data => {
+                console.log("Loaded Data:", data);
                 data.groups = data.groups || [];
                 data.items = data.items || [];
                 renderGroups(data.groups);
@@ -99,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderGroups(groups) {
+        groupList.innerHTML = ''; // Clear existing content
         groups.forEach(group => {
             const groupHtml = groupTemplate(group);
             groupList.innerHTML += groupHtml;

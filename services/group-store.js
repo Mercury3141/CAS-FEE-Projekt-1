@@ -4,7 +4,7 @@ const dataFilePath = path.join(__dirname, '../data/groups.db');
 
 function saveData(data) {
     return new Promise((resolve, reject) => {
-        fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), (err) => {
+        fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), 'utf8', (err) => {  // Specify 'utf8' encoding
             if (err) {
                 return reject(err);
             }
@@ -15,7 +15,7 @@ function saveData(data) {
 
 function loadData() {
     return new Promise((resolve, reject) => {
-        fs.readFile(dataFilePath, 'utf8', (err, data) => {
+        fs.readFile(dataFilePath, 'utf8', (err, data) => {  // Specify 'utf8' encoding
             if (err) {
                 if (err.code === 'ENOENT') {
                     resolve({ groups: [], items: [] });
@@ -23,11 +23,15 @@ function loadData() {
                     reject(err);
                 }
             } else {
-                const parsedData = JSON.parse(data);
-                resolve({
-                    groups: parsedData.groups || [],
-                    items: parsedData.items || []
-                });
+                try {
+                    const parsedData = JSON.parse(data);  // Parse the string data
+                    resolve({
+                        groups: parsedData.groups || [],
+                        items: parsedData.items || []
+                    });
+                } catch (e) {
+                    reject(e);
+                }
             }
         });
     });

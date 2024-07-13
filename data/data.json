@@ -1,22 +1,43 @@
 {
   "groups": [
     {
-      "id": 1720886973821,
+      "id": 1,
       "order": 1,
       "checked": false,
       "textContent": "Group 1"
     },
     {
-      "id": 1720886974469,
+      "id": 2,
       "order": 2,
       "checked": false,
       "textContent": "Group 2"
+    },
+    {
+      "id": 3,
+      "order": 3,
+      "checked": true,
+      "textContent": "Group 3"
+    },
+    {
+      "id": 1720895781018
+    },
+    {
+      "id": 1720895782190
+    },
+    {
+      "id": 1720895874289
+    },
+    {
+      "id": 1720895880017
+    },
+    {
+      "id": 1720895901276
     }
   ],
   "items": [
     {
-      "id": 1720886975001,
-      "groupId": 1720886973821,
+      "id": 1,
+      "groupId": 1,
       "order": 1,
       "checked": false,
       "textContent": "Item 1",
@@ -24,22 +45,31 @@
       "dueDate": null
     },
     {
-      "id": 1720886975002,
-      "groupId": 1720886973821,
+      "id": 2,
+      "groupId": 1,
       "order": 2,
-      "checked": false,
+      "checked": true,
       "textContent": "Item 2",
       "important": true,
       "dueDate": "2024-07-15"
     },
     {
-      "id": 1720886975003,
-      "groupId": 1720886974469,
+      "id": 3,
+      "groupId": 2,
       "order": 1,
-      "checked": true,
+      "checked": false,
       "textContent": "Item 3",
       "important": false,
       "dueDate": "2024-08-01"
+    },
+    {
+      "id": 4,
+      "groupId": 3,
+      "order": 1,
+      "checked": true,
+      "textContent": "Item 4",
+      "important": true,
+      "dueDate": null
     }
   ]
 }
