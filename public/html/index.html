@@ -1,50 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Reminders</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script type="module" src="../js/controllers/index-controller.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group App</title>
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-<div class="flex-container" id="group-container">
-    <header>
-        <nav class="flex-container-fixed" aria-label="Toolbar">
-            <button id="add-group" title="Add New Group" aria-label="Add New Reminder Group" tabindex="0">+</button>
-            <button id="sort-important" title="Sort by Important" aria-label="Toggle filter by importance" tabindex="0">!!</button>
-            <button id="sort-date" title="Sort by Date" aria-label="Toggle sort by date" tabindex="0">d</button>
-            <button id="clear" title="Delete Checked and Empty" aria-label="Delete checked and empty elements" tabindex="0">x</button>
-        </nav>
-    </header>
-    <main class="flex-container-scroll" id="group-list">
-        <script id="group-template" type="text/x-handlebars-template">
-            <div class="group" id="group-{{id}}" aria-labelledby="group-name-input-{{id}}" data-id="{{id}}" data-order="{{order}}">
-                <div>
-                    <div class="item-group">
-                        <input type="checkbox" id="group-checkbox-{{id}}" title="Toggle Completed" aria-label="Toggle New Group" tabindex="0" data-id="{{id}}">
-                        <input class="label-heading" id="reminders-group-{{id}}" type="text" placeholder="New Group" title="Enter Group Title" aria-label="New Group">
-                    </div>
-                    <div>
-                        <button class="margins-plus-button add-item" id="add-item-{{id}}" title="Add New Reminder" aria-label="Add New Reminder" tabindex="0" data-group="{{id}}">+</button>
-                    </div>
-                </div>
-                <ul id="item-list-{{id}}" aria-label="List of Reminders in group" data-order="{{order}}"></ul>
-            </div>
-        </script>
-        <script id="item-template" type="text/x-handlebars-template">
-            <li class="item" aria-labelledby="item-name-input-{{groupId}}-{{id}}" data-id="{{id}}" data-group="{{groupId}}" draggable="true">
-                <input type="checkbox" id="item-checkbox-{{groupId}}-{{id}}" title="Toggle Completed" aria-label="Toggle New Reminder" tabindex="0" data-id="{{id}}">
-                <input class="label-item" id="reminder-item-{{groupId}}-{{id}}" type="text" placeholder="New Reminder" title="Enter Reminder Description" aria-label="New Reminder" data-id="{{id}}">
-                <button class="margins-left-right" id="toggle-important" title="Toggle Importance" aria-pressed="false" aria-label="Toggle Importance" tabindex="0" data-id="{{id}}">!</button>
-                <input class="date-input" type="date" id="item-date-{{groupId}}-{{id}}" name="item-date" title="Set Due Date" value="{{dueDate}}" aria-describedby="due-date-text-{{groupId}}-{{id}}" data-id="{{id}}">
-            </li>
-            <div class="label-due-date" id="due-date-text-{{groupId}}-{{id}}">{{dueDateText}}</div>
-        </script>
-    </main>
-</div>
+<main class="flex-container-scroll" id="group-list"></main>
+<button id="add-group">Add Group</button>
+<script src="../libs/handlebars-v4.0.5.js"></script>
+<script id="group-template" type="text/x-handlebars-template">
+    <div class="group" data-id="{{id}}">{{id}}</div>
+</script>
+<script src="../js/controllers/index-controller.js"></script>
 </body>
 </html>

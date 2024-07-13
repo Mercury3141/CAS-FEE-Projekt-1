@@ -1,35 +1,31 @@
-import Database from './database.js';
+const fs = require('fs');
+const path = require('path');
+const groupsFilePath = path.join(__dirname, '../data/groups.db');
 
-class GroupStore {
-    async getAllGroups() {
-        const data = await Database.readData();
-        return data.groups;
-    }
+function saveGroupId(groupId) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(groupsFilePath, 'utf8', (err, data) => {
+            if (err) {
+                if (err.code === 'ENOENT') {
+                    data = '[]'; // File doesn't exist, create a new array
+                } else {
+                    return reject(err);
+                }
+            }
 
-    async addGroup(group) {
-        const data = await Database.readData();
-        group.id = Date.now(); // Simple unique ID generation
-        data.groups.push(group);
-        await Database.writeData(data);
-        return group;
-    }
+            const groups = JSON.parse(data);
+            groups.push({ id: groupId });
 
-    async updateGroup(id, updatedGroup) {
-        const data = await Database.readData();
-        const groupIndex = data.groups.findIndex(group => group.id === id);
-        if (groupIndex !== -1) {
-            data.groups[groupIndex] = { ...data.groups[groupIndex], ...updatedGroup };
-            await Database.writeData(data);
-            return data.groups[groupIndex];
-        }
-        throw new Error('Group not found');
-    }
-
-    async deleteGroup(id) {
-        const data = await Database.readData();
-        data.groups = data.groups.filter(group => group.id !== id);
-        await Database.writeData(data);
-    }
+            fs.writeFile(groupsFilePath, JSON.stringify(groups, null, 2), (err) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve();
+            });
+        });
+    });
 }
 
-export default new GroupStore();
+module.exports = {
+    saveGroupId
+};

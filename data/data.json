@@ -1,42 +1,19 @@
 {
   "groups": [
     {
-      "id": 1,
-      "order": 1,
-      "checked": false,
-      "textContent": "Group 1"
+      "id": 1720886973821
     },
     {
-      "id": 2,
-      "order": 2,
-      "checked": false,
-      "textContent": "Test Group"
+      "id": 1720886974469
     },
     {
-      "order": 1,
-      "checked": false,
-      "textContent": "New Group",
-      "id": 1720820651363
-    }
-  ],
-  "items": [
-    {
-      "id": 1,
-      "groupId": 1,
-      "order": 1,
-      "checked": false,
-      "textContent": "Item 1",
-      "important": false,
-      "dueDate": null
+      "id": 1720886975023
     },
     {
-      "id": 2,
-      "groupId": 2,
-      "order": 1,
-      "checked": false,
-      "textContent": "Test Item",
-      "important": true,
-      "dueDate": "2024-07-15"
+      "id": 1720886977646
+    },
+    {
+      "id": 1720886978054
     }
   ]
 }

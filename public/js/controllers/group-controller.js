@@ -1,41 +1,30 @@
-import GroupStore from '../services/group-store.js';
+import GroupService from '../services/group-service.js';
 
-class GroupController {
-    async getGroups(req, res) {
-        try {
-            const groups = await GroupStore.getAllGroups();
-            res.json(groups);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
+// Function to initialize event listeners
+function initGroupController() {
+    const addGroupButton = document.getElementById('add-group');
+    addGroupButton.addEventListener('click', createNewGroup);
+}
 
-    async createGroup(req, res) {
-        try {
-            const newGroup = await GroupStore.addGroup(req.body);
-            res.json(newGroup);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async updateGroup(req, res) {
-        try {
-            const updatedGroup = await GroupStore.updateGroup(req.params.id, req.body);
-            res.json(updatedGroup);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async deleteGroup(req, res) {
-        try {
-            await GroupStore.deleteGroup(req.params.id);
-            res.status(204).send();
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+// Function to create a new group
+async function createNewGroup() {
+    try {
+        const newGroup = await GroupService.createGroup();
+        renderNewGroup(newGroup);
+    } catch (error) {
+        console.error('Error creating new group:', error);
     }
 }
 
-export const groupController = new GroupController();
+// Function to render the new group using Handlebars
+function renderNewGroup(group) {
+    const templateSource = document.getElementById('group-template').innerHTML;
+    const template = Handlebars.compile(templateSource);
+    const html = template(group);
+
+    const groupList = document.getElementById('group-list');
+    groupList.insertAdjacentHTML('beforeend', html);
+}
+
+// Initialize the controller
+document.addEventListener('DOMContentLoaded', initGroupController);
