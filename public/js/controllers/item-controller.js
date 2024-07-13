@@ -1,12 +1,12 @@
-const itemStore = require('../../services/item-store'); // Adjust the path as necessary
+const itemStore = require('../services/item-store');
 
-function getAllItems(req, res) {
+exports.getAllItems = (req, res) => {
     itemStore.loadData()
         .then(data => res.json(data.items))
         .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
+};
 
-function getItemById(req, res) {
+exports.getItemById = (req, res) => {
     const itemId = Number(req.params.id);
     itemStore.loadData()
         .then(data => {
@@ -18,19 +18,9 @@ function getItemById(req, res) {
             }
         })
         .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
+};
 
-function getItemsByGroupId(req, res) {
-    const groupId = Number(req.params.groupId);
-    itemStore.loadData()
-        .then(data => {
-            const items = data.items.filter(i => i.groupId === groupId);
-            res.json(items);
-        })
-        .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
-
-function addItem(req, res) {
+exports.createItem = (req, res) => {
     const newItem = req.body;
     itemStore.loadData()
         .then(data => {
@@ -39,9 +29,9 @@ function addItem(req, res) {
         })
         .then(() => res.json({ success: true, data: newItem }))
         .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
+};
 
-function updateItem(req, res) {
+exports.updateItem = (req, res) => {
     const itemId = Number(req.params.id);
     itemStore.loadData()
         .then(data => {
@@ -55,9 +45,9 @@ function updateItem(req, res) {
         })
         .then(() => res.json({ success: true }))
         .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
+};
 
-function deleteItem(req, res) {
+exports.deleteItem = (req, res) => {
     const itemId = Number(req.params.id);
     itemStore.loadData()
         .then(data => {
@@ -71,13 +61,4 @@ function deleteItem(req, res) {
         })
         .then(() => res.json({ success: true }))
         .catch(err => res.status(500).json({ success: false, error: err.message }));
-}
-
-module.exports = {
-    getAllItems,
-    getItemById,
-    getItemsByGroupId,
-    addItem,
-    updateItem,
-    deleteItem
 };
